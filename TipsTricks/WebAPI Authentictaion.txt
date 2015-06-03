@@ -1,0 +1,19 @@
+﻿1.Install-Package 
+Microsoft.Owin.Security.OAuth,
+Microsoft.Owin.Host.SystemWeb
+Microsoft.AspNet.WebApi.Owin --> 執行Startup.cs
+
+2.Startup.cs
+
+3.Postman測試
+http://bitoftech.net/wp-content/uploads/2014/05/TokenPostRequest.png
+http://bitoftech.net/wp-content/uploads/2014/05/TokenGetSecureResource.png
+別忘了:Authorization的值前要加Bearer !!
+
+技術來源:
+Step 9: Add support for OAuth Bearer Tokens Generation
+http://bitoftech.net/2014/06/01/token-based-authentication-asp-net-web-api-2-owin-asp-net-identity/
+
+Web API 2 Basic HTTP Authentication 
+http://jasonwatmore.com/post/2014/12/01/Web-API-2-Basic-HTTP-Authentication-Example.aspx
+https://github.com/cornflourblue/angular-webapi-authentication-example

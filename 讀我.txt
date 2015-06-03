@@ -1,0 +1,10 @@
+﻿資料庫
+1.建立資料庫MPERP2015: Models\ERPModel.edmx.sql
+2.連線字串: web.config
+
+程式撰寫規範
+1.常見錯誤請參考TipsTricks目錄
+
+起始頁
+login.html
+測試帳號:test 密碼:123
