@@ -107,7 +107,8 @@ namespace MPERP2015.Controllers
             db.Categories.Remove(category);
             db.SaveChanges();
 
-            return Ok(ToViewModel(category));
+            //return Ok(ToViewModel(category));
+            return Ok(new CategoryViewModel { Id=id });
         }
 
         protected override void Dispose(bool disposing)

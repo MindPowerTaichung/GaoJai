@@ -43,6 +43,15 @@ namespace MPERP2015.Controllers
         }
         #endregion
 
+        #region Membership/Roles
+        [Route("Membership/Roles")]
+        public IEnumerable<Role> GetRoles()
+        {
+            var roles = db.Roles.ToArray<Role>();
+            return roles;
+        }
+        #endregion
+
         #region Membership/Users
         [Route("Membership/Users")]
         public IEnumerable<UserViewModel> GetUsers()
@@ -151,7 +160,7 @@ namespace MPERP2015.Controllers
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message));
             }
 
-            return Ok(ToViewModel(user));
+            return Ok(new UserViewModel { UserName=userName});
         }
         #endregion
 

@@ -136,7 +136,7 @@ namespace MPERP2015.Controllers
             db.Products.Remove(product);
             db.SaveChanges();
 
-            return Ok(ToViewModel(product));
+            return Ok(new ProductViewModel { Id=id });
         }
 
         protected override void Dispose(bool disposing)

@@ -141,7 +141,8 @@ namespace MPERP2015.Controllers
             db.Orders.Remove(order);
             db.SaveChanges();
 
-            return Ok(toOrderViewModel(order));
+            //return Ok(toOrderViewModel(order));
+            return Ok(new OrderViewModel { Id=id });
         }
 
         protected override void Dispose(bool disposing)
