@@ -152,6 +152,25 @@
         }).data("kendoNotification");
 
         var aryTabs = [];
+
+        function closeTab(closeBtn) {
+            //var tabCaption = $(closeBtn).closest("li").text();
+
+            //移除
+            var selectIndex = $(closeBtn).closest("li").index();
+            aryTabs.splice(selectIndex, 1);
+            var kTabStrip = $("#tabstrip").data("kendoTabStrip");
+            kTabStrip.remove(selectIndex);
+
+            //選取
+            if (kTabStrip.select().index() == -1) {
+                var otherTabIndex = selectIndex + 1;
+                otherTabIndex = otherTabIndex >= aryTabs.length ? aryTabs.length - 1 : otherTabIndex;
+                kTabStrip.select(otherTabIndex);
+            }
+
+        }
+
         function menuClick(menuCaption, menuUrl) {
 
             //取得或建立kendoTabStrip
@@ -167,10 +186,17 @@
             //判斷是否需要新增頁籤
             var indexOfTab = getObjectIndexOfArray("caption", menuCaption, aryTabs);
             if (indexOfTab == -1) {
-                aryTabs.push({ "contentUrl": menuUrl, "caption": menuCaption });
+                aryTabs.push({ "contentUrl": menuUrl, "caption": menuCaption});
                 var indexOfTab = aryTabs.length - 1;
+
+                kTabStrip.append({
+                    text: menuCaption + " <span  onclick='closeTab(this);'><i class=\"fa fa-times\"></i></span>",
+                    encoded: false,
+                    contentUrl: menuUrl
+                });
+
             }
-            $("#tabstrip").data("kendoTabStrip").setDataSource(aryTabs);
+            //$("#tabstrip").data("kendoTabStrip").setDataSource(aryTabs);
 
             //選取新增或既有的頁籤
             kTabStrip.select(indexOfTab);
