@@ -7,7 +7,8 @@
       <Diagram DiagramId="775f6ddf3a964999902a0818d18d0cbb" Name="Diagram1" >
         <EntityTypeShape EntityType="MembershipModel.Role" Width="1.5" PointX="0.75" PointY="1" />
         <EntityTypeShape EntityType="MembershipModel.User" Width="1.5" PointX="3" PointY="0.875" />
-        <AssociationConnector Association="MembershipModel.FK_Users_Roles" />
+        <AssociationConnector Association="MembershipModel.FK_RoleUser" />
+        <EntityTypeShape EntityType="MembershipModel.Menu" Width="1.5" PointX="6" PointY="2.375" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

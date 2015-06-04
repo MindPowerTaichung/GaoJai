@@ -3,6 +3,7 @@ using MPERP2015.MP;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -44,11 +45,111 @@ namespace MPERP2015.Controllers
         #endregion
 
         #region Membership/Roles
+        // GET: api/Roles
         [Route("Membership/Roles")]
-        public IEnumerable<Role> GetRoles()
+        public IEnumerable<RoleViewModel> GetRoles()
         {
-            var roles = db.Roles.ToArray<Role>();
+            var roles = db.Roles.ToArray<Role>().Select(item => ToRoleViewModel(item));
             return roles;
+        }
+
+        // GET: api/Roles/5
+         [Route("Membership/Roles", Name="GetRoleById")]
+        public IHttpActionResult GetRoles(int id)
+        {
+            Role role = db.Roles.Find(id);
+            if (role == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(ToRoleViewModel(role));
+        }
+
+        // POST: api/Roles
+        [HttpPost]
+        [Route("Membership/Roles")]
+        public IHttpActionResult PostRole(RoleViewModel role_viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            Role role = new Role { Id = role_viewModel.Id, Name = role_viewModel.Name };
+            db.Roles.Add(role);
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var entityError = ex.EntityValidationErrors.SelectMany(x => x.ValidationErrors).Select(x => x.ErrorMessage);
+                var getFullMessage = string.Join("; ", entityError);
+                var exceptionMessage = string.Concat(ex.Message, "errors are: ", getFullMessage);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.BadRequest, exceptionMessage));
+            }
+
+            return CreatedAtRoute("GetRoleById", new { id = role.Id }, ToRoleViewModel(role));
+        }
+
+        // PUT: api/Roles/5
+        [HttpPut]
+        [Route("Membership/Roles/{id}")]
+        public IHttpActionResult PutRole(int id, RoleViewModel role_viewModel)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (id != role_viewModel.Id)
+                return BadRequest();
+
+            //把資料庫中的那筆資料讀出來
+            var role_db = db.Roles.Find(id);
+            if (role_db == null)
+            {
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.NotFound, "這筆資料已被刪除!"));
+            }
+            else
+            {
+                try
+                {
+                    role_db.Name = role_viewModel.Name;
+                    db.Entry(role_db).OriginalValues["Timestamp"] = Convert.FromBase64String(role_viewModel.TimestampString);
+                    db.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (db.Roles.Find(id) == null)
+                        throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound, "這筆資料已被刪除!"));
+                    else
+                        throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Conflict, "這筆資料已被其他人修改!"));
+                }
+            }
+
+            return Ok(ToRoleViewModel(role_db));
+
+        }
+
+        // DELETE: api/Roles/5
+        [Route("Membership/Roles/{id}")]
+        [HttpDelete]
+        public IHttpActionResult DeleteRole(int id)
+        {
+            Role role_db = db.Roles.Find(id);
+            if (role_db == null)
+            {
+                return NotFound();
+            }
+
+            db.Roles.Remove(role_db);
+            db.SaveChanges();
+
+            return Ok(new RoleViewModel { Id = id });
+        }
+
+        private RoleViewModel ToRoleViewModel(Role role)
+        {
+            return new RoleViewModel { Id = role.Id, Name = role.Name, TimestampString = Convert.ToBase64String(role.Timestamp) };
         }
         #endregion
 

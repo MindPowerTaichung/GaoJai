@@ -16,4 +16,36 @@ namespace MPERP2015.MP
         public string UserName { get; set; }
         public string TimestampString { get; set; }
     }
+
+    public class RoleViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string TimestampString { get; set; }
+    }
+
+    public class MenuViewModel
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+        public string ContentUrl { get; set; }
+        public string CssClass { get; set; }
+        public int ParentId { get; set; }
+
+        public string TimestampString { get; set; }
+
+        //private List<MenuViewModel> _items;
+        //public List<MenuViewModel> SubItems
+        //{
+        //    get
+        //    {
+        //        if (_items == null)
+        //        {
+        //            _items = new List<MenuViewModel>();
+        //        }
+        //        return _items;
+        //    }
+        //}
+
+    }
 }
