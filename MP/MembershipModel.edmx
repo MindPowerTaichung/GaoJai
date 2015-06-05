@@ -12,8 +12,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Text" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ContentUrl" Type="varchar" MaxLength="150" />
-          <Property Name="CssClass" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ParentId" Type="int" Nullable="false" />
+          <Property Name="CssClass" Type="varchar" MaxLength="50" />
           <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <EntityType Name="Roles">
@@ -106,7 +106,7 @@
           <Property Name="Text" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ContentUrl" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="ParentId" Type="Int32" Nullable="false" />
-          <Property Name="CssClass" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CssClass" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="true" />
           <Property Name="Timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
       </Schema>

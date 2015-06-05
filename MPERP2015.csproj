@@ -126,6 +126,7 @@
     <None Include="Models\ERPModel.edmx.sql" />
     <Content Include="login.html" />
     <None Include="MP\MembershipModel.edmx.sql" />
+    <None Include="TipsTricks\Controller模板.txt" />
     <Content Include="views\images\error-icon.png" />
     <Content Include="views\images\success-icon.png" />
     <Content Include="views\lib\bootstrap-3.3.4\css\bootstrap-theme.css" />
@@ -1203,6 +1204,7 @@
     <None Include="讀我.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\MenusController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
       <SubType>Code</SubType>
@@ -1258,6 +1260,9 @@
       <DependentUpon>MembershipModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="MP\MembershipViewModel.cs" />
+    <Compile Include="MP\Menu.cs">
+      <DependentUpon>MembershipModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="MP\Role.cs">
       <DependentUpon>MembershipModel.tt</DependentUpon>
     </Compile>

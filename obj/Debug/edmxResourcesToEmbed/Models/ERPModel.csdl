@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ERPModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="ERPModelContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="ERPModel.Category" />
+    <EntitySet Name="Products" EntityType="ERPModel.Product" />
+    <AssociationSet Name="CategoryProduct" Association="ERPModel.CategoryProduct">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <EntitySet Name="OrderDetails" EntityType="ERPModel.OrderDetail" />
+    <EntitySet Name="Orders" EntityType="ERPModel.Order" />
+    <AssociationSet Name="FK_OrderDetails_Orders" Association="ERPModel.FK_OrderDetails_Orders">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderDetail" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetails_Products" Association="ERPModel.FK_OrderDetails_Products">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="OrderDetail" EntitySet="OrderDetails" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Products" Relationship="ERPModel.CategoryProduct" FromRole="Category" ToRole="Product" />
+    <Property Name="Timestamp" Type="Binary" Nullable="false" annotation:StoreGeneratedPattern="Computed" FixedLength="true" MaxLength="8" ConcurrencyMode="Fixed" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Category" Relationship="ERPModel.CategoryProduct" FromRole="Product" ToRole="Category" />
+    <Property Name="Price" Type="Double" Nullable="false" />
+    <Property Name="Timestamp" Type="Binary" Nullable="false" FixedLength="true" MaxLength="8" ConcurrencyMode="Fixed" annotation:StoreGeneratedPattern="Computed" />
+    <NavigationProperty Name="OrderDetails" Relationship="ERPModel.FK_OrderDetails_Products" FromRole="Product" ToRole="OrderDetail" />
+  </EntityType>
+  <Association Name="CategoryProduct">
+    <End Type="ERPModel.Category" Role="Category" Multiplicity="1" />
+    <End Type="ERPModel.Product" Role="Product" Multiplicity="*" />
+  </Association>
+  <EntityType Name="OrderDetail">
+    <Key>
+      <PropertyRef Name="Order_Id" />
+      <PropertyRef Name="Product_Id" />
+    </Key>
+    <Property Name="Order_Id" Type="Int32" Nullable="false" />
+    <Property Name="Product_Id" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Order" Relationship="ERPModel.FK_OrderDetails_Orders" FromRole="OrderDetail" ToRole="Order" />
+    <NavigationProperty Name="Product" Relationship="ERPModel.FK_OrderDetails_Products" FromRole="OrderDetail" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Customer_Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="OrderDetails" Relationship="ERPModel.FK_OrderDetails_Orders" FromRole="Order" ToRole="OrderDetail" />
+    <Property Name="Timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+  </EntityType>
+  <Association Name="FK_OrderDetails_Orders">
+    <End Type="ERPModel.Order" Role="Order" Multiplicity="1" />
+    <End Type="ERPModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="Order_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetails_Products">
+    <End Type="ERPModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="ERPModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="Product_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

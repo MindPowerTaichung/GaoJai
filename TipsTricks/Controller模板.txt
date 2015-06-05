@@ -6,7 +6,16 @@
 // [資料類別名稱] : (如:Role)
 // [資料識別欄位] : (如:Id)
 // [資料識別欄位型別] : (如:int)
+// [資料ViewModel類別欄位1] :  (如:Name)
 
+using System;
+using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
 
 namespace MPERP2015.Controllers
 {
@@ -41,7 +50,11 @@ namespace MPERP2015.Controllers
             {
                 return BadRequest(ModelState);
             }
-            [資料類別名稱] item = new [資料類別名稱] { [資料識別欄位] = item_viewModel.[資料識別欄位], Name = item_viewModel.Name };
+            [資料類別名稱] item = new [資料類別名稱] { [資料識別欄位] = item_viewModel.[資料識別欄位], 
+                                                 [資料ViewModel類別欄位1] = item_viewModel.[資料ViewModel類別欄位1], 
+                                                 [資料ViewModel類別欄位2] = item_viewModel.[資料ViewModel類別欄位2]};
+												 //不需指定Timestamp欄位
+
             db.[資料集名稱].Add(item);
             try
             {
@@ -78,8 +91,11 @@ namespace MPERP2015.Controllers
             {
                 try
                 {
-                    item_db.Name = item_viewModel.Name;
-                    db.Entry(role_db).OriginalValues["Timestamp"] = Convert.FromBase64String(item_viewModel.TimestampString);
+				    //不需指定[資料識別欄位]
+                    item_db.[資料ViewModel類別欄位1] = item_viewModel.[資料ViewModel類別欄位1];
+					item_db.[資料ViewModel類別欄位2] = item_viewModel.[資料ViewModel類別欄位2];
+					//Timestamp欄位以如下方式設定
+                    db.Entry(item_db).OriginalValues["Timestamp"] = Convert.FromBase64String(item_viewModel.TimestampString);
                     db.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
