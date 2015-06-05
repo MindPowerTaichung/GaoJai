@@ -14,6 +14,14 @@ namespace MPERP2015.Controllers
     {
         MembershipModelContainer db = new MembershipModelContainer();
 
+        // GET: api/Menus/Json
+        [Route("api/Menus/Json")]
+        public IEnumerable<MenuViewModel> GetJson()
+        {
+            var items = db.Menus.ToArray<Menu>().Where(item=>item.ParentId==0).Select(item => ToMenuViewModel(item));
+            return items;
+        }
+
         // GET: api/Menus
         public IEnumerable<MenuViewModel> Get()
         {

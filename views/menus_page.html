@@ -1,0 +1,93 @@
+﻿<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>MPERP2015</title>
+    <!-- lib css -->
+    <link href="lib/bootstrap-3.3.4/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="lib/metisMenu/metisMenu.min.css" rel="stylesheet" />
+    <link href="lib/SDAdmin2/dist/css/sb-admin-2.css" rel="stylesheet" />
+    <link href="lib/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Kendo UI -->
+    <link href="lib/Kendo/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="lib/Kendo/styles/kendo.silver.min.css" rel="stylesheet" />
+    <link href="lib/Kendo/styles/kendo.dataviz.min.css" rel="stylesheet" />
+    <link href="lib/Kendo/styles/kendo.dataviz.silver.min.css" rel="stylesheet" />
+
+
+</head>
+<body>
+
+    <!-- lib -->
+    <script src="lib/jQuery/jquery-2.1.4.min.js"></script>
+    <script src="lib/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script src="lib/metisMenu/metisMenu.min.js"></script>
+    <script src="lib/SDAdmin2/dist/js/sb-admin-2.js"></script>
+    <script src="lib/js.cookie/js.cookie.js"></script>
+
+    <!--Kendo UI-->
+    <script src="lib/Kendo/js/kendo.all.min.js"></script>
+
+    <!--MP-->
+    <script src="scripts/mp_utilities.js"></script>
+    <script src="scripts/globals.js"></script>
+
+    <h1 class="page-header">功能選單</h1>
+    <div id="treeview"></div>
+
+    <script>
+        
+        var menus_apiUrl = "/api/Menus/Json";
+        var menus_dataSource = new kendo.data.HierarchicalDataSource({
+            transport: {
+                read: {
+                    url: menus_apiUrl,
+                    dataType: "json"
+                }
+            },
+            schema: {
+                model: {
+                    id: "id"
+                }
+            }
+        });
+
+        function onDrop(e) {
+            kendoConsole.log(
+            "Dropped " + this.text(e.sourceNode) +
+            " (" + (e.valid ? "valid" : "invalid") + ")"
+            );
+        }
+
+        $("#treeview").kendoTreeView({
+            dataSource: menus_dataSource,
+            dataTextField: "text",
+            dragAndDrop: true,
+            drop: function(e) {
+                console.log(
+                "Dropped " + this.text(e.sourceNode) + " -> " +
+                 this.text(e.destinationNode) +
+                " (" + (e.valid ? "valid" : "invalid") + ")"
+                );
+
+                var treeview = this,
+                sourceUid = $(e.sourceNode).data("uid"),
+                destinationUid = $(e.destinationNode).data("uid"),
+                source,
+                destination;
+
+                source = treeview.dataSource.getByUid(sourceUid);
+                destination = treeview.dataSource.getByUid(destinationUid);
+
+                console.log(source.id+" -> "+destination.id);
+            }
+        });
+
+    </script>
+
+
+</body>
+</html>
