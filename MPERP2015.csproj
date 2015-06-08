@@ -127,6 +127,8 @@
     <Content Include="login.html" />
     <None Include="MP\MembershipModel.edmx.sql" />
     <None Include="TipsTricks\Controller模板.txt" />
+    <Content Include="TipsTricks\ToDo.txt" />
+    <Content Include="views\menus_roles_page.html" />
     <Content Include="views\menus_page.html" />
     <Content Include="views\images\error-icon.png" />
     <Content Include="views\images\success-icon.png" />

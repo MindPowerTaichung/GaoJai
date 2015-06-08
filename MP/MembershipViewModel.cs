@@ -31,8 +31,9 @@ namespace MPERP2015.MP
         public string ContentUrl { get; set; }
         public int ParentId { get; set; }
         public string CssClass { get; set; }
+        public bool Checked { get; set; }
+        public bool hasChildren { get; set; }
         public List<MenuViewModel> SubMenus { get; set; }
-        public bool hasChildren {get;set;}
         public string TimestampString { get; set; }        
     }
 }

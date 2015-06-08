@@ -54,7 +54,7 @@ namespace MPERP2015.Controllers
         }
 
         // GET: api/Roles/5
-         [Route("Membership/Roles", Name="GetRoleById")]
+        [Route("Membership/Roles", Name="GetRoleById")]
         public IHttpActionResult GetRoles(int id)
         {
             Role role = db.Roles.Find(id);

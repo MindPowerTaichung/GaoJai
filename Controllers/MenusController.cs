@@ -30,6 +30,7 @@ namespace MPERP2015.Controllers
                 ContentUrl = x.ContentUrl,
                 ParentId = x.ParentId,
                 CssClass= x.CssClass,
+                Checked=x.Id==1 || x.Id==2,
                 TimestampString= Convert.ToBase64String( x.Timestamp),
                 SubMenus = GetMenus(list, x.Id)
             }).ToList();
@@ -46,6 +47,12 @@ namespace MPERP2015.Controllers
         {
             var items = db.Menus.ToArray<Menu>().Select(item => ToMenuViewModel(item));
             return items;
+        }
+        // GET: api/Menus/1
+        [Route("api/Menus/Role/{roleId}")]
+        public IEnumerable<MenuViewModel> GetMenusByRole(int roleId)
+        {
+            return db.Roles.Find(roleId).Menus.ToArray<Menu>().Select(item => ToMenuViewModel(item));
         }
 
         // GET: api/Menus/5

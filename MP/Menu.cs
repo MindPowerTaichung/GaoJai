@@ -14,11 +14,18 @@ namespace MPERP2015.MP
     
     public partial class Menu
     {
+        public Menu()
+        {
+            this.Roles1 = new HashSet<Role>();
+        }
+    
         public int Id { get; set; }
         public string Text { get; set; }
         public string ContentUrl { get; set; }
         public int ParentId { get; set; }
         public string CssClass { get; set; }
         public byte[] Timestamp { get; set; }
+    
+        public virtual ICollection<Role> Roles1 { get; set; }
     }
 }

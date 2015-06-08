@@ -17,6 +17,7 @@ namespace MPERP2015.MP
         public Role()
         {
             this.Users = new HashSet<User>();
+            this.Menus = new HashSet<Menu>();
         }
     
         public int Id { get; set; }
@@ -24,5 +25,6 @@ namespace MPERP2015.MP
         public byte[] Timestamp { get; set; }
     
         public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<Menu> Menus { get; set; }
     }
 }
