@@ -18,9 +18,28 @@ namespace MPERP2015.Controllers
         [Route("api/Menus/Json")]
         public IEnumerable<MenuViewModel> GetJson()
         {
-            var items = db.Menus.ToArray<Menu>().Where(item=>item.ParentId==0).Select(item => ToMenuViewModel(item));
+            var items = GetMenus(db.Menus.ToList(),0);
             return items;
         }
+        List<MenuViewModel> GetMenus(List<Menu> list, int parentId)
+        {
+            var items= list.Where(x => x.ParentId == parentId).Select(x => new MenuViewModel
+            {
+                Id = x.Id,
+                Text = x.Text,
+                ContentUrl = x.ContentUrl,
+                ParentId = x.ParentId,
+                CssClass= x.CssClass,
+                TimestampString= Convert.ToBase64String( x.Timestamp),
+                SubMenus = GetMenus(list, x.Id)
+            }).ToList();
+
+            foreach (var item in items)
+            {
+                item.hasChildren = item.SubMenus.Count > 0;    
+            }
+            return items;
+        }        
 
         // GET: api/Menus
         public IEnumerable<MenuViewModel> Get()
@@ -65,6 +84,10 @@ namespace MPERP2015.Controllers
                 var getFullMessage = string.Join("; ", entityError);
                 var exceptionMessage = string.Concat(ex.Message, "errors are: ", getFullMessage);
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.BadRequest, exceptionMessage));
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.BadRequest, ex.InnerException.Message));
             }
 
             return CreatedAtRoute("DefaultApi", new { id = item.Id }, ToMenuViewModel(item));
@@ -120,7 +143,8 @@ namespace MPERP2015.Controllers
                 return NotFound();
             }
 
-            db.Menus.Remove(item_db);
+            //db.Menus.Remove(item_db);            
+            db.Menus.RemoveRange(db.Menus.Where(item=> item.ParentId==id || item.Id==id));
             db.SaveChanges();
 
             return Ok(new MenuViewModel { Id = id });
