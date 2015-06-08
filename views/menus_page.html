@@ -38,8 +38,9 @@
     <h1 class="page-header">功能選單</h1>
 
     <input id="NodeText" class="k-textbox" />
-    <button class="k-button" id="newNodeToSelected" onclick="addNode();">新增</button>
-    <button class="k-button" id="newNodeToSelected" onclick="removeNode();">刪除</button>    
+    <button class="k-button" onclick="updateNode();">更新</button>    
+    <button class="k-button" onclick="addNode();">新增</button>
+    <button class="k-button" onclick="removeNode();">刪除</button>    
     <div id="treeview"></div>
 
     <script>
@@ -66,6 +67,10 @@
             dataSource: menus_HdataSource,
             dataTextField: "text",
             dragAndDrop: true,
+            change: function () {
+                var selectedDataItem = getDataItem(this.select());
+                $("#NodeText").val(selectedDataItem.text);
+            },
             drop: function(e) {
                 var source = getDataItem(e.sourceNode);
                 var destination = getDataItem(e.destinationNode);;
@@ -146,6 +151,32 @@
                 }
             });
             
+        }
+
+        function updateNode() {
+            var treeview = $("#treeview").data("kendoTreeView");
+            var selectedNode = treeview.select().length == 0 ? null : treeview.select();
+
+            if (selectedNode == null)
+                return;
+
+            var selectedDataItem = getDataItem(treeview.select());
+            selectedDataItem.text = $("#NodeText").val();
+            $.ajax({
+                type: "PUT",
+                url: menus_apiUrl + "/" + selectedDataItem.id,
+                data: JSON.stringify(selectedDataItem),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    //alert("PUT success..." + data);    
+                    //selectedNode.text(data.text);
+                    treeview.dataSource.read();
+                },
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                }
+            });
         }
     </script>
 
