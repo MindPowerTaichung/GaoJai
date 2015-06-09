@@ -15,24 +15,28 @@ namespace MPERP2015.Controllers
         MembershipModelContainer db = new MembershipModelContainer();
 
         // GET: api/Menus/Json
-        [Route("api/Menus/Json")]
-        public IEnumerable<MenuViewModel> GetJson()
+        [Route("api/Menus/Json/{roleId}")]
+        public IEnumerable<MenuTreeViewModel> GetJson(int roleId)
         {
-            var items = GetMenus(db.Menus.ToList(),0);
+            int[] menusOfRole;
+            var role = db.Roles.Find(roleId);
+            if (role==null)
+	            menusOfRole=new int[0];
+            else
+                menusOfRole = role.Menus.Select(item => item.Id).ToArray();            
+
+            var items = GetMenus(db.Menus.ToList(), 0, menusOfRole);
             return items;
         }
-        List<MenuViewModel> GetMenus(List<Menu> list, int parentId)
+        List<MenuTreeViewModel> GetMenus(List<Menu> list, int parentId, int[] menuOfRole)
         {
-            var items= list.Where(x => x.ParentId == parentId).Select(x => new MenuViewModel
+            var items= list.Where(x => x.ParentId == parentId).Select(x => new MenuTreeViewModel
             {
                 Id = x.Id,
                 Text = x.Text,
-                ContentUrl = x.ContentUrl,
                 ParentId = x.ParentId,
-                CssClass= x.CssClass,
-                Checked=x.Id==1 || x.Id==2,
-                TimestampString= Convert.ToBase64String( x.Timestamp),
-                SubMenus = GetMenus(list, x.Id)
+                Checked = menuOfRole.Contains(x.Id),
+                SubMenus = GetMenus(list, x.Id, menuOfRole)
             }).ToList();
 
             foreach (var item in items)

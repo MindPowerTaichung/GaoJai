@@ -24,6 +24,16 @@ namespace MPERP2015.MP
         public string TimestampString { get; set; }
     }
 
+    public class MenuTreeViewModel
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+        public int ParentId { get; set; }
+        public bool Checked { get; set; }
+        public bool hasChildren { get; set; }
+        public List<MenuTreeViewModel> SubMenus { get; set; }
+    }
+
     public class MenuViewModel
     {
         public int Id { get; set; }
@@ -31,9 +41,12 @@ namespace MPERP2015.MP
         public string ContentUrl { get; set; }
         public int ParentId { get; set; }
         public string CssClass { get; set; }
-        public bool Checked { get; set; }
-        public bool hasChildren { get; set; }
-        public List<MenuViewModel> SubMenus { get; set; }
         public string TimestampString { get; set; }        
+    }
+
+    public class RoleMenuViewModel
+    {
+        public int RoleId { get; set; }
+        public int MenuId { get; set; }
     }
 }

@@ -153,6 +153,61 @@ namespace MPERP2015.Controllers
         }
         #endregion
 
+        #region Membership/RoleMenu
+        // POST: Membership/RoleMenu
+        [HttpPost]
+        [Route("Membership/RoleMenu")]
+        public IHttpActionResult PostRoleMenu(RoleMenuViewModel roleMenu)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
+            var role = db.Roles.Find(roleMenu.RoleId);
+            if (role == null)
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound, "不存在的RoleId!"));
+
+            var menus = db.Menus.Where(item => item.Id==roleMenu.MenuId || item.ParentId==roleMenu.MenuId);
+
+            foreach (var item in menus)
+            {
+                role.Menus.Add(item);
+            }
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message));
+            }
+            return Ok();
+        }
+
+        // DELETE: Membership/RoleMenu
+        [Route("Membership/RoleMenu")]
+        [HttpDelete]
+        public IHttpActionResult DeleteRoleMenu(RoleMenuViewModel roleMenu)
+        {
+            var role = db.Roles.Find(roleMenu.RoleId);
+            if (role == null)
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound, "不存在的RoleId!"));
+
+            var menus = db.Menus.Where(item => item.Id == roleMenu.MenuId || item.ParentId == roleMenu.MenuId);
+
+            foreach (var item in menus)
+            {
+                role.Menus.Remove(item);
+            }
+            
+            db.SaveChanges();
+
+            return Ok();
+        }
+        #endregion
+
         #region Membership/Users
         [Route("Membership/Users")]
         public IEnumerable<UserViewModel> GetUsers()

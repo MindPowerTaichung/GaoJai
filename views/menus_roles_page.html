@@ -44,7 +44,7 @@
     <script>
         
         var roles_apiUrl = "/Membership/roles";
-        var menus_apiUrl = "/api/Menus";
+        var roleMenu_apiUrl = "/Membership/RoleMenu";
         var menusJSON_apiUrl = "/api/Menus/Json";
 
         $("#lstRoles").kendoDropDownList({
@@ -58,21 +58,17 @@
                     }
                 }
             },
+            dataBound: function (e) {
+                this.select(0);
+                this.trigger("select", { item: $("li.k-state-selected", $("#lstRoles-list")) });
+            },
             select: function (e) {
                 var dataItem = this.dataItem(e.item);
                 console.log("event :: select (" + dataItem.name + " : " + dataItem.id + ")");
-                $.ajax({
-                    type: "GET",
-                    url: menus_apiUrl + "/Role/" + dataItem.id,
-                    dataType: "json",
-                    success: function (data) {
-                        
-                    },
-                    error: function (xhr) {
-                        alert(xhr.responseText);
-                    }
-                });
-                //refreshTree();
+                //var treeview = $("#treeview").data("kendoTreeView");
+                //treeview.dataSource.transport.options.read.url = menusJSON_apiUrl + "/" + dataItem.id;
+                //treeview.dataSource.read();
+                refreshTreeView(dataItem.id);
             }
         });
 
@@ -80,7 +76,7 @@
             dataSource: {
                 transport: {
                     read: {
-                        url: menusJSON_apiUrl,
+                        url: menusJSON_apiUrl + "/0" ,
                         dataType: "json"
                     }
                 },
@@ -97,22 +93,47 @@
             checkboxes: {
                 checkChildren: true
             },
-            change: function () {
-                var selectedDataItem = getDataItem(this.select());
+            dataBound: function () {
+                this.expand(".k-item");
+            },
+            check: function (e) {
+                var dataItem = getDataItem(e.node);
+                console.log(dataItem.id + " : " + dataItem.checked);
+                var role = $("#lstRoles").data("kendoDropDownList").dataItem();
 
+                var roleMenu = {
+                    "roleId": role.id,
+                    "menuId": dataItem.id
+                };
+
+                var api_type = dataItem.checked ? "POST" : "DELETE";
+
+                $.ajax({
+                    type: api_type,
+                    url: roleMenu_apiUrl,
+                    data: JSON.stringify(roleMenu),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data, status, jqXHR) {
+                        refreshTreeView(role.id);
+                    },
+                    error: function (xhr) {
+                        alert(xhr.responseText);
+                    }
+                });
+                
             }
         });
         
-        function refreshTree() {
-            var checkNodes = $(".k-treeview-lines > .k-item > div > .k-checkbox :checkbox");
-            console.log("checking " + checkNodes.length + " nodes");
-            checkNodes.prop("checked", true).trigger("change");
-        }
-
         function getDataItem(treeNode) {
             var treeview = $("#treeview").data("kendoTreeView");
             var uid = $(treeNode).data("uid");
             return treeview.dataSource.getByUid(uid);
+        }
+
+        function refreshTreeView(roleId) {
+            var treeview = $("#treeview").data("kendoTreeView");
+            treeview.dataSource.transport.options.read.url = menusJSON_apiUrl + "/" + roleId;
+            treeview.dataSource.read();
         }
     </script>
 
