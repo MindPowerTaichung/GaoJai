@@ -14,11 +14,17 @@ namespace MPERP2015.MP
     
     public partial class User
     {
+        public User()
+        {
+            this.Menus = new HashSet<Menu>();
+        }
+    
         public string UserName { get; set; }
         public string Password { get; set; }
         public byte[] Timestamp { get; set; }
         public Nullable<int> Role_Id { get; set; }
     
         public virtual Role Role { get; set; }
+        public virtual ICollection<Menu> Menus { get; set; }
     }
 }

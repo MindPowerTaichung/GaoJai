@@ -126,9 +126,11 @@
     <None Include="Models\ERPModel.edmx.sql" />
     <Content Include="login.html" />
     <None Include="MP\MembershipModel.edmx.sql" />
-    <None Include="TipsTricks\Controller模板.txt" />
+    <None Include="TipsTricks\WebAPIController模板.txt" />
     <Content Include="TipsTricks\ToDo.txt" />
-    <Content Include="views\menus_roles_page.html" />
+    <Content Include="TipsTricks\0 開發流程.txt" />
+    <Content Include="views\menus_byUsers_page.html" />
+    <Content Include="views\menus_byRoles_page.html" />
     <Content Include="views\menus_page.html" />
     <Content Include="views\images\error-icon.png" />
     <Content Include="views\images\success-icon.png" />

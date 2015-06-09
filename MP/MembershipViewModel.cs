@@ -49,4 +49,10 @@ namespace MPERP2015.MP
         public int RoleId { get; set; }
         public int MenuId { get; set; }
     }
+
+    public class UserMenuViewModel
+    {
+        public string UserName { get; set; }
+        public int MenuId { get; set; }
+    }
 }

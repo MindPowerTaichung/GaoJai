@@ -14,9 +14,9 @@ namespace MPERP2015.Controllers
     {
         MembershipModelContainer db = new MembershipModelContainer();
 
-        // GET: api/Menus/Json
-        [Route("api/Menus/Json/{roleId}")]
-        public IEnumerable<MenuTreeViewModel> GetJson(int roleId)
+        // GET: api/Menus/Json/Role/1
+        [Route("api/Menus/Json/Role/{roleId}")]
+        public IEnumerable<MenuTreeViewModel> GetRoleMenuJson(int roleId)
         {
             int[] menusOfRole;
             var role = db.Roles.Find(roleId);
@@ -28,15 +28,29 @@ namespace MPERP2015.Controllers
             var items = GetMenus(db.Menus.ToList(), 0, menusOfRole);
             return items;
         }
-        List<MenuTreeViewModel> GetMenus(List<Menu> list, int parentId, int[] menuOfRole)
+        // GET: api/Menus/Json/User/1
+        [Route("api/Menus/Json/User/{userName}")]
+        public IEnumerable<MenuTreeViewModel> GetUserMenuJson(string userName)
+        {
+            int[] menusOfUser;
+            var user = db.Users.Find(userName);
+            if (user == null)
+                menusOfUser = new int[0];
+            else
+                menusOfUser =user.Menus.Select(item => item.Id).ToArray();
+
+            var items = GetMenus(db.Menus.ToList(), 0, menusOfUser);
+            return items;
+        }
+        List<MenuTreeViewModel> GetMenus(List<Menu> list, int parentId, int[] menusChecked)
         {
             var items= list.Where(x => x.ParentId == parentId).Select(x => new MenuTreeViewModel
             {
                 Id = x.Id,
                 Text = x.Text,
                 ParentId = x.ParentId,
-                Checked = menuOfRole.Contains(x.Id),
-                SubMenus = GetMenus(list, x.Id, menuOfRole)
+                Checked = menusChecked.Contains(x.Id),
+                SubMenus = GetMenus(list, x.Id, menusChecked)
             }).ToList();
 
             foreach (var item in items)

@@ -10,6 +10,7 @@
         <AssociationConnector Association="MembershipModel.FK_RoleUser" />
         <EntityTypeShape EntityType="MembershipModel.Menu" Width="1.5" PointX="7.125" PointY="4.375" />
         <AssociationConnector Association="MembershipModel.RoleFeatures" />
+        <AssociationConnector Association="MembershipModel.UserFeatures" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

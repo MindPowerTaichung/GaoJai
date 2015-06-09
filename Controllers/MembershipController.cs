@@ -16,11 +16,6 @@ namespace MPERP2015.Controllers
     {
         MembershipModelContainer db = new MembershipModelContainer();
 
-        private UserViewModel ToViewModel(User user)
-        {
-            return new UserViewModel { UserName = user.UserName, TimestampString = Convert.ToBase64String(user.Timestamp) };
-        }
-
         #region Membership/Menu
         [Route("Membership/Menu")]
         public IEnumerable<MenuItem> Get()
@@ -208,11 +203,66 @@ namespace MPERP2015.Controllers
         }
         #endregion
 
+        #region Membership/UserMenu
+        // POST: Membership/UserMenu
+        [HttpPost]
+        [Route("Membership/UserMenu")]
+        public IHttpActionResult PostUserMenu(UserMenuViewModel userMenu)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = db.Users.Find(userMenu.UserName);
+            if (user == null)
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound, "不存在的使用者!"));
+
+            var menus = db.Menus.Where(item => item.Id == userMenu.MenuId || item.ParentId == userMenu.MenuId);
+
+            foreach (var item in menus)
+            {
+                user.Menus.Add(item);
+            }
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message));
+            }
+            return Ok();
+        }
+
+        // DELETE: Membership/UserMenu
+        [Route("Membership/UserMenu")]
+        [HttpDelete]
+        public IHttpActionResult DeleteUserMenu(UserMenuViewModel userMenu)
+        {
+            var user = db.Users.Find(userMenu.UserName);
+            if (user == null)
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound, "不存在的使用者!"));
+
+            var menus = db.Menus.Where(item => item.Id == userMenu.MenuId || item.ParentId == userMenu.MenuId);
+
+            foreach (var item in menus)
+            {
+                user.Menus.Remove(item);
+            }
+
+            db.SaveChanges();
+
+            return Ok();
+        }
+        #endregion
+
         #region Membership/Users
         [Route("Membership/Users")]
         public IEnumerable<UserViewModel> GetUsers()
         {
-            var users = db.Users.ToArray<User>().Select(u => ToViewModel(u));
+            var users = db.Users.ToArray<User>().Select(u => ToUserViewModel(u));
             return users.AsQueryable();
         }
 
@@ -224,7 +274,7 @@ namespace MPERP2015.Controllers
             {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.BadRequest, "找不到資料")); 
             }
-            return ToViewModel(user);
+            return ToUserViewModel(user);
         }
 
         // POST: Membership/Users
@@ -252,7 +302,7 @@ namespace MPERP2015.Controllers
                     throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message)); 
                 }
             }
-            return CreatedAtRoute("GetUserByUserName", new { userName = user.UserName }, ToViewModel(user));
+            return CreatedAtRoute("GetUserByUserName", new { userName = user.UserName }, ToUserViewModel(user));
         }
 
         // PUT: Membership/Users/{userName}
@@ -290,7 +340,7 @@ namespace MPERP2015.Controllers
                 }
             }
 
-            return Ok(ToViewModel(user_db));
+            return Ok(ToUserViewModel(user_db));
 
         }
 
@@ -317,6 +367,11 @@ namespace MPERP2015.Controllers
             }
 
             return Ok(new UserViewModel { UserName=userName});
+        }
+
+        private UserViewModel ToUserViewModel(User user)
+        {
+            return new UserViewModel { UserName = user.UserName, TimestampString = Convert.ToBase64String(user.Timestamp) };
         }
         #endregion
 

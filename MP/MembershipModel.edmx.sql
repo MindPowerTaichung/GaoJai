@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/08/2015 16:13:06
+-- Date Created: 06/09/2015 14:45:02
 -- Generated from EDMX file: C:\Users\Administrator\Documents\GitHub\MPERP2015\MP\MembershipModel.edmx
 -- --------------------------------------------------
 
@@ -17,31 +17,40 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_RoleFeatures_Menus]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[RoleFeatures] DROP CONSTRAINT [FK_RoleFeatures_Menus];
-GO
-IF OBJECT_ID(N'[dbo].[FK_RoleFeatures_Roles]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[RoleFeatures] DROP CONSTRAINT [FK_RoleFeatures_Roles];
-GO
 IF OBJECT_ID(N'[dbo].[FK_RoleUser]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users] DROP CONSTRAINT [FK_RoleUser];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RoleFeatures_Menu]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RoleFeatures] DROP CONSTRAINT [FK_RoleFeatures_Menu];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RoleFeatures_Role]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RoleFeatures] DROP CONSTRAINT [FK_RoleFeatures_Role];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserMenu_Users]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[UserMenu] DROP CONSTRAINT [FK_UserMenu_Users];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserMenu_Menu]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[UserMenu] DROP CONSTRAINT [FK_UserMenu_Menu];
 GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[Roles]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Roles];
+GO
+IF OBJECT_ID(N'[dbo].[Users]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Users];
+GO
 IF OBJECT_ID(N'[dbo].[Menus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Menus];
 GO
 IF OBJECT_ID(N'[dbo].[RoleFeatures]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RoleFeatures];
 GO
-IF OBJECT_ID(N'[dbo].[Roles]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Roles];
-GO
-IF OBJECT_ID(N'[dbo].[Users]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Users];
+IF OBJECT_ID(N'[dbo].[UserMenu]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[UserMenu];
 GO
 
 -- --------------------------------------------------
@@ -78,8 +87,15 @@ GO
 
 -- Creating table 'RoleFeatures'
 CREATE TABLE [dbo].[RoleFeatures] (
-    [Menus1_Id] int  NOT NULL,
-    [Roles1_Id] int  NOT NULL
+    [Menus_Id] int  NOT NULL,
+    [Roles_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'UserFeatures'
+CREATE TABLE [dbo].[UserFeatures] (
+    [Users_UserName] nvarchar(50)  NOT NULL,
+    [Menus_Id] int  NOT NULL
 );
 GO
 
@@ -105,10 +121,16 @@ ADD CONSTRAINT [PK_Menus]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Menus1_Id], [Roles1_Id] in table 'RoleFeatures'
+-- Creating primary key on [Menus_Id], [Roles_Id] in table 'RoleFeatures'
 ALTER TABLE [dbo].[RoleFeatures]
 ADD CONSTRAINT [PK_RoleFeatures]
-    PRIMARY KEY CLUSTERED ([Menus1_Id], [Roles1_Id] ASC);
+    PRIMARY KEY CLUSTERED ([Menus_Id], [Roles_Id] ASC);
+GO
+
+-- Creating primary key on [Users_UserName], [Menus_Id] in table 'UserFeatures'
+ALTER TABLE [dbo].[UserFeatures]
+ADD CONSTRAINT [PK_UserFeatures]
+    PRIMARY KEY CLUSTERED ([Users_UserName], [Menus_Id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -130,19 +152,19 @@ ON [dbo].[Users]
     ([Role_Id]);
 GO
 
--- Creating foreign key on [Menus1_Id] in table 'RoleFeatures'
+-- Creating foreign key on [Menus_Id] in table 'RoleFeatures'
 ALTER TABLE [dbo].[RoleFeatures]
 ADD CONSTRAINT [FK_RoleFeatures_Menu]
-    FOREIGN KEY ([Menus1_Id])
+    FOREIGN KEY ([Menus_Id])
     REFERENCES [dbo].[Menus]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [Roles1_Id] in table 'RoleFeatures'
+-- Creating foreign key on [Roles_Id] in table 'RoleFeatures'
 ALTER TABLE [dbo].[RoleFeatures]
 ADD CONSTRAINT [FK_RoleFeatures_Role]
-    FOREIGN KEY ([Roles1_Id])
+    FOREIGN KEY ([Roles_Id])
     REFERENCES [dbo].[Roles]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -151,7 +173,31 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_RoleFeatures_Role'
 CREATE INDEX [IX_FK_RoleFeatures_Role]
 ON [dbo].[RoleFeatures]
-    ([Roles1_Id]);
+    ([Roles_Id]);
+GO
+
+-- Creating foreign key on [Users_UserName] in table 'UserFeatures'
+ALTER TABLE [dbo].[UserFeatures]
+ADD CONSTRAINT [FK_UserFeatures_Users]
+    FOREIGN KEY ([Users_UserName])
+    REFERENCES [dbo].[Users]
+        ([UserName])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Menus_Id] in table 'UserFeatures'
+ALTER TABLE [dbo].[UserFeatures]
+ADD CONSTRAINT [FK_UserFeatures_Menu]
+    FOREIGN KEY ([Menus_Id])
+    REFERENCES [dbo].[Menus]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserFeatures_Menu'
+CREATE INDEX [IX_FK_UserFeatures_Menu]
+ON [dbo].[UserFeatures]
+    ([Menus_Id]);
 GO
 
 -- --------------------------------------------------
