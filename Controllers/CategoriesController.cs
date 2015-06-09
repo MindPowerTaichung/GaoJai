@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MPERP2015.Models;
+using System.Security.Claims;
 
 namespace MPERP2015.Controllers
 {
@@ -25,6 +26,16 @@ namespace MPERP2015.Controllers
         // GET: api/Categories
         public IQueryable<CategoryViewModel> GetCategories()
         {
+            var identity = User.Identity as ClaimsIdentity;
+
+            var claims = from c in identity.Claims
+                         select new
+                         {
+                             subject = c.Subject.Name,
+                             type = c.Type,
+                             value = c.Value
+                         };
+
             var categories= db.Categories.ToArray<Category>().Select(c=>ToViewModel(c));
             return categories.AsQueryable();
         }

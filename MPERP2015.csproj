@@ -1271,6 +1271,7 @@
     <Compile Include="MP\Role.cs">
       <DependentUpon>MembershipModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="MP\MPTokenAuthorizationProvider.cs" />
     <Compile Include="MP\User.cs">
       <DependentUpon>MembershipModel.tt</DependentUpon>
     </Compile>
