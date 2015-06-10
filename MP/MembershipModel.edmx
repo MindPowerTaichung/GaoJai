@@ -110,18 +110,18 @@
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="MembershipModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
         <EntityContainer Name="MembershipModelContainer" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Roles" EntityType="MembershipModel.Role" />
-          <EntitySet Name="Users" EntityType="MembershipModel.User" />
-          <AssociationSet Name="FK_RoleUser" Association="MembershipModel.FK_RoleUser">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="User" EntitySet="Users" />
-          </AssociationSet>
           <EntitySet Name="Menus" EntityType="MembershipModel.Menu" />
           <AssociationSet Name="RoleFeatures" Association="MembershipModel.RoleFeatures">
             <End Role="Menu" EntitySet="Menus" />
             <End Role="Role" EntitySet="Roles" />
           </AssociationSet>
-          <AssociationSet Name="UserFeatures" Association="MembershipModel.UserFeatures">
-            <End Role="Users" EntitySet="Users" />
+          <EntitySet Name="Users" EntityType="MembershipModel.User" />
+          <AssociationSet Name="FK_RoleUser" Association="MembershipModel.FK_RoleUser">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="UserMenu" Association="MembershipModel.UserMenu">
+            <End Role="User" EntitySet="Users" />
             <End Role="Menu" EntitySet="Menus" />
           </AssociationSet>
           </EntityContainer>
@@ -132,9 +132,26 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-          <NavigationProperty Name="Users" Relationship="MembershipModel.FK_RoleUser" FromRole="Role" ToRole="User" />
           <NavigationProperty Name="Menus" Relationship="MembershipModel.RoleFeatures" FromRole="Role" ToRole="Menu" />
+          <NavigationProperty Name="Users" Relationship="MembershipModel.FK_RoleUser" FromRole="Role" ToRole="User" />
         </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContentUrl" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ParentId" Type="Int32" Nullable="false" />
+          <Property Name="CssClass" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="true" />
+          <Property Name="Timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Roles" Relationship="MembershipModel.RoleFeatures" FromRole="Menu" ToRole="Role" />
+          <NavigationProperty Name="Users" Relationship="MembershipModel.UserMenu" FromRole="Menu" ToRole="User" />
+        </EntityType>
+        <Association Name="RoleFeatures">
+          <End Type="MembershipModel.Menu" Role="Menu" Multiplicity="*" />
+          <End Type="MembershipModel.Role" Role="Role" Multiplicity="*" />
+        </Association>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserName" />
@@ -144,7 +161,7 @@
           <Property Name="Timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="Role_Id" Type="Int32" />
           <NavigationProperty Name="Role" Relationship="MembershipModel.FK_RoleUser" FromRole="User" ToRole="Role" />
-          <NavigationProperty Name="Menus" Relationship="MembershipModel.UserFeatures" FromRole="Users" ToRole="Menu" />
+          <NavigationProperty Name="Menus" Relationship="MembershipModel.UserMenu" FromRole="User" ToRole="Menu" />
         </EntityType>
         <Association Name="FK_RoleUser">
           <End Type="MembershipModel.Role" Role="Role" Multiplicity="0..1" />
@@ -158,25 +175,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Menu">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Text" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ContentUrl" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="ParentId" Type="Int32" Nullable="false" />
-          <Property Name="CssClass" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="true" />
-          <Property Name="Timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-          <NavigationProperty Name="Roles" Relationship="MembershipModel.RoleFeatures" FromRole="Menu" ToRole="Role" />
-          <NavigationProperty Name="Users" Relationship="MembershipModel.UserFeatures" FromRole="Menu" ToRole="Users" />
-        </EntityType>
-        <Association Name="RoleFeatures">
-          <End Type="MembershipModel.Menu" Role="Menu" Multiplicity="*" />
-          <End Type="MembershipModel.Role" Role="Role" Multiplicity="*" />
-        </Association>
-        <Association Name="UserFeatures">
-          <End Type="MembershipModel.User" Role="Users" Multiplicity="*" />
+        <Association Name="UserMenu">
+          <End Type="MembershipModel.User" Role="User" Multiplicity="*" />
           <End Type="MembershipModel.Menu" Role="Menu" Multiplicity="*" />
         </Association>
         </Schema>
@@ -191,16 +191,6 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Users">
-      <EntityTypeMapping TypeName="IsTypeOf(MembershipModel.User)">
-        <MappingFragment StoreEntitySet="Users">
-          <ScalarProperty Name="UserName" ColumnName="UserName" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
-          <ScalarProperty Name="Role_Id" ColumnName="Role_Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -224,14 +214,24 @@
               <ScalarProperty Name="Id" ColumnName="Menu_Id" />
             </EndProperty>
           </AssociationSetMapping>
-    <AssociationSetMapping Name="UserFeatures" TypeName="MembershipModel.UserFeatures" StoreEntitySet="UserFeatures">
-      <EndProperty Name="Users">
-        <ScalarProperty Name="UserName" ColumnName="Users_UserName" />
-      </EndProperty>
-      <EndProperty Name="Menu">
-        <ScalarProperty Name="Id" ColumnName="Menus_Id" />
-      </EndProperty>
-    </AssociationSetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="MembershipModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Role_Id" ColumnName="Role_Id" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="UserMenu" TypeName="MembershipModel.UserMenu" StoreEntitySet="UserFeatures" >
+            <EndProperty Name="Menu">
+              <ScalarProperty Name="Id" ColumnName="Menus_Id" />
+            </EndProperty>
+            <EndProperty Name="User">
+              <ScalarProperty Name="UserName" ColumnName="Users_UserName" />
+            </EndProperty>
+          </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

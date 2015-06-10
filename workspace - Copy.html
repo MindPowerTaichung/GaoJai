@@ -59,7 +59,6 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav in" id="side-menu"></ul>
-                    <div id="treeview"></div>
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
@@ -133,39 +132,24 @@
     <script>
         "use strict";
 
-        var menusJSON_apiUrl = "/api/Menus/Json/Role/0";
-        var menus_HdataSource = new kendo.data.HierarchicalDataSource({
-            transport: {
-                read: {
-                    url: menusJSON_apiUrl,
-                    dataType: "json",
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Authorization', 'Bearer ' + Cookies.get('token'));
-                    }
-                }
-            },
-            schema: {
-                model: {
-                    id: "text",
-                    hasChildren: "hasChildren",
-                    children: "items"
-                }
-            }
-        });
-
-        $(document).ready(function () {
-
-            $("#treeview").kendoTreeView({
-                dataSource: menus_HdataSource,
-                dataTextField: "text",
-                change: function () {
-                    var dataItem = getDataItem(this.select());
-                    console.log(dataItem.text);
-                    menuClick(dataItem.text, dataItem.contentUrl);
-                }
-            });
-
-        });
+        //var notification = $("#notification").kendoNotification({
+        //    position: {
+        //        //pinned: true,
+        //        top: 30,
+        //        //right: 500,
+        //        //width: 500,
+        //        height: 30
+        //    },
+        //    autoHideAfter: 0,
+        //    //stacking: "up",
+        //    templates: [{
+        //        type: "error",
+        //        template: $("#errorTemplate").html()
+        //    }, {
+        //        type: "success",
+        //        template: $("#successTemplate").html()
+        //    }]
+        //}).data("kendoNotification");
 
         var aryTabs = [];
 
@@ -202,7 +186,7 @@
             //判斷是否需要新增頁籤
             var indexOfTab = getObjectIndexOfArray("caption", menuCaption, aryTabs);
             if (indexOfTab == -1) {
-                aryTabs.push({ "contentUrl": menuUrl, "caption": menuCaption });
+                aryTabs.push({ "contentUrl": menuUrl, "caption": menuCaption});
                 var indexOfTab = aryTabs.length - 1;
 
                 kTabStrip.append({
@@ -217,6 +201,35 @@
             //選取新增或既有的頁籤
             kTabStrip.select(indexOfTab);
         }
+
+
+        var menu_apiUrl = "Membership/Menu";
+
+        $(document).ready(function () {
+
+            $.ajax({
+                url: menu_apiUrl,
+                type: 'GET',
+                dataType: 'json',
+                success: function (menus)
+                {
+                    var sideMenuTemplate = kendo.template($("#sideMenu-template").html());
+                    var result = sideMenuTemplate(menus); //Execute the template
+                    $("#side-menu").html(result); //Append the result
+
+                    $("#side-menu").metisMenu();
+                },
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + Cookies.get('token'));
+                }
+            });
+
+        });
+
+
     </script>
 
 </body>

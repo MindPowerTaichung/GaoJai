@@ -10,25 +10,21 @@ namespace MPERP2015.Membership.Models
         public string Text { get; set; }
         public string ContentUrl { get; set; }
         public string SpriteCssClass { get; set; }
-        //public TabMode Mode = TabMode.Singleton;
-        //public enum TabMode
-        //{
-        //    Singleton,
-        //    Multiple
-        //}
+        public bool HasChildren { get; set; }
+        public List<MenuItem> Items { get; set; }
 
-        private List<MenuItem> _items;
-        public List<MenuItem> Items
-        {
-            get
-            {
-                if (_items == null)
-                {
-                    _items = new List<MenuItem>();
-                }
-                return _items;
-            }
-        }
+        //private List<MenuItem> _items;
+        //public List<MenuItem> Items
+        //{
+        //    get
+        //    {
+        //        if (_items == null)
+        //        {
+        //            _items = new List<MenuItem>();
+        //        }
+        //        return _items;
+        //    }
+        //}
 
     }
 

@@ -16,15 +16,15 @@ namespace MPERP2015.MP
     {
         public Role()
         {
-            this.Users = new HashSet<User>();
             this.Menus = new HashSet<Menu>();
+            this.Users = new HashSet<User>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public byte[] Timestamp { get; set; }
     
-        public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Menu> Menus { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

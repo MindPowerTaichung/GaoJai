@@ -1036,6 +1036,7 @@
     <Content Include="views\customers.html" />
     <Content Include="views\ordersSearch.html" />
     <Content Include="views\settings.html" />
+    <Content Include="workspace - Copy.html" />
     <Content Include="workspace.html" />
     <Content Include="Web.config" />
     <Content Include="views\lib\jQuery\jquery-2.1.4.min.map" />
@@ -1268,10 +1269,10 @@
     <Compile Include="MP\Menu.cs">
       <DependentUpon>MembershipModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="MP\MPTokenAuthorizationProvider.cs" />
     <Compile Include="MP\Role.cs">
       <DependentUpon>MembershipModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="MP\MPTokenAuthorizationProvider.cs" />
     <Compile Include="MP\User.cs">
       <DependentUpon>MembershipModel.tt</DependentUpon>
     </Compile>

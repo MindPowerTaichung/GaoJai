@@ -30,7 +30,7 @@ namespace MPERP2015.MP
         public string Text { get; set; }
         public int ParentId { get; set; }
         public bool Checked { get; set; }
-        public bool hasChildren { get; set; }
+        public bool HasChildren { get; set; }
         public List<MenuTreeViewModel> SubMenus { get; set; }
     }
 

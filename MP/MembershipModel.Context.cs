@@ -26,7 +26,7 @@ namespace MPERP2015.MP
         }
     
         public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Menu> Menus { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }
