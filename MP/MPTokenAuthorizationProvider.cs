@@ -27,7 +27,7 @@ namespace MPERP2015.MP
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             identity.AddClaim(new Claim("sub", user.UserName));
-            identity.AddClaim(new Claim("role", user.Role_Id==null ? "":user.Role_Id.ToString()));
+            identity.AddClaim(new Claim("roleId", user.Role_Id==null ? "":user.Role_Id.ToString()));
 
             context.Validated(identity);
 

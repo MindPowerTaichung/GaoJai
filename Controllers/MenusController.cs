@@ -6,6 +6,7 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
 
 namespace MPERP2015.Controllers
@@ -28,7 +29,7 @@ namespace MPERP2015.Controllers
             var items = GetMenus(db.Menus.ToList(), 0, menusOfRole);
             return items;
         }
-        // GET: api/Menus/Json/User/1
+        // GET: api/Menus/Json/User/apple
         [Route("api/Menus/Json/User/{userName}")]
         public IEnumerable<MenuTreeViewModel> GetUserMenuJson(string userName)
         {
@@ -49,16 +50,54 @@ namespace MPERP2015.Controllers
                 Id = x.Id,
                 Text = x.Text,
                 ParentId = x.ParentId,
+                ContentUrl= x.ContentUrl,
+                CssClass = x.CssClass,
                 Checked = menusChecked.Contains(x.Id),
-                SubMenus = GetMenus(list, x.Id, menusChecked)
+                SubMenus = GetMenus(list, x.Id, menusChecked),
+                TimestampString = Convert.ToBase64String( x.Timestamp)
             }).ToList();
 
             foreach (var item in items)
             {
-                item.hasChildren = item.SubMenus.Count > 0;    
+                item.HasChildren = item.SubMenus.Count > 0;    
             }
             return items;
-        }        
+        }
+
+        // GET: api/Menus/Json/Workspace
+        [Route("api/Menus/Json/Authorized")]
+        public IEnumerable<MenuAuthorizedViewModel> GetAuthorizedMenuJson()
+        {
+            var identity = User.Identity as ClaimsIdentity;
+            var userName = identity.Claims.Where(item => item.Type == "sub").Select(item=>item.Value).SingleOrDefault();
+            int roleId;
+            int.TryParse(identity.Claims.Where(item => item.Type == "roleId").Select(item => item.Value).SingleOrDefault(), out roleId);
+
+            var user = db.Users.Find(userName);
+            var role = db.Roles.Find(roleId);
+            var menusOfUser=user.Menus.Union(role.Menus).Select(item => item.Id).ToArray();
+
+            var items = GetAuthorizedMenus(db.Menus.ToList(), 0, menusOfUser);
+
+            return items;
+        }
+        List<MenuAuthorizedViewModel> GetAuthorizedMenus(List<Menu> list, int parentId, int[] menusOfUser)
+        {
+            var items = list.Where(x => x.ParentId == parentId && menusOfUser.Contains(x.Id)).Select(x => new MenuAuthorizedViewModel
+            {
+                Id = x.Id,
+                Text = x.Text,
+                ParentId = x.ParentId,
+                ContentUrl=x.ContentUrl,
+                SubMenus = GetMenus(list, x.Id, menusOfUser)
+            }).ToList();
+
+            foreach (var item in items)
+            {
+                item.HasChildren = item.SubMenus.Count > 0;
+            }
+            return items;
+        }
 
         // GET: api/Menus
         public IEnumerable<MenuViewModel> Get()

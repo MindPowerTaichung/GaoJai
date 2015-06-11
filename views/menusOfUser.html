@@ -1,0 +1,98 @@
+﻿<h1 class="page-header">使用者功能選單</h1>
+
+<input id="lstUsers" />
+
+<div id="menusOfUserTreeview"></div>
+
+<script>
+
+    var users_apiUrl = "/Membership/Users";
+    var userMenu_apiUrl = "/Membership/UserMenu";
+    var menusOfUserJSON_apiUrl = "/api/Menus/Json/User";
+
+    $("#lstUsers").kendoDropDownList({
+        dataTextField: "userName",
+        dataValueField: "userName",
+        dataSource: {
+            transport: {
+                read: {
+                    dataType: "json",
+                    url: users_apiUrl,
+                }
+            }
+        },
+        dataBound: function (e) {
+            this.select(0);
+            this.trigger("select", { item: $("li.k-state-selected", $("#lstUsers-list")) });
+        },
+        select: function (e) {
+            var dataItem = this.dataItem(e.item);
+            //console.log("event :: select (" + dataItem.name + " : " + dataItem.id + ")");
+            refreshTreeView(dataItem.userName);
+        }
+    });
+
+    $("#menusOfUserTreeview").kendoTreeView({
+        dataSource: {
+            transport: {
+                read: {
+                    url: menusOfUserJSON_apiUrl + "/0",
+                    dataType: "json"
+                }
+            },
+            schema: {
+                model: {
+                    id: "id",
+                    hasChildren: "hasChildren",
+                    children: "subMenus"
+                }
+            }
+        },
+        dataTextField: "text",
+        dragAndDrop: true,
+        checkboxes: {
+            checkChildren: true
+        },
+        dataBound: function () {
+            this.expand(".k-item");
+        },
+        check: function (e) {
+            var dataItem = getDataItem(e.node);
+            console.log(dataItem.id + " : " + dataItem.checked);
+            var user = $("#lstUsers").data("kendoDropDownList").dataItem();
+
+            var userMenu = {
+                "userName": user.userName,
+                "menuId": dataItem.id
+            };
+
+            var api_type = dataItem.checked ? "POST" : "DELETE";
+
+            $.ajax({
+                type: api_type,
+                url: userMenu_apiUrl,
+                data: JSON.stringify(userMenu),
+                contentType: "application/json; charset=utf-8",
+                success: function (data, status, jqXHR) {
+                    refreshTreeView(user.userName);
+                },
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+
+        }
+    });
+
+    function getDataItem(treeNode) {
+        var menusOfUserTreeview = $("#menusOfUserTreeview").data("kendoTreeView");
+        var uid = $(treeNode).data("uid");
+        return menusOfUserTreeview.dataSource.getByUid(uid);
+    }
+
+    function refreshTreeView(userName) {
+        var menusOfUserTreeview = $("#menusOfUserTreeview").data("kendoTreeView");
+        menusOfUserTreeview.dataSource.transport.options.read.url = menusOfUserJSON_apiUrl + "/" + userName;
+        menusOfUserTreeview.dataSource.read();
+    }
+</script>

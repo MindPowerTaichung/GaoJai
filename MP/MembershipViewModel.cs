@@ -28,8 +28,20 @@ namespace MPERP2015.MP
     {
         public int Id { get; set; }
         public string Text { get; set; }
+        public string ContentUrl { get; set; }
         public int ParentId { get; set; }
+        public string CssClass { get; set; }
+        public string TimestampString { get; set; }
         public bool Checked { get; set; }
+        public bool HasChildren { get; set; }
+        public List<MenuTreeViewModel> SubMenus { get; set; }
+    }
+    public class MenuAuthorizedViewModel
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+        public int ParentId { get; set; }
+        public string ContentUrl { get; set; }
         public bool HasChildren { get; set; }
         public List<MenuTreeViewModel> SubMenus { get; set; }
     }

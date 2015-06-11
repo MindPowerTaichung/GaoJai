@@ -129,8 +129,11 @@
     <None Include="TipsTricks\WebAPIController模板.txt" />
     <Content Include="TipsTricks\ToDo.txt" />
     <Content Include="TipsTricks\0 開發流程.txt" />
-    <Content Include="views\menus_byUsers_page.html" />
-    <Content Include="views\menus_byRoles_page.html" />
+    <Content Include="views\menusOfRole.html" />
+    <Content Include="views\menusOfUser.html" />
+    <Content Include="views\menusOfUser_page.html" />
+    <Content Include="views\menusOfRole_page.html" />
+    <Content Include="views\menus.html" />
     <Content Include="views\menus_page.html" />
     <Content Include="views\images\error-icon.png" />
     <Content Include="views\images\success-icon.png" />
@@ -1036,7 +1039,7 @@
     <Content Include="views\customers.html" />
     <Content Include="views\ordersSearch.html" />
     <Content Include="views\settings.html" />
-    <Content Include="workspace - Copy.html" />
+    <Content Include="workspace_metisMenu.html" />
     <Content Include="workspace.html" />
     <Content Include="Web.config" />
     <Content Include="views\lib\jQuery\jquery-2.1.4.min.map" />

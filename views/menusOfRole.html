@@ -1,0 +1,104 @@
+﻿<h1 class="page-header">角色功能選單</h1>
+
+<input id="lstRoles" />
+
+<div id="menusOfRoleTreeview"></div>
+
+<script>
+        
+    var roles_apiUrl = "/Membership/roles";
+    var roleMenu_apiUrl = "/Membership/RoleMenu";
+    var menusOfRoleJSON_apiUrl = "/api/Menus/Json/Role";
+
+    $("#lstRoles").kendoDropDownList({
+        dataTextField: "name",
+        dataValueField: "id",
+        dataSource: {
+            transport: {
+                read: {
+                    dataType: "json",
+                    url: roles_apiUrl,
+                }
+            }
+        },
+        dataBound: function (e) {
+            this.select(0);
+            this.trigger("select", { item: $("li.k-state-selected", $("#lstRoles-list")) });
+        },
+        select: function (e) {
+            var dataItem = this.dataItem(e.item);
+            //console.log("event :: select (" + dataItem.name + " : " + dataItem.id + ")");
+            refreshTreeView(dataItem.id);
+        }
+    });
+
+    $("#menusOfRoleTreeview").kendoTreeView({
+        dataSource: {
+            transport: {
+                read: {
+                    url: menusOfRoleJSON_apiUrl + "/0" ,
+                    dataType: "json"
+                }
+            },
+            schema: {
+                model: {
+                    id: "id",
+                    hasChildren: "hasChildren",
+                    children: "subMenus"
+                }
+            }
+        },
+        dataTextField: "text",
+        dragAndDrop: true,
+        checkboxes: {
+            checkChildren: true
+        },
+        dataBound: function () {
+            this.expand(".k-item");
+        },
+        check: function (e) {
+            
+            //var dataItem = getDataItem(e.node);
+            var dataItem = this.dataItem(e.node);
+            //var tv = $('.mytree').data('kendoTreeView'),
+            //            selected = tv.select(),
+            //            item = tv.dataItem(selected);
+
+            console.log(dataItem.id + " : " + dataItem.checked);
+            var role = $("#lstRoles").data("kendoDropDownList").dataItem();
+
+            var roleMenu = {
+                "roleId": role.id,
+                "menuId": dataItem.id
+            };
+
+            var api_type = dataItem.checked ? "POST" : "DELETE";
+
+            $.ajax({
+                type: api_type,
+                url: roleMenu_apiUrl,
+                data: JSON.stringify(roleMenu),
+                contentType: "application/json; charset=utf-8",
+                success: function (data, status, jqXHR) {
+                    refreshTreeView(role.id);
+                },
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+                
+        }
+    });
+        
+    function getDataItem(treeNode) {
+        var menusOfRoleTreeview = $("#menusOfRoleTreeview").data("kendoTreeView");
+        var uid = $(treeNode).data("uid");
+        return menusOfRoleTreeview.dataSource.getByUid(uid);
+    }
+
+    function refreshTreeView(roleId) {
+        var menusOfRoleTreeview = $("#menusOfRoleTreeview").data("kendoTreeView");
+        menusOfRoleTreeview.dataSource.transport.options.read.url = menusOfRoleJSON_apiUrl + "/" + roleId;
+        menusOfRoleTreeview.dataSource.read();
+    }
+</script>

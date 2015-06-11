@@ -278,6 +278,20 @@ namespace MPERP2015.Controllers
             return ToUserViewModel(user);
         }
 
+        [Route("Membership/WhoAmI")]
+        [HttpGet]
+        public UserViewModel WhoAmI()
+        {
+            var identity = User.Identity as ClaimsIdentity;
+            var userName = identity.Claims.Where(item => item.Type == "sub").Select(item=>item.Value).SingleOrDefault();
+            var user = db.Users.Find(userName);
+            if (user == null)
+            {
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.Unauthorized, "拒絕存取"));
+            }
+            return ToUserViewModel(user);
+        }
+
         // POST: Membership/Users
         [ResponseType(typeof(UserViewModel))]
         [Route("Membership/Users")]
