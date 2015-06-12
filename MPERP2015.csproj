@@ -129,12 +129,10 @@
     <None Include="TipsTricks\WebAPIController模板.txt" />
     <Content Include="TipsTricks\ToDo.txt" />
     <Content Include="TipsTricks\0 開發流程.txt" />
+    <Content Include="TipsTricks\View_變數名稱或元素識別名稱請在前加上View的檔案.txt" />
     <Content Include="views\menusOfRole.html" />
     <Content Include="views\menusOfUser.html" />
-    <Content Include="views\menusOfUser_page.html" />
-    <Content Include="views\menusOfRole_page.html" />
     <Content Include="views\menus.html" />
-    <Content Include="views\menus_page.html" />
     <Content Include="views\images\error-icon.png" />
     <Content Include="views\images\success-icon.png" />
     <Content Include="views\lib\bootstrap-3.3.4\css\bootstrap-theme.css" />

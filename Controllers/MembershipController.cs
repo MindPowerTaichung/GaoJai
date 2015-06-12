@@ -260,14 +260,14 @@ namespace MPERP2015.Controllers
         #endregion
 
         #region Membership/Users
-        [Route("Membership/Users")]
+        [Route("Membership/Users/UserInfo")]
         public IEnumerable<UserViewModel> GetUsers()
         {
             var users = db.Users.ToArray<User>().Select(u => ToUserViewModel(u));
             return users.AsQueryable();
         }
 
-        [Route("Membership/Users/{userName}", Name="GetUserByUserName")]
+        [Route("Membership/Users/UserInfo/{userName}", Name = "GetUserByUserName")]
         public UserViewModel GetUsers(string userName)
         {
             var user = db.Users.Find(userName);
@@ -359,6 +359,45 @@ namespace MPERP2015.Controllers
 
         }
 
+        // PUT: Membership/Users/UserInfo/{userName}
+        [ResponseType(typeof(UserViewModel))]
+        [Route("Membership/Users/UserInfo/{userName}")]
+        [HttpPut]
+        public IHttpActionResult PutUser(string userName, UserViewModel user_view_model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (userName != user_view_model.UserName)
+                return BadRequest();
+
+            //把資料庫中的那筆資料讀出來
+            var user_db = db.Users.Find(userName);
+            if (user_db == null)
+            {
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.NotFound, "這筆資料已被刪除!"));
+            }
+            else
+            {
+                try
+                {
+                    user_db.Role_Id = user_view_model.RoleId;
+                    db.Entry(user_db).OriginalValues["Timestamp"] = Convert.FromBase64String(user_view_model.TimestampString);
+                    db.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UserExists(userName))
+                        throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound, "這筆資料已被刪除!"));
+                    else
+                        throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Conflict, "這筆資料已被其他人修改!"));// ""
+                }
+            }
+
+            return Ok(ToUserViewModel(user_db));
+
+        }
+
         // DELETE: Membership/Users/{userName}
         [ResponseType(typeof(UserViewModel))]
         [Route("Membership/Users/{userName}")]
@@ -386,7 +425,9 @@ namespace MPERP2015.Controllers
 
         private UserViewModel ToUserViewModel(User user)
         {
-            return new UserViewModel { UserName = user.UserName, TimestampString = Convert.ToBase64String(user.Timestamp) };
+            return new UserViewModel { UserName = user.UserName, 
+                                                        RoleId= user.Role_Id.HasValue ? Convert.ToInt32(user.Role_Id) :-1, 
+                                                        TimestampString = Convert.ToBase64String(user.Timestamp) };
         }
         #endregion
 

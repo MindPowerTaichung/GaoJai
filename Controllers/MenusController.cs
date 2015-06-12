@@ -33,12 +33,15 @@ namespace MPERP2015.Controllers
         [Route("api/Menus/Json/User/{userName}")]
         public IEnumerable<MenuTreeViewModel> GetUserMenuJson(string userName)
         {
-            int[] menusOfUser;
+            //int[] menusOfUser;
+            //var user = db.Users.Find(userName);
+            //if (user == null)
+            //    menusOfUser = new int[0];
+            //else
+            //    menusOfUser =user.Menus.Select(item => item.Id).ToArray();
             var user = db.Users.Find(userName);
-            if (user == null)
-                menusOfUser = new int[0];
-            else
-                menusOfUser =user.Menus.Select(item => item.Id).ToArray();
+            var role = db.Roles.Find(user.Role_Id);
+            var menusOfUser = user.Menus.Union(role.Menus).Select(item => item.Id).ToArray();
 
             var items = GetMenus(db.Menus.ToList(), 0, menusOfUser);
             return items;

@@ -59,7 +59,7 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav in" id="side-menu"></ul>
-                    <div id="menuTreeview"></div>
+                    <div id="workspace_treeview"></div>
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
@@ -125,15 +125,22 @@
             
             displayUserName();
 
-            $("#menuTreeview").kendoTreeView({
+            $("#workspace_treeview").kendoTreeView({
                 dataSource: menus_HdataSource,
                 dataTextField: "text",
+                dataBound: function () {
+                    this.expand(".k-item");
+                },
                 change: function () {
 
-                    var tv = $('#menuTreeview').data('kendoTreeView'),
+                    var tv = $('#workspace_treeview').data('kendoTreeView'),
                         selected = this.select(),
                         dataItem = tv.dataItem(selected);
 
+                    if (dataItem.contentUrl == null || dataItem.contentUrl=="") {
+                        return;
+                    }
+                    
                     menuClick(dataItem.text, dataItem.contentUrl);
                 }
             });
@@ -189,8 +196,8 @@
             var kTabStrip = $("#tabstrip").data("kendoTabStrip");
             if (kTabStrip == undefined) {
                 $("#tabstrip").kendoTabStrip({
-                    dataContentUrlField: "contentUrl",
-                    dataTextField: "caption"
+                    //dataContentUrlField: "contentUrl",
+                    //dataTextField: "caption"                    
                 })
                 kTabStrip = $("#tabstrip").data("kendoTabStrip");
             }
@@ -198,7 +205,7 @@
             //判斷是否需要新增頁籤
             var indexOfTab = getObjectIndexOfArray("caption", menuCaption, currentTabs);
             if (indexOfTab == -1) {
-                currentTabs.push({ "contentUrl": menuUrl, "caption": menuCaption });
+                currentTabs.push({ "contentUrl": menuUrl, "caption": menuCaption});
                 var indexOfTab = currentTabs.length - 1;
 
                 kTabStrip.append({
@@ -208,7 +215,8 @@
                 });
 
             }
-            //$("#tabstrip").data("kendoTabStrip").setDataSource(currentTabs);
+            //$("#tabstrip").data("kendoTabStrip").setDataSource(currentTabs); //清除其它tab的內容(可避免id衝突)
+            
 
             //選取新增或既有的頁籤
             kTabStrip.select(indexOfTab);

@@ -18,32 +18,11 @@ namespace MPERP2015
     {
         public void Configuration(IAppBuilder app)
         {
-            //var oauthProvider = new OAuthAuthorizationServerProvider
-            //{
-            //    OnGrantResourceOwnerCredentials = async context =>
-            //    {
-            //        //if (context.UserName == "test" && context.Password == "123")
-            //        if (isValidUser(context.UserName,context.Password))
-            //        {
-
-            //            var claimsIdentity = new ClaimsIdentity(context.Options.AuthenticationType);
-            //            claimsIdentity.AddClaim(new Claim("user", context.UserName));
-            //            context.Validated(claimsIdentity);
-            //            return;
-
-            //        }
-            //        context.Rejected();
-            //    },
-            //    OnValidateClientAuthentication = async context =>
-            //    {
-            //        context.Validated();
-            //    }                 
-            //};
             var oauthOptions = new OAuthAuthorizationServerOptions
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1), //登入後閒置1Day,Token逾期
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30), //登入後閒置30min,Token逾期
                 Provider =new MPTokenAuthorizationProvider() //oauthProvider             
             };
             app.UseOAuthAuthorizationServer(oauthOptions);

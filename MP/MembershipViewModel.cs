@@ -14,6 +14,7 @@ namespace MPERP2015.MP
     public class UserViewModel
     {
         public string UserName { get; set; }
+        public int RoleId { get; set; }
         public string TimestampString { get; set; }
     }
 
