@@ -2,14 +2,34 @@
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="MembershipModelStoreContainer" CdmEntityContainer="MembershipModelContainer">
     <EntitySetMapping Name="Roles">
-      <EntityTypeMapping TypeName="MembershipModel.Role">
+      <EntityTypeMapping TypeName="IsTypeOf(MembershipModel.Role)">
         <MappingFragment StoreEntitySet="Roles">
-          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Menus">
+      <EntityTypeMapping TypeName="IsTypeOf(MembershipModel.Menu)">
+        <MappingFragment StoreEntitySet="Menus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="ContentUrl" ColumnName="ContentUrl" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="CssClass" ColumnName="CssClass" />
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="RoleFeatures" TypeName="MembershipModel.RoleFeatures" StoreEntitySet="RoleFeatures">
+      <EndProperty Name="Role">
+        <ScalarProperty Name="Id" ColumnName="Role_Id" />
+      </EndProperty>
+      <EndProperty Name="Menu">
+        <ScalarProperty Name="Id" ColumnName="Menu_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="MembershipModel.User">
         <MappingFragment StoreEntitySet="Users">
@@ -20,17 +40,13 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Menus">
-      <EntityTypeMapping TypeName="MembershipModel.Menu">
-        <MappingFragment StoreEntitySet="Menus">
-          <ScalarProperty Name="CssClass" ColumnName="CssClass" />
-          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
-          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
-          <ScalarProperty Name="ContentUrl" ColumnName="ContentUrl" />
-          <ScalarProperty Name="Text" ColumnName="Text" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
+    <AssociationSetMapping Name="UserMenu" TypeName="MembershipModel.UserMenu" StoreEntitySet="UserFeatures">
+      <EndProperty Name="Menu">
+        <ScalarProperty Name="Id" ColumnName="Menus_Id" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="UserName" ColumnName="Users_UserName" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

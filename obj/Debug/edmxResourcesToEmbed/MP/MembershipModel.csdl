@@ -2,12 +2,20 @@
 <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="MembershipModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
   <EntityContainer Name="MembershipModelContainer" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Roles" EntityType="MembershipModel.Role" />
+    <EntitySet Name="Menus" EntityType="MembershipModel.Menu" />
+    <AssociationSet Name="RoleFeatures" Association="MembershipModel.RoleFeatures">
+      <End Role="Menu" EntitySet="Menus" />
+      <End Role="Role" EntitySet="Roles" />
+    </AssociationSet>
     <EntitySet Name="Users" EntityType="MembershipModel.User" />
     <AssociationSet Name="FK_RoleUser" Association="MembershipModel.FK_RoleUser">
       <End Role="Role" EntitySet="Roles" />
       <End Role="User" EntitySet="Users" />
     </AssociationSet>
-    <EntitySet Name="Menus" EntityType="MembershipModel.Menu" />
+    <AssociationSet Name="UserMenu" Association="MembershipModel.UserMenu">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Menu" EntitySet="Menus" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Role">
     <Key>
@@ -16,8 +24,26 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+    <NavigationProperty Name="Menus" Relationship="MembershipModel.RoleFeatures" FromRole="Role" ToRole="Menu" />
     <NavigationProperty Name="Users" Relationship="MembershipModel.FK_RoleUser" FromRole="Role" ToRole="User" />
   </EntityType>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Text" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ContentUrl" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="ParentId" Type="Int32" Nullable="false" />
+    <Property Name="CssClass" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="true" />
+    <Property Name="Timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+    <NavigationProperty Name="Roles" Relationship="MembershipModel.RoleFeatures" FromRole="Menu" ToRole="Role" />
+    <NavigationProperty Name="Users" Relationship="MembershipModel.UserMenu" FromRole="Menu" ToRole="User" />
+  </EntityType>
+  <Association Name="RoleFeatures">
+    <End Type="MembershipModel.Menu" Role="Menu" Multiplicity="*" />
+    <End Type="MembershipModel.Role" Role="Role" Multiplicity="*" />
+  </Association>
   <EntityType Name="User">
     <Key>
       <PropertyRef Name="UserName" />
@@ -27,6 +53,7 @@
     <Property Name="Timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
     <Property Name="Role_Id" Type="Int32" />
     <NavigationProperty Name="Role" Relationship="MembershipModel.FK_RoleUser" FromRole="User" ToRole="Role" />
+    <NavigationProperty Name="Menus" Relationship="MembershipModel.UserMenu" FromRole="User" ToRole="Menu" />
   </EntityType>
   <Association Name="FK_RoleUser">
     <End Type="MembershipModel.Role" Role="Role" Multiplicity="0..1" />
@@ -40,15 +67,8 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="Menu">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Text" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="ContentUrl" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-    <Property Name="ParentId" Type="Int32" Nullable="false" />
-    <Property Name="CssClass" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="true" />
-    <Property Name="Timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-  </EntityType>
+  <Association Name="UserMenu">
+    <End Type="MembershipModel.User" Role="User" Multiplicity="*" />
+    <End Type="MembershipModel.Menu" Role="Menu" Multiplicity="*" />
+  </Association>
 </Schema>

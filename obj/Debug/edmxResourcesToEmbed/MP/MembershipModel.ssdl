@@ -11,6 +11,14 @@
     <Property Name="CssClass" Type="varchar" MaxLength="50" />
     <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
   </EntityType>
+  <EntityType Name="RoleFeatures">
+    <Key>
+      <PropertyRef Name="Role_Id" />
+      <PropertyRef Name="Menu_Id" />
+    </Key>
+    <Property Name="Role_Id" Type="int" Nullable="false" />
+    <Property Name="Menu_Id" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Roles">
     <Key>
       <PropertyRef Name="Id" />
@@ -18,6 +26,14 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserFeatures">
+    <Key>
+      <PropertyRef Name="Users_UserName" />
+      <PropertyRef Name="Menus_Id" />
+    </Key>
+    <Property Name="Users_UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Menus_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Users">
     <Key>
@@ -28,6 +44,30 @@
     <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
     <Property Name="Role_Id" Type="int" />
   </EntityType>
+  <Association Name="FK_RoleFeatures_Menus">
+    <End Role="Menus" Type="Self.Menus" Multiplicity="1" />
+    <End Role="RoleFeatures" Type="Self.RoleFeatures" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RoleFeatures">
+        <PropertyRef Name="Menu_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RoleFeatures_Roles">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+    <End Role="RoleFeatures" Type="Self.RoleFeatures" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RoleFeatures">
+        <PropertyRef Name="Role_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_RoleUser">
     <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
     <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -42,8 +82,18 @@
   </Association>
   <EntityContainer Name="MembershipModelStoreContainer">
     <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RoleFeatures" EntityType="Self.RoleFeatures" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserFeatures" EntityType="Self.UserFeatures" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_RoleFeatures_Menus" Association="Self.FK_RoleFeatures_Menus">
+      <End Role="Menus" EntitySet="Menus" />
+      <End Role="RoleFeatures" EntitySet="RoleFeatures" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RoleFeatures_Roles" Association="Self.FK_RoleFeatures_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="RoleFeatures" EntitySet="RoleFeatures" />
+    </AssociationSet>
     <AssociationSet Name="FK_RoleUser" Association="Self.FK_RoleUser">
       <End Role="Roles" EntitySet="Roles" />
       <End Role="Users" EntitySet="Users" />
