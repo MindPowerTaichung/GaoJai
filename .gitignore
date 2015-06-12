@@ -17,27 +17,36 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# =========================
-# Operating System Files
-# =========================
+# User-specific files  
+*.suo  
+*.user  
 
-# OSX
-# =========================
+# Build results  
+[Dd]ebug/  
+[Rr]elease/  
 
-.DS_Store
-.AppleDouble
-.LSOverride
+*_i.c  
+*_p.c  
+*.ilk  
+*.meta  
+*.obj  
+*.pch  
+*.pdb  
+*.pgc  
+*.pgd  
+*.rsp  
+*.sbr  
+*.tlb  
+*.tli  
+*.tlh  
+*.tmp  
+*.log  
+*.vspscc  
+*.vssscc  
+.builds  
 
-# Thumbnails
-._*
+# NuGet Packages Directory 
+packages 
 
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
+# Others 
+[Bb]in 
