@@ -1,5 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="ERPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="catCurrency">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="No" Type="nvarchar" MaxLength="32" />
+    <Property Name="Name" Type="nvarchar" MaxLength="64" />
+    <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+  </EntityType>
+  <EntityType Name="catCustomer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="No" Type="nvarchar" MaxLength="32" />
+    <Property Name="Name" Type="nvarchar" MaxLength="64" />
+    <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+  </EntityType>
   <EntityType Name="Categories">
     <Key>
       <PropertyRef Name="Id" />
@@ -7,6 +25,87 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="40" Nullable="false" />
     <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+  </EntityType>
+  <EntityType Name="catFactory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="No" Type="nvarchar" MaxLength="32" />
+    <Property Name="Name" Type="nvarchar" MaxLength="64" />
+    <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+  </EntityType>
+  <EntityType Name="catPay">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="No" Type="nvarchar" MaxLength="32" />
+    <Property Name="Name" Type="nvarchar" MaxLength="64" />
+    <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+  </EntityType>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Cat" Type="int" />
+    <Property Name="Agent" Type="int" />
+    <Property Name="NO" Type="nvarchar" MaxLength="32" />
+    <Property Name="Name" Type="nvarchar" MaxLength="64" Nullable="false" />
+    <Property Name="Sname" Type="nvarchar" MaxLength="32" />
+    <Property Name="Unid" Type="nvarchar" MaxLength="10" />
+    <Property Name="Contact1" Type="nvarchar" MaxLength="16" />
+    <Property Name="Contact2" Type="nvarchar" MaxLength="16" />
+    <Property Name="Email1" Type="nvarchar" MaxLength="128" />
+    <Property Name="Email2" Type="nvarchar" MaxLength="128" />
+    <Property Name="Email3" Type="nvarchar" MaxLength="128" />
+    <Property Name="Telephone1" Type="nvarchar" MaxLength="16" />
+    <Property Name="Telephone2" Type="nvarchar" MaxLength="16" />
+    <Property Name="Telephone3" Type="nvarchar" MaxLength="16" />
+    <Property Name="Website" Type="nvarchar" MaxLength="128" />
+    <Property Name="Fax" Type="nvarchar" MaxLength="16" />
+    <Property Name="Address" Type="nvarchar" MaxLength="128" />
+    <Property Name="Shipaddr" Type="nvarchar" MaxLength="128" />
+    <Property Name="Invoiceaddr" Type="nvarchar" MaxLength="128" />
+    <Property Name="Pay" Type="int" />
+    <Property Name="Currency" Type="int" />
+    <Property Name="Lasttrade" Type="datetime" />
+    <Property Name="Note" Type="nvarchar(max)" />
+    <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+  </EntityType>
+  <EntityType Name="Factories">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Cat" Type="int" />
+    <Property Name="Type" Type="int" />
+    <Property Name="NO" Type="nvarchar" MaxLength="32" />
+    <Property Name="Name" Type="nvarchar" MaxLength="64" />
+    <Property Name="Sname" Type="nvarchar" MaxLength="32" />
+    <Property Name="Unid" Type="nvarchar" MaxLength="10" />
+    <Property Name="Contact1" Type="nvarchar" MaxLength="16" />
+    <Property Name="Contact2" Type="nvarchar" MaxLength="16" />
+    <Property Name="Email1" Type="nvarchar" MaxLength="128" />
+    <Property Name="Email2" Type="nvarchar" MaxLength="128" />
+    <Property Name="Email3" Type="nvarchar" MaxLength="128" />
+    <Property Name="Telephone1" Type="nvarchar" MaxLength="16" />
+    <Property Name="Telephone2" Type="nvarchar" MaxLength="16" />
+    <Property Name="Telephone3" Type="nvarchar" MaxLength="16" />
+    <Property Name="Website" Type="nvarchar" MaxLength="128" />
+    <Property Name="Fax" Type="nvarchar" MaxLength="16" />
+    <Property Name="Address" Type="nvarchar" MaxLength="128" />
+    <Property Name="Shipaddr" Type="nvarchar" MaxLength="128" />
+    <Property Name="Invoiceaddr" Type="nvarchar" MaxLength="128" />
+    <Property Name="Pay" Type="int" />
+    <Property Name="Currency" Type="int" />
+    <Property Name="Lasttrade" Type="datetime" />
+    <Property Name="Note" Type="nvarchar(max)" />
+    <Property Name="sUser" Type="nvarchar" MaxLength="256" />
+    <Property Name="sCreate" Type="datetime" />
+    <Property Name="sUpdate" Type="datetime" />
+    <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
   </EntityType>
   <EntityType Name="OrderDetails">
     <Key>
@@ -36,6 +135,24 @@
     <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
     <Property Name="Category_Id" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="typeCustomer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="No" Type="nvarchar" MaxLength="32" />
+    <Property Name="Name" Type="nvarchar" MaxLength="64" />
+    <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+  </EntityType>
+  <EntityType Name="typeFactory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="No" Type="nvarchar" MaxLength="32" />
+    <Property Name="Name" Type="nvarchar" MaxLength="64" />
+    <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+  </EntityType>
   <Association Name="FK_CategoryProduct">
     <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
     <End Role="Products" Type="Self.Products" Multiplicity="*" />
@@ -45,6 +162,90 @@
       </Principal>
       <Dependent Role="Products">
         <PropertyRef Name="Category_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Customers_catCurrency">
+    <End Role="catCurrency" Type="Self.catCurrency" Multiplicity="0..1" />
+    <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="catCurrency">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Customers">
+        <PropertyRef Name="Currency" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Customers_catCustomer">
+    <End Role="catCustomer" Type="Self.catCustomer" Multiplicity="0..1" />
+    <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="catCustomer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Customers">
+        <PropertyRef Name="Cat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Customers_catPay">
+    <End Role="catPay" Type="Self.catPay" Multiplicity="0..1" />
+    <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="catPay">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Customers">
+        <PropertyRef Name="Pay" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Factories_catCurrency">
+    <End Role="catCurrency" Type="Self.catCurrency" Multiplicity="0..1" />
+    <End Role="Factories" Type="Self.Factories" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="catCurrency">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Factories">
+        <PropertyRef Name="Currency" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Factories_catFactory">
+    <End Role="catFactory" Type="Self.catFactory" Multiplicity="0..1" />
+    <End Role="Factories" Type="Self.Factories" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="catFactory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Factories">
+        <PropertyRef Name="Cat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Factories_catPay">
+    <End Role="catPay" Type="Self.catPay" Multiplicity="0..1" />
+    <End Role="Factories" Type="Self.Factories" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="catPay">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Factories">
+        <PropertyRef Name="Pay" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Factories_typeFactory">
+    <End Role="typeFactory" Type="Self.typeFactory" Multiplicity="0..1" />
+    <End Role="Factories" Type="Self.Factories" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="typeFactory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Factories">
+        <PropertyRef Name="Type" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -73,13 +274,49 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="ERPModelStoreContainer">
+    <EntitySet Name="catCurrency" EntityType="Self.catCurrency" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="catCustomer" EntityType="Self.catCustomer" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="catFactory" EntityType="Self.catFactory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="catPay" EntityType="Self.catPay" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Factories" EntityType="Self.Factories" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="typeCustomer" EntityType="Self.typeCustomer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="typeFactory" EntityType="Self.typeFactory" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_CategoryProduct" Association="Self.FK_CategoryProduct">
       <End Role="Categories" EntitySet="Categories" />
       <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Customers_catCurrency" Association="Self.FK_Customers_catCurrency">
+      <End Role="catCurrency" EntitySet="catCurrency" />
+      <End Role="Customers" EntitySet="Customers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Customers_catCustomer" Association="Self.FK_Customers_catCustomer">
+      <End Role="catCustomer" EntitySet="catCustomer" />
+      <End Role="Customers" EntitySet="Customers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Customers_catPay" Association="Self.FK_Customers_catPay">
+      <End Role="catPay" EntitySet="catPay" />
+      <End Role="Customers" EntitySet="Customers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Factories_catCurrency" Association="Self.FK_Factories_catCurrency">
+      <End Role="catCurrency" EntitySet="catCurrency" />
+      <End Role="Factories" EntitySet="Factories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Factories_catFactory" Association="Self.FK_Factories_catFactory">
+      <End Role="catFactory" EntitySet="catFactory" />
+      <End Role="Factories" EntitySet="Factories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Factories_catPay" Association="Self.FK_Factories_catPay">
+      <End Role="catPay" EntitySet="catPay" />
+      <End Role="Factories" EntitySet="Factories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Factories_typeFactory" Association="Self.FK_Factories_typeFactory">
+      <End Role="typeFactory" EntitySet="typeFactory" />
+      <End Role="Factories" EntitySet="Factories" />
     </AssociationSet>
     <AssociationSet Name="FK_OrderDetails_Orders" Association="Self.FK_OrderDetails_Orders">
       <End Role="Orders" EntitySet="Orders" />

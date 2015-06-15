@@ -47,5 +47,130 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="catCurrencies">
+      <EntityTypeMapping TypeName="ERPModel.catCurrency">
+        <MappingFragment StoreEntitySet="catCurrency">
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="No" ColumnName="No" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="catCustomers">
+      <EntityTypeMapping TypeName="ERPModel.catCustomer">
+        <MappingFragment StoreEntitySet="catCustomer">
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="No" ColumnName="No" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="catFactories">
+      <EntityTypeMapping TypeName="ERPModel.catFactory">
+        <MappingFragment StoreEntitySet="catFactory">
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="No" ColumnName="No" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="catPays">
+      <EntityTypeMapping TypeName="ERPModel.catPay">
+        <MappingFragment StoreEntitySet="catPay">
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="No" ColumnName="No" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="ERPModel.Customer">
+        <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Lasttrade" ColumnName="Lasttrade" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="Pay" ColumnName="Pay" />
+          <ScalarProperty Name="Invoiceaddr" ColumnName="Invoiceaddr" />
+          <ScalarProperty Name="Shipaddr" ColumnName="Shipaddr" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Fax" ColumnName="Fax" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="Telephone3" ColumnName="Telephone3" />
+          <ScalarProperty Name="Telephone2" ColumnName="Telephone2" />
+          <ScalarProperty Name="Telephone1" ColumnName="Telephone1" />
+          <ScalarProperty Name="Email3" ColumnName="Email3" />
+          <ScalarProperty Name="Email2" ColumnName="Email2" />
+          <ScalarProperty Name="Email1" ColumnName="Email1" />
+          <ScalarProperty Name="Contact2" ColumnName="Contact2" />
+          <ScalarProperty Name="Contact1" ColumnName="Contact1" />
+          <ScalarProperty Name="Unid" ColumnName="Unid" />
+          <ScalarProperty Name="Sname" ColumnName="Sname" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="NO" ColumnName="NO" />
+          <ScalarProperty Name="Agent" ColumnName="Agent" />
+          <ScalarProperty Name="Cat" ColumnName="Cat" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Factories">
+      <EntityTypeMapping TypeName="ERPModel.Factory">
+        <MappingFragment StoreEntitySet="Factories">
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="sUpdate" ColumnName="sUpdate" />
+          <ScalarProperty Name="sCreate" ColumnName="sCreate" />
+          <ScalarProperty Name="sUser" ColumnName="sUser" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="Lasttrade" ColumnName="Lasttrade" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="Pay" ColumnName="Pay" />
+          <ScalarProperty Name="Invoiceaddr" ColumnName="Invoiceaddr" />
+          <ScalarProperty Name="Shipaddr" ColumnName="Shipaddr" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Fax" ColumnName="Fax" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+          <ScalarProperty Name="Telephone3" ColumnName="Telephone3" />
+          <ScalarProperty Name="Telephone2" ColumnName="Telephone2" />
+          <ScalarProperty Name="Telephone1" ColumnName="Telephone1" />
+          <ScalarProperty Name="Email3" ColumnName="Email3" />
+          <ScalarProperty Name="Email2" ColumnName="Email2" />
+          <ScalarProperty Name="Email1" ColumnName="Email1" />
+          <ScalarProperty Name="Contact2" ColumnName="Contact2" />
+          <ScalarProperty Name="Contact1" ColumnName="Contact1" />
+          <ScalarProperty Name="Unid" ColumnName="Unid" />
+          <ScalarProperty Name="Sname" ColumnName="Sname" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="NO" ColumnName="NO" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Cat" ColumnName="Cat" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="typeFactories">
+      <EntityTypeMapping TypeName="ERPModel.typeFactory">
+        <MappingFragment StoreEntitySet="typeFactory">
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="No" ColumnName="No" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="typeCustomers">
+      <EntityTypeMapping TypeName="ERPModel.typeCustomer">
+        <MappingFragment StoreEntitySet="typeCustomer">
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="No" ColumnName="No" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -43,6 +43,7 @@ namespace MPERP2015.MP
         public string Text { get; set; }
         public int ParentId { get; set; }
         public string ContentUrl { get; set; }
+        public string CssClass { get; set; }
         public bool HasChildren { get; set; }
         public List<MenuTreeViewModel> SubMenus { get; set; }
     }

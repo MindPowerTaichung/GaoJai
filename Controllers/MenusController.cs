@@ -92,6 +92,7 @@ namespace MPERP2015.Controllers
                 Text = x.Text,
                 ParentId = x.ParentId,
                 ContentUrl=x.ContentUrl,
+                CssClass = x.CssClass,
                 SubMenus = GetMenus(list, x.Id, menusOfUser)
             }).ToList();
 

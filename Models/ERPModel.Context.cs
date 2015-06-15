@@ -29,5 +29,13 @@ namespace MPERP2015.Models
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<catCurrency> catCurrencies { get; set; }
+        public virtual DbSet<catCustomer> catCustomers { get; set; }
+        public virtual DbSet<catFactory> catFactories { get; set; }
+        public virtual DbSet<catPay> catPays { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Factory> Factories { get; set; }
+        public virtual DbSet<typeFactory> typeFactories { get; set; }
+        public virtual DbSet<typeCustomer> typeCustomers { get; set; }
     }
 }

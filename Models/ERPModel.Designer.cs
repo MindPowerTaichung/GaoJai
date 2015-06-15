@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\Sophie\MP專案\MPERP2015\MPERP2015_20150514 Cont0508 EF Timestamp\Models\ERPModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Administrator\Documents\GitHub\MPERP2015\Models\ERPModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
