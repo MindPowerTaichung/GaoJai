@@ -1037,10 +1037,7 @@
     <Content Include="views\scripts\globals.js" />
     <Content Include="views\lib\js.cookie\js.cookie.js" />
     <Content Include="views\scripts\mp_utilities.js" />
-    <Content Include="views\categories_page.html" />
     <Content Include="views\categories.html" />
-    <Content Include="views\orderDetails_dropdown_page.html" />
-    <Content Include="views\orderDetails_simple_page.html" />
     <Content Include="views\ordersDetails.html" />
     <Content Include="views\ordersInsert.html" />
     <Content Include="views\products.html" />
