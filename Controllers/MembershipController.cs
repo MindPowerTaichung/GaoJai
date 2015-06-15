@@ -427,6 +427,7 @@ namespace MPERP2015.Controllers
         {
             return new UserViewModel { UserName = user.UserName, 
                                                         RoleId= user.Role_Id.HasValue ? Convert.ToInt32(user.Role_Id) :-1, 
+                                                        RoleName = user.Role.Name,
                                                         TimestampString = Convert.ToBase64String(user.Timestamp) };
         }
         #endregion

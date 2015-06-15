@@ -49,10 +49,9 @@ $("#menusTreeview").kendoTreeView({
         var source = getDataItem(e.sourceNode);
         var destination = getDataItem(e.destinationNode);;
 
-        console.log(source.id + " -> " + destination.id);
-        console.log(source.text + " -> " + destination.text);
-
-        debugger;
+        //console.log(source.id + " -> " + destination.id);
+        //console.log(source.text + " -> " + destination.text);
+        //debugger;
         source.parentId = destination.id;
         $.ajax({
             type: "PUT",
