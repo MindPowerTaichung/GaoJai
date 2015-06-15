@@ -15,6 +15,7 @@ namespace MPERP2015.MP
     {
         public string UserName { get; set; }
         public int RoleId { get; set; }
+        public string RoleName { get; set; }
         public string TimestampString { get; set; }
     }
 
@@ -43,6 +44,7 @@ namespace MPERP2015.MP
         public string Text { get; set; }
         public int ParentId { get; set; }
         public string ContentUrl { get; set; }
+        public string CssClass { get; set; }
         public bool HasChildren { get; set; }
         public List<MenuTreeViewModel> SubMenus { get; set; }
     }

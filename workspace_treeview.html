@@ -20,20 +20,6 @@
     <!--GAOJAI-->
     <link href="views/css/GAOJAI.css" rel="stylesheet" />
 
-    <!-- lib -->
-    <script src="views/lib/jQuery/jquery-2.1.4.min.js"></script>
-    <script src="views/lib/bootstrap-3.3.4/js/bootstrap.min.js"></script>
-    <script src="views/lib/metisMenu/metisMenu.min.js"></script>
-    <script src="views/lib/SDAdmin2/dist/js/sb-admin-2.js"></script>
-    <script src="views/lib/js.cookie/js.cookie.js"></script>
-
-    <!--Kendo UI-->
-    <script src="views/lib/Kendo/js/kendo.all.min.js"></script>
-    <!--<script src="views/lib/Kendo/js/messages/kendo.messages.zh-TW.min.js"></script>-->
-    <!--MP-->
-    <script src="views/scripts/mp_utilities.js"></script>
-    <script src="views/scripts/globals.js"></script>
-
 </head>
 <body>
     <div id="wrapper">
@@ -56,25 +42,26 @@
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li>
-                            <a href="#"><i class="fa fa-user fa-fw"></i> 使用者資訊</a>
+                            <a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-gear fa-fw"></i> 設定</a>
+                            <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="login.html" onclick="clearToken();"><i class="fa fa-sign-out fa-fw"></i> 登出</a>
+                            <a href="login.html" onclick="clearToken();"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
                 <!-- /.dropdown -->
             </ul>
+
             <!-- /.navbar-top-links -->
 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav in" id="side-menu"></ul>
+                    <ul class="nav in" id="workspace_treeview"></ul>
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
@@ -82,7 +69,7 @@
         </nav>
 
         <!-- Page Content -->
-        <div id="page-wrapper" style="padding:0; background-image:url('views/images/GAOJAI-logo.png');background-repeat:no-repeat;background-position:center">
+        <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
@@ -96,53 +83,82 @@
         </div>
     </div>
     <!-- /#page-wrapper -->
+    <!-- lib -->
+    <script src="views/lib/jQuery/jquery-2.1.4.min.js"></script>
+    <script src="views/lib/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script src="views/lib/metisMenu/metisMenu.min.js"></script>
+    <script src="views/lib/SDAdmin2/dist/js/sb-admin-2.js"></script>
+    <script src="views/lib/js.cookie/js.cookie.js"></script>
 
-    <!------------------------------------------------------------------------------------------------------------------------------------------------------------>
-    <script type="text/x-kendo-template" id="template">
-        # if (hasChildren) {#
-        <li>
-            <a><i class="#:cssClass #"></i> #:text #<span class="fa arrow"></span></a>
-            <ul class="nav nav-second-level">
-                # for (var j = 0; j < subMenus.length; j++) { #
-                <li onclick="menuClick('#: text+' / '+subMenus[j].text #', '#:subMenus[j].contentUrl #');"><a><i class="#:subMenus[j].cssClass #"></i> #:subMenus[j].text #</a></li>
-                # } #
-            </ul>
-        </li>
-        # } else {#
-        <li onclick="menuClick('#:text #','#:contentUrl #');">
-            <a><i class="#:cssClass #"></i> #:text #</a>
-        </li>
+    <!--Kendo UI-->
+    <script src="views/lib/Kendo/js/kendo.all.min.js"></script>
+    <script src="views/js/messages/kendo.messages.zh-TW.min.js"></script>
+
+    <!--MP-->
+    <script src="views/scripts/mp_utilities.js"></script>
+    <script src="views/scripts/globals.js"></script>
+
+
+    <script id="workspace_treeview-template" type="text/kendo-ui-template">
+        #: item.text #
+        # if (!item.subMenus) { #
+        <a class='delete-link' href='\#'></a>
         # } #
     </script>
+
     <script>
         "use strict";
+
+        var whoAmI_apiUrl = "/Membership/WhoAmI";
+        var menusJSON_apiUrl = "/api/Menus/Json/Authorized";
+        var menus_HdataSource = new kendo.data.HierarchicalDataSource({
+            transport: {
+                read: {
+                    url: menusJSON_apiUrl,
+                    dataType: "json",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + Cookies.get('token'));
+                    }
+                }
+            },
+            schema: {
+                model: {
+                    id: "id",
+                    hasChildren: "hasChildren",
+                    children: "subMenus"
+                }
+            }
+        });
+
         var currentTabs = [];
 
         $(document).ready(function () {
+            
             displayUserName();
 
-            var template = kendo.template($("#template").html());
-            var menusJSON_apiUrl = "api/Menus/Json/Authorized";
-            var dataSource = new kendo.data.DataSource({
-                transport: {
-                    read: {
-                        url: menusJSON_apiUrl,
-                        dataType: "json",
-                        beforeSend: function (xhr) {
-                            xhr.setRequestHeader('Authorization', 'Bearer ' + Cookies.get('token'));
-                        }
-                    }
+            $("#workspace_treeview").kendoTreeView({
+                dataSource: menus_HdataSource,
+                dataTextField: "text",
+                dataBound: function () {
+                    this.expand(".k-item");
                 },
                 change: function () {
-                    $("#side-menu").html(kendo.render(template, this.view()));
-                    $("#side-menu").metisMenu();
+
+                    var tv = $('#workspace_treeview').data('kendoTreeView'),
+                        selected = this.select(),
+                        dataItem = tv.dataItem(selected);
+
+                    if (dataItem.contentUrl == null || dataItem.contentUrl=="") {
+                        return;
+                    }
+                    
+                    menuClick(dataItem.text, dataItem.contentUrl);
                 }
             });
-            dataSource.read();
-        });
-        function displayUserName() {
 
-            var whoAmI_apiUrl = "Membership/WhoAmI";
+        });
+
+        function displayUserName() {
             $.ajax({
                 type: "GET",
                 url: whoAmI_apiUrl,
@@ -161,7 +177,7 @@
                     }
                     else {
                         alert(xhr.responseText);
-                    }
+                    }                    
                 }
             });
 
@@ -192,7 +208,7 @@
             if (kTabStrip == undefined) {
                 $("#tabstrip").kendoTabStrip({
                     //dataContentUrlField: "contentUrl",
-                    //dataTextField: "caption"
+                    //dataTextField: "caption"                    
                 })
                 kTabStrip = $("#tabstrip").data("kendoTabStrip");
             }
@@ -200,7 +216,7 @@
             //判斷是否需要新增頁籤
             var indexOfTab = getObjectIndexOfArray("caption", menuCaption, currentTabs);
             if (indexOfTab == -1) {
-                currentTabs.push({ "contentUrl": menuUrl, "caption": menuCaption });
+                currentTabs.push({ "contentUrl": menuUrl, "caption": menuCaption});
                 var indexOfTab = currentTabs.length - 1;
 
                 kTabStrip.append({
@@ -211,16 +227,17 @@
 
             }
             //$("#tabstrip").data("kendoTabStrip").setDataSource(currentTabs); //清除其它tab的內容(可避免id衝突)
-
+            
 
             //選取新增或既有的頁籤
             kTabStrip.select(indexOfTab);
         }
 
         function clearToken() {
-            Cookies.remove("token", "");
+            Cookies.remove("token","");
         }
     </script>
 
 </body>
+
 </html>

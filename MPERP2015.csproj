@@ -119,22 +119,33 @@
       <LastGenOutput>MembershipModel.cs</LastGenOutput>
       <DependentUpon>MembershipModel.edmx</DependentUpon>
     </Content>
-    <None Include="TipsTricks\JavaScript_uid是Kendo Model內建關鍵字勿用.txt" />
-    <None Include="TipsTricks\JavaScript_全域變數.txt" />
-    <None Include="TipsTricks\WebAPI Authentictaion.txt" />
-    <None Include="TipsTricks\JavaScript_建立或取得Kendo物件.js" />
+    <None Include="讀我\JavaScript_uid是Kendo Model內建關鍵字勿用.txt" />
+    <None Include="讀我\JavaScript_全域變數.txt" />
+    <None Include="讀我\WebAPI Authentictaion.txt" />
+    <None Include="讀我\JavaScript_建立或取得Kendo物件.js" />
     <None Include="Models\ERPModel.edmx.sql" />
     <Content Include="login.html" />
     <None Include="MP\MembershipModel.edmx.sql" />
-    <None Include="TipsTricks\WebAPIController模板.txt" />
-    <Content Include="TipsTricks\ToDo.txt" />
-    <Content Include="TipsTricks\0 開發流程.txt" />
-    <Content Include="TipsTricks\View_變數名稱或元素識別名稱請在前加上View的檔案.txt" />
+    <None Include="讀我\WebAPIController模板.txt" />
+    <None Include="讀我\ToDo.txt" />
+    <None Include="讀我\0 開發流程.txt" />
+    <None Include="讀我\View_變數名稱或元素識別名稱請在前加上View的檔案.txt" />
+    <Content Include="views\catCurrency.html" />
+    <Content Include="views\catCustomer.html" />
+    <Content Include="views\users.html" />
+    <Content Include="views\catFactory.html" />
+    <Content Include="views\catPay.html" />
+    <Content Include="views\css\GAOJAI.css" />
+    <Content Include="views\factories.html" />
+    <Content Include="views\images\GAOJAI-logo.png" />
+    <Content Include="views\images\GAOJAI-logo1.png" />
+    <Content Include="views\images\GAOJAI-logo2.png" />
+    <Content Include="views\images\logo.png" />
     <Content Include="views\menusOfRole.html" />
     <Content Include="views\menusOfUser.html" />
     <Content Include="views\menus.html" />
-    <Content Include="views\images\error-icon.png" />
-    <Content Include="views\images\success-icon.png" />
+    <Content Include="views\images\icon-error.png" />
+    <Content Include="views\images\icon-success.png" />
     <Content Include="views\lib\bootstrap-3.3.4\css\bootstrap-theme.css" />
     <Content Include="views\lib\bootstrap-3.3.4\css\bootstrap-theme.min.css" />
     <Content Include="views\lib\bootstrap-3.3.4\css\bootstrap.css" />
@@ -1027,18 +1038,17 @@
     <Content Include="views\scripts\globals.js" />
     <Content Include="views\lib\js.cookie\js.cookie.js" />
     <Content Include="views\scripts\mp_utilities.js" />
-    <Content Include="views\categories_page.html" />
     <Content Include="views\categories.html" />
-    <Content Include="views\orderDetails_dropdown_page.html" />
-    <Content Include="views\orderDetails_simple_page.html" />
     <Content Include="views\ordersDetails.html" />
     <Content Include="views\ordersInsert.html" />
     <Content Include="views\products.html" />
     <Content Include="views\customers.html" />
     <Content Include="views\ordersSearch.html" />
     <Content Include="views\settings.html" />
-    <Content Include="workspace_metisMenu.html" />
+    <Content Include="views\typeFactory.html" />
     <Content Include="workspace.html" />
+    <Content Include="workspace_metisMenu.html" />
+    <Content Include="workspace_treeview.html" />
     <Content Include="Web.config" />
     <Content Include="views\lib\jQuery\jquery-2.1.4.min.map" />
     <Content Include="views\lib\bootstrap-3.3.4\css\bootstrap-theme.css.map" />
@@ -1208,10 +1218,16 @@
     <Content Include="views\lib\Kendo\styles\fonts\DejaVu\DejaVuSerif.ttf" />
     <Content Include="views\lib\Kendo\styles\images\kendoui.ttf" />
     <Content Include="views\lib\Kendo\styles\images\kendoui.woff" />
-    <None Include="讀我.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\catCurrenciesController.cs" />
+    <Compile Include="Controllers\catCustomersController.cs" />
+    <Compile Include="Controllers\catFactoriesController.cs" />
+    <Compile Include="Controllers\catPaysController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\FactoriesController.cs" />
     <Compile Include="Controllers\MenusController.cs" />
+    <Compile Include="Controllers\typeFactoriesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
       <SubType>Code</SubType>
@@ -1221,7 +1237,22 @@
     <Compile Include="Controllers\MembershipController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Models\catCurrency.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\catCustomer.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Category.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\catFactory.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\catPay.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Customer.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ERPModel.Context.cs">
@@ -1240,6 +1271,9 @@
       <DependentUpon>ERPModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\ERPViewModels.cs" />
+    <Compile Include="Models\Factory.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\MenuItem.cs" />
     <Compile Include="Models\Order.cs">
@@ -1249,6 +1283,12 @@
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Product.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\typeCustomer.cs">
+      <DependentUpon>ERPModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\typeFactory.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="MP\MembershipModel.Context.cs">
@@ -1330,7 +1370,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50356</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:58598/</IISUrl>
+          <IISUrl>http://localhost:58588/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

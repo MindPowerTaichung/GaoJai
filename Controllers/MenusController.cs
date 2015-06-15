@@ -80,7 +80,7 @@ namespace MPERP2015.Controllers
             var role = db.Roles.Find(roleId);
             var menusOfUser=user.Menus.Union(role.Menus).Select(item => item.Id).ToArray();
 
-            var items = GetAuthorizedMenus(db.Menus.ToList(), 0, menusOfUser);
+            var items = GetAuthorizedMenus(db.Menus.ToList(), 1, menusOfUser);
 
             return items;
         }
@@ -92,6 +92,7 @@ namespace MPERP2015.Controllers
                 Text = x.Text,
                 ParentId = x.ParentId,
                 ContentUrl=x.ContentUrl,
+                CssClass = x.CssClass,
                 SubMenus = GetMenus(list, x.Id, menusOfUser)
             }).ToList();
 

@@ -52,6 +52,6 @@ C:\Users\Administrator\Documents\GitHub\MPERP2015\bin\System.Net.Http.Formatting
 C:\Users\Administrator\Documents\GitHub\MPERP2015\bin\System.Web.Http.xml
 C:\Users\Administrator\Documents\GitHub\MPERP2015\bin\System.Web.Http.Owin.xml
 C:\Users\Administrator\Documents\GitHub\MPERP2015\bin\System.Web.Http.WebHost.xml
-C:\Users\Administrator\Documents\GitHub\MPERP2015\obj\Debug\MPERP2015.csprojResolveAssemblyReference.cache
 C:\Users\Administrator\Documents\GitHub\MPERP2015\obj\Debug\MPERP2015.dll
 C:\Users\Administrator\Documents\GitHub\MPERP2015\obj\Debug\MPERP2015.pdb
+C:\Users\Administrator\Documents\GitHub\MPERP2015\obj\Debug\MPERP2015.csprojResolveAssemblyReference.cache
