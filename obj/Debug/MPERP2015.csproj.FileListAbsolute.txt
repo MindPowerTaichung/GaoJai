@@ -55,3 +55,4 @@ C:\Users\Administrator\Documents\GitHub\MPERP2015\bin\System.Web.Http.WebHost.xm
 C:\Users\Administrator\Documents\GitHub\MPERP2015\obj\Debug\MPERP2015.dll
 C:\Users\Administrator\Documents\GitHub\MPERP2015\obj\Debug\MPERP2015.pdb
 C:\Users\Administrator\Documents\GitHub\MPERP2015\obj\Debug\MPERP2015.csprojResolveAssemblyReference.cache
+C:\Users\鄭淑芬\Documents\GitHub\MPERP2015\obj\Debug\MPERP2015.csprojResolveAssemblyReference.cache

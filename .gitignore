@@ -196,3 +196,5 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 *.cache
+obj/Debug/MPERP2015.csproj.FileListAbsolute.txt
+obj/Debug/MPERP2015.pdb
