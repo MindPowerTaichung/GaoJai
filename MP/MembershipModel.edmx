@@ -45,7 +45,7 @@
             <PropertyRef Name="UserName" />
           </Key>
           <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
           <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="Role_Id" Type="int" />
         </EntityType>
@@ -157,7 +157,7 @@
             <PropertyRef Name="UserName" />
           </Key>
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="true" />
           <Property Name="Timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="Role_Id" Type="Int32" />
           <NavigationProperty Name="Role" Relationship="MembershipModel.FK_RoleUser" FromRole="User" ToRole="Role" />

@@ -1,26 +1,5 @@
 ﻿<h1 class="page-header">使用者管理</h1>
 <div id="usersView_gridUsers"></div>
-<div id="usersView_details"></div>
-
-<!-- popup editor template -->
-<script id="usersView_details-template" type="text/x-kendo-template">
-    <div id="details-container">
-        <p>使用者名稱與密碼</p>
-        <div class="k-edit-label">
-            <label for="userName">使用者名稱</label>
-        </div>
-        <input type="text" readonly class="k-input k-textbox" id="txtUserName" value="#= userName #">
-        <div class="k-edit-label">
-            <label for="password">密碼</label>
-        </div>
-        <input type="text" class="k-input k-textbox" id="txtPassword" value="">
-        <input type="hidden" id="txtTimestampString" value="#= timestampString #">
-        <p>
-            <input type="button" onclick="changePassword();" class="k-input k-button" value="確定">
-            <input type="button" onclick="closeDetailsWindow();" class="k-input k-button" value="取消">
-        </p>
-    </div>
-</script>
 
 <script>
     var usersView_apiUrl = "Membership/Users";
@@ -79,15 +58,16 @@
                 $('#usersView_gridUsers').data('kendoGrid').dataSource.read();
                 $('#usersView_gridUsers').data('kendoGrid').refresh();
             } else {
-                throw err;
+                alert(err.responseText);
             }
         },
         schema: {
             model: {
                 id: "userName",
                 fields: {
-                    userName: { editable: false, nullable: false },
-                    roleId: { editable: true, validation: { required: true } },
+                    userName: { editable: true, nullable: false },
+                    roleId: { editable: true, validation: { required: true }, defaultValue: 7 },
+                    roleName: { editable: false },
                     timestampString: { editable: false }
                 }
             }
@@ -97,18 +77,28 @@
     $("#usersView_gridUsers").kendoGrid({
         dataSource: usersView_dataSource,
         height: 550,
+        toolbar: [
+                { name: "create", text: "新增使用者" }
+        ],
         columns: [
             { field: "userName", title: "使用者名稱", width: "120px" },
             { field: "roleId", title: "角色", width: "120px", editor: roleDropDownEditor, template: "#=roleName#" },
             {
                 command: [
-                                "edit", "destroy",
-                                 { text: "變更密碼", click: showDetailsWindow }
+                                    { name: "edit", text: "修改" },
+                                    { name: "destroy", text: "刪除" },
+                                    {
+                                        text: "變更密碼", click: function (e) {
+                                            e.preventDefault();
+                                            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                                            showChangePasswordWindow(dataItem.userName, dataItem.timestampString);
+                                        }
+                                    }
                                 ],
                                 title: "&nbsp;", width: "250px"
             }
         ],
-        editable: "inline"
+        editable: "inline"        
     });
 
     function roleDropDownEditor(container, options) {
@@ -126,62 +116,4 @@
             });
     }
 
-    function showDetailsWindow(e) {
-        e.preventDefault();
-
-        var wnd,
-            detailsTemplate;
-
-        var wnd = $("#usersView_details").data("kendoWindow");
-        if (wnd == undefined)
-            wnd = $("#usersView_details")
-                            .kendoWindow({
-                                title: "使用者名稱與密碼",
-                                modal: true,
-                                visible: false,
-                                resizable: false,
-                                width: 300
-                            }).data("kendoWindow");        
-
-        detailsTemplate = kendo.template($("#usersView_details-template").html());
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        //debugger;
-
-        wnd.content(detailsTemplate(dataItem));
-        wnd.center().open();
-    }
-
-    function closeDetailsWindow() {
-        $("#usersView_details").data("kendoWindow").close();
-    }
-    function changePassword() {
-        var password = $("#txtPassword").val();
-        var userName = $("#txtUserName").val();
-        var timestampString = $("#txtTimestampString").val();
-        debugger;
-
-        var data = {
-            "userName" : userName,
-            "password": password,
-            "timestampString" : timestampString
-                        };
-
-        var menus_apiUrl = "Membership/Users/";
-        $.ajax({
-            type: "PUT",
-            url: menus_apiUrl + "/" + userName,
-            data: JSON.stringify(data),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data, status, jqXHR) {
-                //alert("PUT success..." + data);
-                closeDetailsWindow();
-            },
-            error: function (xhr) {
-                alert(xhr.responseText);
-            }
-        });
-
-    }
 </script>

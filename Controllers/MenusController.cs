@@ -93,7 +93,7 @@ namespace MPERP2015.Controllers
                 ParentId = x.ParentId,
                 ContentUrl=x.ContentUrl,
                 CssClass = x.CssClass,
-                SubMenus = GetMenus(list, x.Id, menusOfUser)
+                SubMenus = GetAuthorizedMenus(list, x.Id, menusOfUser)
             }).ToList();
 
             foreach (var item in items)

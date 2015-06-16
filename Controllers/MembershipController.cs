@@ -169,6 +169,7 @@ namespace MPERP2015.Controllers
             foreach (var item in menus)
             {
                 role.Menus.Add(item);
+                //role.Menus.Add(db.Menus.Find( item.ParentId));
             }
 
             try
@@ -196,6 +197,7 @@ namespace MPERP2015.Controllers
             foreach (var item in menus)
             {
                 role.Menus.Remove(item);
+                //role.Menus.Remove(db.Menus.Find(item.ParentId));
             }
             
             db.SaveChanges();
@@ -296,17 +298,24 @@ namespace MPERP2015.Controllers
         [ResponseType(typeof(UserViewModel))]
         [Route("Membership/Users")]
         [HttpPost]
-        public IHttpActionResult PostUser(UserPasswordViewModel user_view_model)
+        public IHttpActionResult PostUser(UserViewModel user_view_model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            var role = db.Roles.Find(user_view_model.RoleId);
+            if (role==null)
+	        {
+		        return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.NotFound, "沒有對應的角色!"));
+	        }
+
             User user = db.Users.Find(user_view_model.UserName);
             if (user == null)
             {
-                user = new User { UserName = user_view_model.UserName, Password = user_view_model.Password };
+
+                user = new User { UserName = user_view_model.UserName, Role = role };
                 db.Users.Add(user);
                 try
                 {
@@ -427,7 +436,7 @@ namespace MPERP2015.Controllers
         {
             return new UserViewModel { UserName = user.UserName, 
                                                         RoleId= user.Role_Id.HasValue ? Convert.ToInt32(user.Role_Id) :-1, 
-                                                        RoleName = user.Role.Name,
+                                                        RoleName = user.Role==null ? "" : user.Role.Name,
                                                         TimestampString = Convert.ToBase64String(user.Timestamp) };
         }
         #endregion
