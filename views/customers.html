@@ -84,9 +84,15 @@
         margin-left: 10px;
     }
 
-        .k-edit-form-container .k-edit-label {
-            width: 120px;
-        }
+    .k-edit-form-container .k-edit-label {
+        width: 150px;
+        vertical-align:bottom;
+        font-size:medium;
+    }
+    .k-edit-form-container .k-textbox {
+    width: 250px;
+    }
+
 </style>
 <script id="popup-editor" type="text/x-kendo-template">
     <table id="teamEditor">
@@ -263,11 +269,11 @@
             <td class="tdContent01">
                 #= (no == null) ? '' : no #
             </td>
-            <td class="tdTitle01" style="width:80px" align="center">
+            <td class="tdTitle01" style="width:90px" align="center">
                 最後交易日
             </td>
             <td class="tdContent01">
-                #= (lasttrade == null) ? '' : lasttrade #
+                #= (lasttrade == null) ? '' : kendo.toString(kendo.parseDate(lasttrade), 'yyyy-MM-dd') #
             </td>
         </tr>
         <tr>
@@ -289,7 +295,7 @@
             <td class="tdContent02">
                 #= (unid == null) ? '' : unid #
             </td>
-            <td class="tdTitle01" style="width:80px" align="center">
+            <td class="tdTitle01" style="width:90px" align="center">
                 公司電話
             </td>
             <td class="tdContent02">
@@ -315,7 +321,7 @@
             <td class="tdContent01">
                 #= (website == null) ? '' : website #
             </td>
-            <td class="tdTitle01" style="width:80px" align="center">
+            <td class="tdTitle01" style="width:90px" align="center">
                 付款條件
             </td>
             <td class="tdContent01">
@@ -341,7 +347,7 @@
             <td class="tdContent02">
                 #= (email2 == null) ? '' : email2 #
             </td>
-            <td class="tdTitle01" style="width:80px" align="center">
+            <td class="tdTitle01" style="width:90px" align="center">
                 交易幣別
             </td>
             <td class="tdContent02">
@@ -367,7 +373,7 @@
             <td class="tdContent01">
                 #= (email3 == null) ? '' : email3 #
             </td>
-            <td class="tdTitle01" style="width:80px" align="center"></td>
+            <td class="tdTitle01" style="width:90px" align="center"></td>
             <td class="tdContent01"></td>
         </tr>
         <tr>
@@ -490,7 +496,10 @@
         detailTemplate: kendo.template($("#detailtemplate").html()),
         pageable: true,
         sortable: true,
-        filterable: true,
+        filterable:
+            {
+                extra: false,
+            },
         toolbar: ["create"],
         columns: [
             { field: "id", hidden: true },

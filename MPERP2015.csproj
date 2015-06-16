@@ -132,6 +132,7 @@
     <None Include="讀我\View_變數名稱或元素識別名稱請在前加上View的檔案.txt" />
     <Content Include="views\catCurrency.html" />
     <Content Include="views\catCustomer.html" />
+    <Content Include="views\customersLabel.html" />
     <Content Include="views\users.html" />
     <Content Include="views\catFactory.html" />
     <Content Include="views\catPay.html" />
