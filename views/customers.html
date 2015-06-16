@@ -489,7 +489,8 @@
         dataSource: customersView_dataSource,
         detailTemplate: kendo.template($("#detailtemplate").html()),
         pageable: true,
-        sortable:true,
+        sortable: true,
+        filterable: true,
         toolbar: ["create"],
         columns: [
             { field: "id", hidden: true },
