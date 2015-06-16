@@ -41,5 +41,8 @@ body, td, th {
     font-size: 16px;
 }
 
-#contentDiv {
+.navbar-default .sidebar {
+    font-size:medium;
+    font-weight:bold;
+	color:yellow;
 }

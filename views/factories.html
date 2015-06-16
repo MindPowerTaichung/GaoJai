@@ -297,7 +297,7 @@
                 最後交易日
             </td>
             <td class="tdContent01">
-                #= (lasttrade == null) ? '' : lasttrade #
+                #= (lasttrade == null) ? '' : kendo.toString(kendo.parseDate(lasttrade), 'yyyy-MM-dd') #
             </td>
         </tr>
         <tr>
@@ -523,6 +523,10 @@
         detailTemplate: kendo.template($("#detailtemplate").html()),
         pageable: true,
         sortable: true,
+        filterable:
+            {
+                extra: false,
+            },
         toolbar: ["create"],
         columns: [
             { field: "id", hidden: true },
