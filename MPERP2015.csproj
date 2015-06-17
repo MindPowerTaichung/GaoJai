@@ -134,7 +134,6 @@
     <Content Include="views\catCustomer.html" />
     <Content Include="views\scripts\changePassword.js" />
     <Content Include="views\roles.html" />
-    <Content Include="views\customersLabel.html" />
     <Content Include="views\users.html" />
     <Content Include="views\catFactory.html" />
     <Content Include="views\catPay.html" />

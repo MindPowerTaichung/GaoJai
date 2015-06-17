@@ -104,7 +104,9 @@ function addNode() {
         "id": 0,
         "text": $("#NodeText").val(),
         "parentId": parentId,
-        "hasChildren": false
+        "hasChildren": false,
+        "contentUrl": $("#NodeContentUrl").val(),
+        "cssClass": $("#NodeCssClass").val()
     };
 
     $.ajax({
