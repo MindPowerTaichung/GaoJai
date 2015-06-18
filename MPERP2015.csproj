@@ -135,7 +135,6 @@
     <Content Include="views\catCustomer.html" />
     <Content Include="views\scripts\changePassword.js" />
     <Content Include="views\roles.html" />
-    <Content Include="views\customersLabel.html" />
     <Content Include="views\users.html" />
     <Content Include="views\catFactory.html" />
     <Content Include="views\catPay.html" />
@@ -1370,7 +1369,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50356</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
