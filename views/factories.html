@@ -526,19 +526,26 @@
         filterable:
             {
                 extra: false,
+                operators: {
+                    string: {
+                        Contains: "包含"
+                    }
+                }
             },
         toolbar: ["create"],
         columns: [
             { field: "id", hidden: true },
             { field: "catName", title: "類別", width: "80px" },
-            { field: "typeName", title: "分類", width: "100px" },
+            { field: "typeName", title: "分類", width: "150px" },
             { field: "no", title: "編號", width: "100px" },
             { field: "name", title: "名稱" },
+            { field: "contact2", title: "聯絡人", width: "100px" },
             { field: "sname", title: "簡稱", hidden: true },
             { field: "unid", title: "統一編號", hidden: true },
+            { field: "telephone3", title: "聯絡人電話", width: "150px" },
             { field: "telephone1", title: "公司電話", width: "150px" },
             { field: "fax", title: "公司Fax", hidden: true },
-            { field: "email1", title: "公司Email" },
+            { field: "email1", title: "公司Email", hidden: true },
             { field: "website", title: "公司網站", hidden: true },
             { field: "Address", title: "公司地址", hidden: true },
             { field: "Shipaddr", title: "送貨地址", hidden: true },
@@ -546,8 +553,6 @@
             { field: "contact1", title: "負責人", hidden: true },
             { field: "telephone2", title: "負責人電話", hidden: true },
             { field: "email2", title: "負責人Email", hidden: true },
-            { field: "contact2", title: "聯絡人", width: "100px" },
-            { field: "telephone3", title: "聯絡人電話", hidden: true },
             { field: "pay", title: "付款條件", hidden: true },
             { field: "currency", title: "交易幣別", hidden: true },
             { field: "note", title: "備註", hidden: true },

@@ -119,6 +119,7 @@
       <LastGenOutput>MembershipModel.cs</LastGenOutput>
       <DependentUpon>MembershipModel.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\mpserverIIS.pubxml" />
     <None Include="讀我\JavaScript_uid是Kendo Model內建關鍵字勿用.txt" />
     <None Include="讀我\JavaScript_全域變數.txt" />
     <None Include="讀我\WebAPI Authentictaion.txt" />
