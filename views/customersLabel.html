@@ -341,6 +341,11 @@
         }
     });
     $("#gridCustomersLabel").kendoGrid({
+        toolbar: [
+                {
+                    template: '<a class="k-button" href="\\#" onclick="return exportPDF();">列印貼紙</a>'
+                }
+        ],
         dataSource: customersView_dataSource,
         detailTemplate: kendo.template($("#detailtemplate").html()),
         pageable: true,
@@ -376,5 +381,38 @@
             }
         ],
     });
+
+    function exportPDF() {
+        //console.log("列印貼紙 is clicked!");
+
+        var displayedData = $("#gridCustomersLabel").data().kendoGrid.dataSource.view(),
+            pdfExportUrl = "../PDFReport.ashx";
+        window.URL = pdfExportUrl;
+        //$.ajax({
+        //    type: "POST",
+        //    url: pdfExportUrl,
+        //    data: JSON.stringify(displayedData),
+        //    responseType: 'arraybuffer',
+        //    contentType: "application/json; charset=utf-8",
+        //    //dataType: "json",
+        //    //success: function (data, status, jqXHR) {
+        //    //    //alert("success..." + data);
+
+        //    //    //var blob = new Blob([data]);
+        //    //    //var link = document.createElement('a');
+        //    //    //link.href = window.URL.createObjectURL(blob);
+        //    //    //link.download = "Dossier_" + new Date() + ".pdf";
+        //    //    //link.click();
+
+        //    //    //$("body").append("<iframe src='" + data.url + "' style='display: none;' ></iframe>");
+        //    //},
+        //    error: function (xhr) {
+        //        alert(xhr.responseText);
+        //    }
+        //});
+
+
+        return false;
+    }
 
 </script>

@@ -93,6 +93,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -100,6 +101,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Telerik.Reporting, Version=9.0.15.324, Culture=neutral, PublicKeyToken=a9d7983dfcc261be" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -119,6 +121,7 @@
       <LastGenOutput>MembershipModel.cs</LastGenOutput>
       <DependentUpon>MembershipModel.edmx</DependentUpon>
     </Content>
+    <Content Include="PDFReport.ashx" />
     <None Include="Properties\PublishProfiles\mpserverIIS.pubxml" />
     <None Include="讀我\JavaScript_uid是Kendo Model內建關鍵字勿用.txt" />
     <None Include="讀我\JavaScript_全域變數.txt" />
@@ -1053,7 +1056,9 @@
     <Content Include="workspace.html" />
     <Content Include="workspace_metisMenu.html" />
     <Content Include="workspace_treeview.html" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="views\lib\jQuery\jquery-2.1.4.min.map" />
     <Content Include="views\lib\bootstrap-3.3.4\css\bootstrap-theme.css.map" />
     <Content Include="views\lib\bootstrap-3.3.4\css\bootstrap.css.map" />
@@ -1321,7 +1326,16 @@
     <Compile Include="MP\User.cs">
       <DependentUpon>MembershipModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="PDFReport.ashx.cs">
+      <DependentUpon>PDFReport.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\CustomerLabelReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\CustomerLabelReport.Designer.cs">
+      <DependentUpon>CustomerLabelReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1358,6 +1372,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reports\CustomerLabelReport.resx">
+      <DependentUpon>CustomerLabelReport.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
