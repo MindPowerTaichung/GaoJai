@@ -35,10 +35,10 @@ namespace MPERP2015
             HttpContext.Current.Response.Buffer = true;
 
             //Uncomment to handle the file as attachment
-            //HttpContext.Current.Response.AddHeader("Content-Disposition",
-            //                string.Format("{0};FileName=\"{1:yyyyMMddHHmmss}.pdf\"",
-            //                                "attachment",
-            //                                DateTime.Now));
+            HttpContext.Current.Response.AddHeader("Content-Disposition",
+                            string.Format("{0};FileName=\"標籤{1:yyyyMMddHHmmss}.pdf\"",
+                                            "attachment",
+                                            DateTime.Now));
 
 
             HttpContext.Current.Response.BinaryWrite(result.DocumentBytes);
