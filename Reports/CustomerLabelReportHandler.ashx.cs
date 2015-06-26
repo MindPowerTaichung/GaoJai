@@ -1,17 +1,18 @@
 ﻿using MPERP2015.Models;
 using MPERP2015.Reports;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Telerik.Reporting;
 
-namespace MPERP2015
+namespace MPERP2015.Reports
 {
     /// <summary>
     /// Summary description for PDFReport
     /// </summary>
-    public class PDFReport : IHttpHandler
+    public class CustomerLabelReportHandler : IHttpHandler
     {
 
         public void ProcessRequest(HttpContext context)
@@ -52,13 +53,9 @@ namespace MPERP2015
 
         List<CustomerViewModel> getJsonData()
         {
-            List<CustomerViewModel> items = new List<CustomerViewModel>();
-
-            items.Add(new CustomerViewModel { Name = "森美交通器材行", Telephone1 = "0223937609", Shipaddr = "100 台北市中正區林森南路45號" });
-            items.Add(new CustomerViewModel { Name = "興泰貿易有限公司", Telephone1 = "0225858068", Shipaddr = "248 新北市五股區新五路二段119-9號(工廠)" });
-            items.Add(new CustomerViewModel { Name = "欣禾有限公司", Telephone1 = "0225627422", Shipaddr = "104 台北市中山區中山北路二段36巷35-1號" });
-
-            return items;
+            string jsonString = HttpContext.Current.Request.Form["records"];
+            List<CustomerViewModel> customers = JsonConvert.DeserializeObject<List<CustomerViewModel>>(jsonString);
+            return customers;
         }
 
         public bool IsReusable

@@ -172,12 +172,6 @@
     </table>
 </script>
 
-<script id="print-template" type="text/x-kendo-template">
-    <form id="formPrint" method="post">
-        <input type="button" onclick="exportPDF();" class="k-button" value="標籤列印" />
-    </form>
-</script>
-
 <script>
     //類別
     var cat_apiUrl = "api/catCustomers";
@@ -342,13 +336,10 @@
         }
     });
     $("#gridCustomersLabel").kendoGrid({
-        //toolbar: [
-        //        {
-        //            template: '<input type="submit" class="k-button" onclick="return exportPDF();" value="列印貼紙"/>'
-        //        }
-        //],
         toolbar: [
-            { template: kendo.template($("#print-template").html()) }
+                {
+                    template: '<input type="button" class="k-button" onclick="exportPDF();" value="列印標籤"/>'
+                }
         ],
         dataSource: customersView_dataSource,
         detailTemplate: kendo.template($("#detailtemplate").html()),
@@ -387,45 +378,15 @@
     });
 
     function exportPDF() {
-        //console.log("列印貼紙 is clicked!");
-
         var displayedData = $("#gridCustomersLabel").data().kendoGrid.dataSource.view(),
-            pdfExportUrl = "../PDFReport.ashx";
+            pdfExportUrl = "../Reports/CustomerLabelReportHandler.ashx",
+            formToSubmit = $("<form  method='post' />").attr('action', pdfExportUrl),
+            input = $("<input />")
+               .attr("type", "hidden")
+               .attr("name", "records").val(JSON.stringify(displayedData));
 
-        //var input = $("<input>")
-        //       .attr("type", "hidden")
-        //       .attr("name", "mydata").val("bla");
-        //$('#formPrint').append($(input));
-
-        $('#formPrint').attr('action', pdfExportUrl).submit();
-        //$("#formPrint").submit();
-
-        //window.URL = pdfExportUrl;
-        //$.ajax({
-        //    type: "POST",
-        //    url: pdfExportUrl,
-        //    data: JSON.stringify(displayedData),
-        //    responseType: 'arraybuffer',
-        //    contentType: "application/json; charset=utf-8",
-        //    //dataType: "json",
-        //    //success: function (data, status, jqXHR) {
-        //    //    //alert("success..." + data);
-
-        //    //    //var blob = new Blob([data]);
-        //    //    //var link = document.createElement('a');
-        //    //    //link.href = window.URL.createObjectURL(blob);
-        //    //    //link.download = "Dossier_" + new Date() + ".pdf";
-        //    //    //link.click();
-
-        //    //    //$("body").append("<iframe src='" + data.url + "' style='display: none;' ></iframe>");
-        //    //},
-        //    error: function (xhr) {
-        //        alert(xhr.responseText);
-        //    }
-        //});
-
-
-       
+        formToSubmit.append($(input));
+        formToSubmit.submit();
     }
 
 </script>

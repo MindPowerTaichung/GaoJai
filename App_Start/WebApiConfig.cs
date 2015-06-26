@@ -23,6 +23,8 @@ namespace MPERP2015
 
 
             // Web API routes
+            config.Routes.IgnoreRoute("Handler", "{whatever}.ashx/{*pathInfo}");
+
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
