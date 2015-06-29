@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MPERP2015.MP;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,15 +14,10 @@ namespace MPERP2015
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
+            GlobalConfiguration.Configuration.MessageHandlers.Add(new ApiLogHandler("POST", "PUT", "DELETE"));
+
             //RegisterRoutes(RouteTable.Routes);
         }
-
-        //public static void RegisterRoutes(RouteCollection routes)
-        //{
-        //    routes.MapPageRoute("首頁",
-        //                                    "Default.aspx",
-        //                                    "~/View_KendoUI/login.aspx");
-        //}
 
     }
 }
