@@ -1,4 +1,84 @@
-﻿<style type="text/css">
+﻿<script>
+    //類別
+    var cat_apiUrl = "api/catCustomers";
+    var cat_dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: cat_apiUrl,
+                dataType: "json"
+            }
+        },
+        error: function (err) {
+            var message = (err.xhr.responseText == "") ? "" : JSON.parse(err.xhr.responseText).message + "\n";
+            alert(err.status + "\n" + message + "將重新載入資料!");
+            console.log(err.status + "\n" + message + "將重新載入資料!");
+        },
+        schema: {
+            model: {
+                id: "id",
+                fields: {
+                    no: { editable: true },
+                    name: { editable: true },
+                    timestampString: { editable: false }
+                }
+            }
+        }
+    });
+    //收付款條件
+    var pay_apiUrl = "api/catPays";
+    var pay_dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: pay_apiUrl,
+                dataType: "json"
+            }
+        },
+        error: function (err) {
+            var message = (err.xhr.responseText == "") ? "" : JSON.parse(err.xhr.responseText).message + "\n";
+            alert(err.status + "\n" + message + "將重新載入資料!");
+            console.log(err.status + "\n" + message + "將重新載入資料!");
+        },
+        schema: {
+            model: {
+                id: "id",
+                fields: {
+                    no: { editable: true },
+                    name: { editable: true },
+                    timestampString: { editable: false }
+                }
+            }
+        }
+    });
+    //幣別
+    var currency_apiUrl = "api/catCurrencies";
+    var currency_dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: currency_apiUrl,
+                dataType: "json"
+            }
+        },
+        error: function (err) {
+            var message = (err.xhr.responseText == "") ? "" : JSON.parse(err.xhr.responseText).message + "\n";
+            alert(err.status + "\n" + message + "將重新載入資料!");
+            console.log(err.status + "\n" + message + "將重新載入資料!");
+        },
+        schema: {
+            model: {
+                id: "id",
+                fields: {
+                    no: { editable: true },
+                    name: { editable: true },
+                    timestampString: { editable: false }
+                }
+            }
+        }
+    });
+</script>
+
+<div id="gridCustomersLabel"></div>
+<div id="details"></div>
+<style type="text/css">
     .k-edit-form-container {
         width: 900px;
         margin-left: 10px;
@@ -14,9 +94,11 @@
             width: 250px;
         }
 </style>
-
-<div id="gridCustomersLabel"></div>
-
+<script type="text/x-kendo-template" id="printtemplate">
+    <div>
+        <input type="button" value="列印貼紙" style="width: 100px" />
+    </div>
+</script>
 <script type="text/x-kendo-template" id="detailtemplate">
     <table class="k-grid table">
         <tr>
@@ -171,85 +253,6 @@
         </tr>
     </table>
 </script>
-
-<script>
-    //類別
-    var cat_apiUrl = "api/catCustomers";
-    var cat_dataSource = new kendo.data.DataSource({
-        transport: {
-            read: {
-                url: cat_apiUrl,
-                dataType: "json"
-            }
-        },
-        error: function (err) {
-            var message = (err.xhr.responseText == "") ? "" : JSON.parse(err.xhr.responseText).message + "\n";
-            alert(err.status + "\n" + message + "將重新載入資料!");
-            console.log(err.status + "\n" + message + "將重新載入資料!");
-        },
-        schema: {
-            model: {
-                id: "id",
-                fields: {
-                    no: { editable: true },
-                    name: { editable: true },
-                    timestampString: { editable: false }
-                }
-            }
-        }
-    });
-    //收付款條件
-    var pay_apiUrl = "api/catPays";
-    var pay_dataSource = new kendo.data.DataSource({
-        transport: {
-            read: {
-                url: pay_apiUrl,
-                dataType: "json"
-            }
-        },
-        error: function (err) {
-            var message = (err.xhr.responseText == "") ? "" : JSON.parse(err.xhr.responseText).message + "\n";
-            alert(err.status + "\n" + message + "將重新載入資料!");
-            console.log(err.status + "\n" + message + "將重新載入資料!");
-        },
-        schema: {
-            model: {
-                id: "id",
-                fields: {
-                    no: { editable: true },
-                    name: { editable: true },
-                    timestampString: { editable: false }
-                }
-            }
-        }
-    });
-    //幣別
-    var currency_apiUrl = "api/catCurrencies";
-    var currency_dataSource = new kendo.data.DataSource({
-        transport: {
-            read: {
-                url: currency_apiUrl,
-                dataType: "json"
-            }
-        },
-        error: function (err) {
-            var message = (err.xhr.responseText == "") ? "" : JSON.parse(err.xhr.responseText).message + "\n";
-            alert(err.status + "\n" + message + "將重新載入資料!");
-            console.log(err.status + "\n" + message + "將重新載入資料!");
-        },
-        schema: {
-            model: {
-                id: "id",
-                fields: {
-                    no: { editable: true },
-                    name: { editable: true },
-                    timestampString: { editable: false }
-                }
-            }
-        }
-    });
-</script>
-
 <script>
     var customersView_apiUrl = "api/customers";
     var customersView_dataSource = new kendo.data.DataSource({
@@ -336,11 +339,6 @@
         }
     });
     $("#gridCustomersLabel").kendoGrid({
-        toolbar: [
-                {
-                    template: '<input type="button" class="k-button" onclick="exportPDF();" value="列印標籤"/>'
-                }
-        ],
         dataSource: customersView_dataSource,
         detailTemplate: kendo.template($("#detailtemplate").html()),
         pageable: true,
@@ -349,9 +347,10 @@
             {
                 extra: false,
             },
+        //toolbar: kendo.template($("#printtemplate").html()),
         columns: [
             { field: "id", hidden: true },
-            { field: "catName", title: "類別", width:"80px" },
+            { field: "catName", title: "類別", width: "80px" },
             { field: "no", title: "編號", width: "100px" },
             { field: "name", title: "名稱" },
             { field: "sname", title: "簡稱", hidden: true },
@@ -366,27 +365,76 @@
             { field: "contact1", title: "負責人", hidden: true },
             { field: "telephone2", title: "負責人電話", hidden: true },
             { field: "email2", title: "負責人Email", hidden: true },
-            { field: "contact2", title: "聯絡人" , hidden: true},
+            { field: "contact2", title: "聯絡人", hidden: true },
             { field: "telephone3", title: "聯絡人電話", hidden: true },
             { field: "pay", title: "付款條件", hidden: true },
             { field: "currency", title: "交易幣別", hidden: true },
             { field: "note", title: "備註", hidden: true },
-            {
-                title: "列印44", width: "70px", template: "print - template"
-            }
+            { command: { text: "列印", click: showPrints }, title: " ", width: "180px" }
         ],
     });
 
-    function exportPDF() {
-        var displayedData = $("#gridCustomersLabel").data().kendoGrid.dataSource.view(),
-            pdfExportUrl = "../Reports/CustomerLabelReportHandler.ashx",
-            formToSubmit = $("<form  method='post' />").attr('action', pdfExportUrl),
-            input = $("<input />")
-               .attr("type", "hidden")
-               .attr("name", "records").val(JSON.stringify(displayedData));
+    //            var template = $("#record-jsp").html();
+    var kendoWindow = $("<div id='window'/>").kendoWindow({
+        title: "列印客戶標籤",
+        resizable: false,
+        modal: true,
+        viewable: false,
+        width:"500px",
+        content: {
+            template: $("#label-print").html()
+        }
+    }).data("kendoWindow");
 
-        formToSubmit.append($(input));
-        formToSubmit.submit();
+    function showPrints(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+
+        kendo.bind(kendoWindow.element, dataItem);
+        kendoWindow.open().center();
     }
 
+</script>
+<script id="label-print" type="text/x-kendo-template">
+    <div>
+        <table class="k-grid table" style="font-size:large">
+            <tr>
+                <td class="tdTitle01" style="width:70px">
+                    公司：
+                </td>
+                <td class="tdContent01">
+                    <span id="labelName" data-bind="text: name"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdTitle01" style="width:70px">
+                    電話：
+                </td>
+                <td class="tdContent02">
+                    <span data-bind="text: telephone1" id="labeTelephone"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdTitle01" style="width:70px">
+                    住址：
+                </td>
+                <td class="tdContent01">
+                    <span data-bind="text: address" id="labeAddress"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdTitle01" style="width:70px">
+                    張數：
+                </td>
+                <td class="tdContent02">
+                    <input type="number" value="0" style="width:50px" min="0" id="labeNum">
+                </td>
+            </tr>
+            <tr>
+                <td class="tdContent01" colspan="2">
+                    <input type="button" value="列印">
+                </td>
+            </tr>
+        </table>
+    </div>
 </script>

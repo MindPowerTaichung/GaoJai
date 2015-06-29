@@ -137,6 +137,7 @@
     <Content Include="views\catCurrency.html" />
     <Content Include="views\catCustomer.html" />
     <Content Include="views\customersLabel.html" />
+    <Content Include="views\customerLabelPrint.html" />
     <Content Include="views\scripts\changePassword.js" />
     <Content Include="views\roles.html" />
     <Content Include="views\users.html" />
