@@ -11,7 +11,7 @@
 
     <title>MPERP2015 登入</title>
 
-    <!-- lib -->
+    <!-- lib css-->
     <link href="views/lib/bootstrap-3.3.4/css/bootstrap.min.css" rel="stylesheet" />
     <link href="views/lib/SDAdmin2/dist/css/sb-admin-2.css" rel="stylesheet" />
     <link href="views/lib/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" />
@@ -59,6 +59,9 @@
         $(document).ready(function () {
             $("#btnLogin").click(function () {
 
+                //游標顯示progress
+                //$("body").css("cursor", "progress");                
+
                 $.ajax({
                     type: "POST",
                     url: "token",
@@ -68,9 +71,13 @@
                     Cookies.set('token', data.access_token);
                     window.location.href = "workspace.html";
                 }).fail(function (xhr) {
+
+                    //游標顯示default
+                    //$("body").css("cursor", "default");                    
+
                     $("#msgTitle").addClass("alert alert-danger");
+
                     if (xhr.status == 400) {
-                        //toastr.error("Invalid user name or password");
                         $("#msgTitle").html("登入失敗。");
                     } else {
                         $("#msgTitle").html("主機錯誤：" + xhr.statusText);

@@ -1,102 +1,22 @@
-﻿<script>
-    //類別
-    var cat_apiUrl = "api/catCustomers";
-    var cat_dataSource = new kendo.data.DataSource({
-        transport: {
-            read: {
-                url: cat_apiUrl,
-                dataType: "json"
-            }
-        },
-        error: function (err) {
-            var message = (err.xhr.responseText == "") ? "" : JSON.parse(err.xhr.responseText).message + "\n";
-            alert(err.status + "\n" + message + "將重新載入資料!");
-            console.log(err.status + "\n" + message + "將重新載入資料!");
-        },
-        schema: {
-            model: {
-                id: "id",
-                fields: {
-                    no: { editable: true },
-                    name: { editable: true },
-                    timestampString: { editable: false }
-                }
-            }
-        }
-    });
-    //收付款條件
-    var pay_apiUrl = "api/catPays";
-    var pay_dataSource = new kendo.data.DataSource({
-        transport: {
-            read: {
-                url: pay_apiUrl,
-                dataType: "json"
-            }
-        },
-        error: function (err) {
-            var message = (err.xhr.responseText == "") ? "" : JSON.parse(err.xhr.responseText).message + "\n";
-            alert(err.status + "\n" + message + "將重新載入資料!");
-            console.log(err.status + "\n" + message + "將重新載入資料!");
-        },
-        schema: {
-            model: {
-                id: "id",
-                fields: {
-                    no: { editable: true },
-                    name: { editable: true },
-                    timestampString: { editable: false }
-                }
-            }
-        }
-    });
-    //幣別
-    var currency_apiUrl = "api/catCurrencies";
-    var currency_dataSource = new kendo.data.DataSource({
-        transport: {
-            read: {
-                url: currency_apiUrl,
-                dataType: "json"
-            }
-        },
-        error: function (err) {
-            var message = (err.xhr.responseText == "") ? "" : JSON.parse(err.xhr.responseText).message + "\n";
-            alert(err.status + "\n" + message + "將重新載入資料!");
-            console.log(err.status + "\n" + message + "將重新載入資料!");
-        },
-        schema: {
-            model: {
-                id: "id",
-                fields: {
-                    no: { editable: true },
-                    name: { editable: true },
-                    timestampString: { editable: false }
-                }
-            }
-        }
-    });
-</script>
-
-    <div id="gridCustomersLabel"></div>
-
-<style type="text/css">
+﻿<style type="text/css">
     .k-edit-form-container {
         width: 900px;
         margin-left: 10px;
     }
 
-    .k-edit-form-container .k-edit-label {
-        width: 150px;
-        vertical-align:bottom;
-        font-size:medium;
-    }
-    .k-edit-form-container .k-textbox {
-    width: 250px;
-    }
+        .k-edit-form-container .k-edit-label {
+            width: 150px;
+            vertical-align: bottom;
+            font-size: medium;
+        }
 
+        .k-edit-form-container .k-textbox {
+            width: 250px;
+        }
 </style>
-<script id="print-template" type="text/x-kendo-template">
-    <input type="text" id="print" class="k-input k-textbox"  /> 
-</script>
+
+<div id="gridCustomersLabel"></div>
+
 <script type="text/x-kendo-template" id="detailtemplate">
     <table class="k-grid table">
         <tr>
@@ -106,12 +26,8 @@
             <td class="tdContent01">
                 #= (catName == null) ? '' : catName #
             </td>
-            <td class="tdTitle01" style="width:70px" align="center">
-                
-            </td>
-            <td class="tdContent01">
-                
-            </td>
+            <td class="tdTitle01" style="width:70px" align="center"></td>
+            <td class="tdContent01"></td>
             <td class="tdTitle01" style="width:70px" align="center">
                 廠商編號
             </td>
@@ -255,6 +171,85 @@
         </tr>
     </table>
 </script>
+
+<script>
+    //類別
+    var cat_apiUrl = "api/catCustomers";
+    var cat_dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: cat_apiUrl,
+                dataType: "json"
+            }
+        },
+        error: function (err) {
+            var message = (err.xhr.responseText == "") ? "" : JSON.parse(err.xhr.responseText).message + "\n";
+            alert(err.status + "\n" + message + "將重新載入資料!");
+            console.log(err.status + "\n" + message + "將重新載入資料!");
+        },
+        schema: {
+            model: {
+                id: "id",
+                fields: {
+                    no: { editable: true },
+                    name: { editable: true },
+                    timestampString: { editable: false }
+                }
+            }
+        }
+    });
+    //收付款條件
+    var pay_apiUrl = "api/catPays";
+    var pay_dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: pay_apiUrl,
+                dataType: "json"
+            }
+        },
+        error: function (err) {
+            var message = (err.xhr.responseText == "") ? "" : JSON.parse(err.xhr.responseText).message + "\n";
+            alert(err.status + "\n" + message + "將重新載入資料!");
+            console.log(err.status + "\n" + message + "將重新載入資料!");
+        },
+        schema: {
+            model: {
+                id: "id",
+                fields: {
+                    no: { editable: true },
+                    name: { editable: true },
+                    timestampString: { editable: false }
+                }
+            }
+        }
+    });
+    //幣別
+    var currency_apiUrl = "api/catCurrencies";
+    var currency_dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: currency_apiUrl,
+                dataType: "json"
+            }
+        },
+        error: function (err) {
+            var message = (err.xhr.responseText == "") ? "" : JSON.parse(err.xhr.responseText).message + "\n";
+            alert(err.status + "\n" + message + "將重新載入資料!");
+            console.log(err.status + "\n" + message + "將重新載入資料!");
+        },
+        schema: {
+            model: {
+                id: "id",
+                fields: {
+                    no: { editable: true },
+                    name: { editable: true },
+                    timestampString: { editable: false }
+                }
+            }
+        }
+    });
+</script>
+
 <script>
     var customersView_apiUrl = "api/customers";
     var customersView_dataSource = new kendo.data.DataSource({
@@ -341,6 +336,11 @@
         }
     });
     $("#gridCustomersLabel").kendoGrid({
+        toolbar: [
+                {
+                    template: '<input type="button" class="k-button" onclick="exportPDF();" value="列印標籤"/>'
+                }
+        ],
         dataSource: customersView_dataSource,
         detailTemplate: kendo.template($("#detailtemplate").html()),
         pageable: true,
@@ -376,5 +376,17 @@
             }
         ],
     });
+
+    function exportPDF() {
+        var displayedData = $("#gridCustomersLabel").data().kendoGrid.dataSource.view(),
+            pdfExportUrl = "../Reports/CustomerLabelReportHandler.ashx",
+            formToSubmit = $("<form  method='post' />").attr('action', pdfExportUrl),
+            input = $("<input />")
+               .attr("type", "hidden")
+               .attr("name", "records").val(JSON.stringify(displayedData));
+
+        formToSubmit.append($(input));
+        formToSubmit.submit();
+    }
 
 </script>

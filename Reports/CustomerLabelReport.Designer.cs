@@ -12,52 +12,54 @@ namespace MPERP2015.Reports
             Telerik.Reporting.Drawing.StyleRule styleRule1 = new Telerik.Reporting.Drawing.StyleRule();
             this.objectDataSource1 = new Telerik.Reporting.ObjectDataSource();
             this.detail = new Telerik.Reporting.DetailSection();
-            this.addressDataTextBox = new Telerik.Reporting.TextBox();
-            this.customerNameDataTextBox = new Telerik.Reporting.TextBox();
-            this.telDataTextBox = new Telerik.Reporting.TextBox();
+            this.nameDataTextBox = new Telerik.Reporting.TextBox();
+            this.shipaddrDataTextBox = new Telerik.Reporting.TextBox();
+            this.telephone1DataTextBox = new Telerik.Reporting.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // objectDataSource1
             // 
-            this.objectDataSource1.DataMember = "GetSampleData";
-            this.objectDataSource1.DataSource = typeof(MPERP2015.Reports.Models.CustomerLabel);
+            this.objectDataSource1.DataSource = typeof(MPERP2015.Models.CustomerViewModel);
             this.objectDataSource1.Name = "objectDataSource1";
             // 
             // detail
             // 
-            this.detail.Height = Telerik.Reporting.Drawing.Unit.Inch(1.4600000381469727D);
+            this.detail.Height = Telerik.Reporting.Drawing.Unit.Mm(42.299999237060547D);
             this.detail.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
-            this.addressDataTextBox,
-            this.customerNameDataTextBox,
-            this.telDataTextBox});
+            this.nameDataTextBox,
+            this.shipaddrDataTextBox,
+            this.telephone1DataTextBox});
             this.detail.Name = "detail";
             // 
-            // addressDataTextBox
+            // nameDataTextBox
             // 
-            this.addressDataTextBox.CanGrow = false;
-            this.addressDataTextBox.CanShrink = false;
-            this.addressDataTextBox.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0.19999989867210388D), Telerik.Reporting.Drawing.Unit.Cm(0.30000004172325134D));
-            this.addressDataTextBox.Name = "addressDataTextBox";
-            this.addressDataTextBox.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(10.500106811523438D), Telerik.Reporting.Drawing.Unit.Cm(0.99999988079071045D));
-            this.addressDataTextBox.Value = "= Fields.Address";
+            this.nameDataTextBox.CanGrow = false;
+            this.nameDataTextBox.CanShrink = false;
+            this.nameDataTextBox.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0D), Telerik.Reporting.Drawing.Unit.Cm(0.61500018835067749D));
+            this.nameDataTextBox.Name = "nameDataTextBox";
+            this.nameDataTextBox.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(9.0199995040893555D), Telerik.Reporting.Drawing.Unit.Cm(0.99999988079071045D));
+            this.nameDataTextBox.Style.Font.Name = "MingLiU";
+            this.nameDataTextBox.Value = "= Fields.Name";
             // 
-            // customerNameDataTextBox
+            // shipaddrDataTextBox
             // 
-            this.customerNameDataTextBox.CanGrow = false;
-            this.customerNameDataTextBox.CanShrink = false;
-            this.customerNameDataTextBox.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0.19999989867210388D), Telerik.Reporting.Drawing.Unit.Cm(1.2999998331069946D));
-            this.customerNameDataTextBox.Name = "customerNameDataTextBox";
-            this.customerNameDataTextBox.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(10.500106811523438D), Telerik.Reporting.Drawing.Unit.Cm(0.99999988079071045D));
-            this.customerNameDataTextBox.Value = "= Fields.CustomerName";
+            this.shipaddrDataTextBox.CanGrow = false;
+            this.shipaddrDataTextBox.CanShrink = false;
+            this.shipaddrDataTextBox.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0D), Telerik.Reporting.Drawing.Unit.Cm(1.6150001287460327D));
+            this.shipaddrDataTextBox.Name = "shipaddrDataTextBox";
+            this.shipaddrDataTextBox.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(9.0199995040893555D), Telerik.Reporting.Drawing.Unit.Cm(0.99999988079071045D));
+            this.shipaddrDataTextBox.Style.Font.Name = "MingLiU";
+            this.shipaddrDataTextBox.Value = "= Fields.Shipaddr";
             // 
-            // telDataTextBox
+            // telephone1DataTextBox
             // 
-            this.telDataTextBox.CanGrow = false;
-            this.telDataTextBox.CanShrink = false;
-            this.telDataTextBox.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0.19999989867210388D), Telerik.Reporting.Drawing.Unit.Cm(2.3000001907348633D));
-            this.telDataTextBox.Name = "telDataTextBox";
-            this.telDataTextBox.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(10.500106811523438D), Telerik.Reporting.Drawing.Unit.Cm(0.99999988079071045D));
-            this.telDataTextBox.Value = "= Fields.Tel";
+            this.telephone1DataTextBox.CanGrow = false;
+            this.telephone1DataTextBox.CanShrink = false;
+            this.telephone1DataTextBox.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0D), Telerik.Reporting.Drawing.Unit.Cm(2.6150000095367432D));
+            this.telephone1DataTextBox.Name = "telephone1DataTextBox";
+            this.telephone1DataTextBox.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(9.0199995040893555D), Telerik.Reporting.Drawing.Unit.Cm(0.99999988079071045D));
+            this.telephone1DataTextBox.Style.Font.Name = "MingLiU";
+            this.telephone1DataTextBox.Value = "= Fields.Telephone1";
             // 
             // CustomerLabelReport
             // 
@@ -65,10 +67,10 @@ namespace MPERP2015.Reports
             this.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
             this.detail});
             this.Name = "CustomerLabelReport";
-            this.PageSettings.ColumnCount = 1;
-            this.PageSettings.ColumnSpacing = Telerik.Reporting.Drawing.Unit.Inch(0D);
+            this.PageSettings.ColumnCount = 2;
+            this.PageSettings.ColumnSpacing = Telerik.Reporting.Drawing.Unit.Mm(2.5D);
             this.PageSettings.Landscape = false;
-            this.PageSettings.Margins = new Telerik.Reporting.Drawing.MarginsU(Telerik.Reporting.Drawing.Unit.Inch(0D), Telerik.Reporting.Drawing.Unit.Mm(104.98894500732422D), Telerik.Reporting.Drawing.Unit.Inch(0.1574999988079071D), Telerik.Reporting.Drawing.Unit.Mm(3.9933760166168213D));
+            this.PageSettings.Margins = new Telerik.Reporting.Drawing.MarginsU(Telerik.Reporting.Drawing.Unit.Mm(16.5D), Telerik.Reporting.Drawing.Unit.Mm(10.590001106262207D), Telerik.Reporting.Drawing.Unit.Mm(20D), Telerik.Reporting.Drawing.Unit.Mm(23.189994812011719D));
             this.PageSettings.PaperKind = System.Drawing.Printing.PaperKind.A4;
             styleRule1.Selectors.AddRange(new Telerik.Reporting.Drawing.ISelector[] {
             new Telerik.Reporting.Drawing.TypeSelector(typeof(Telerik.Reporting.TextItemBase)),
@@ -77,7 +79,7 @@ namespace MPERP2015.Reports
             styleRule1.Style.Padding.Right = Telerik.Reporting.Drawing.Unit.Point(2D);
             this.StyleSheet.AddRange(new Telerik.Reporting.Drawing.StyleRule[] {
             styleRule1});
-            this.Width = Telerik.Reporting.Drawing.Unit.Inch(4.3299999237060547D);
+            this.Width = Telerik.Reporting.Drawing.Unit.Mm(90.199996948242188D);
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -85,9 +87,9 @@ namespace MPERP2015.Reports
 
         private Telerik.Reporting.ObjectDataSource objectDataSource1;
         private Telerik.Reporting.DetailSection detail;
-        private Telerik.Reporting.TextBox addressDataTextBox;
-        private Telerik.Reporting.TextBox customerNameDataTextBox;
-        private Telerik.Reporting.TextBox telDataTextBox;
+        private Telerik.Reporting.TextBox nameDataTextBox;
+        private Telerik.Reporting.TextBox shipaddrDataTextBox;
+        private Telerik.Reporting.TextBox telephone1DataTextBox;
 
     }
 }
