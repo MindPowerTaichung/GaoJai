@@ -427,6 +427,19 @@
         var dataItem = { name: printCustomer["name"], telephone: printCustomer[telField], addr: printCustomer[addrField] };
         kendo.bind(kendoWindow.element, dataItem);
     };
+
+    function exportPDF() {
+        var dataItem = { name: $("#labelName").text(), telephone: $("#labeTelephone").text(), address: $("#labeAddress").text(), num: $("#labeNum").val() },
+            pdfExportUrl = "../Reports/CustomerLabelReportHandler.ashx",
+            formToSubmit = $("<form  method='post' />").attr('action', pdfExportUrl),
+            input = $("<input />")
+               .attr("type", "hidden")
+               .attr("name", "record").val(JSON.stringify(dataItem));
+        formToSubmit.append($(input));
+        formToSubmit.submit();
+
+        kendoWindow.close();
+    }
 </script>
 <script id="label-print" type="text/x-kendo-template">
     <div>
@@ -462,7 +475,7 @@
             </tr>
             <tr>
                 <td class="tdContent01" colspan="2">
-                    <input type="button" value="列印">
+                    <input type="button" value="列印" onclick="exportPDF();">
                 </td>
             </tr>
         </table>

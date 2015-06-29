@@ -1,6 +1,7 @@
 ﻿using MPERP2015.Models;
 using MPERP2015.Reports;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,8 @@ namespace MPERP2015.Reports
         public void ProcessRequest(HttpContext context)
         {
             var exportReport = getReport();
-            exportReport.DataSource = getJsonData();
+            var reportData =generateReportData();
+            exportReport.DataSource = reportData;
 
             Telerik.Reporting.InstanceReportSource exportReportSource = new Telerik.Reporting.InstanceReportSource();
             // Assigning the Report object to the InstanceReportSource
@@ -37,9 +39,10 @@ namespace MPERP2015.Reports
 
             //Uncomment to handle the file as attachment
             HttpContext.Current.Response.AddHeader("Content-Disposition",
-                            string.Format("{0};FileName=\"標籤{1:yyyyMMddHHmmss}.pdf\"",
-                                            "attachment",
-                                            DateTime.Now));
+                            string.Format("attachment;FileName=\"標籤{0:yyyyMMddHHmmss}_{1}.pdf\"",
+                                            DateTime.Now,
+                                            reportData[0].Name
+                                            ));
 
 
             HttpContext.Current.Response.BinaryWrite(result.DocumentBytes);
@@ -51,10 +54,21 @@ namespace MPERP2015.Reports
             return new CustomerLabelReport();
         }
 
-        List<CustomerViewModel> getJsonData()
+
+        List<CustomerViewModel> generateReportData()
         {
-            string jsonString = HttpContext.Current.Request.Form["records"];
-            List<CustomerViewModel> customers = JsonConvert.DeserializeObject<List<CustomerViewModel>>(jsonString);
+            string jsonString = HttpContext.Current.Request.Form["record"];
+            JObject jsonObj = JsonConvert.DeserializeObject<JObject>(jsonString);
+            int num = Convert.ToInt32(jsonObj.Property("num").Value);
+            string name = jsonObj.Property("name").Value.ToString();
+            string addr = jsonObj.Property("address").Value.ToString();
+            string tel = jsonObj.Property("telephone").Value.ToString();
+
+            List<CustomerViewModel> customers = new List<CustomerViewModel>();
+            for (int i = 0; i < num; i++)
+            {
+                customers.Add(new CustomerViewModel { Name = name, Shipaddr = addr, Telephone1 = tel });
+            }
             return customers;
         }
 

@@ -14,7 +14,7 @@ namespace MPERP2015
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
-            GlobalConfiguration.Configuration.MessageHandlers.Add(new ApiLogHandler("POST", "PUT", "DELETE"));
+            //GlobalConfiguration.Configuration.MessageHandlers.Add(new ApiLogHandler("POST", "PUT", "DELETE"));
 
             //RegisterRoutes(RouteTable.Routes);
         }
