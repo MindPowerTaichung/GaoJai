@@ -359,9 +359,9 @@
             { field: "fax", title: "公司Fax", hidden: true },
             { field: "email1", title: "公司Email", hidden: true },
             { field: "website", title: "公司網站", hidden: true },
-            { field: "Address", title: "公司地址" },
-            { field: "Shipaddr", title: "送貨地址", hidden: true },
-            { field: "Invoiceaddr", title: "發票地址", hidden: true },
+            { field: "address", title: "公司地址" },
+            { field: "shipaddr", title: "送貨地址", hidden: true },
+            { field: "invoiceaddr", title: "發票地址", hidden: true },
             { field: "contact1", title: "負責人", hidden: true },
             { field: "telephone2", title: "負責人電話", hidden: true },
             { field: "email2", title: "負責人Email", hidden: true },
@@ -392,6 +392,8 @@
         printCustomer = this.dataItem($(e.currentTarget).closest("tr"));
         var dataItem = { name: printCustomer["name"], telephone: printCustomer.telephone1, addr: printCustomer.address };
         kendo.bind(kendoWindow.element, dataItem);
+        $("#addrList").data('kendoDropDownList').select(0);
+        $("#telList").data('kendoDropDownList').select(0);
         kendoWindow.open().center();
     }
 
