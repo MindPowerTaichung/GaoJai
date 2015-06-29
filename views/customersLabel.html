@@ -386,40 +386,68 @@
         }
     }).data("kendoWindow");
 
+    var printCustomer;
     function showPrints(e) {
         e.preventDefault();
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-
+        printCustomer = this.dataItem($(e.currentTarget).closest("tr"));
+        var dataItem = { name: printCustomer["name"], telephone: printCustomer.telephone1, addr: printCustomer.address };
         kendo.bind(kendoWindow.element, dataItem);
         kendoWindow.open().center();
     }
 
+    var teldata = [
+    { text: "公司", value: "telephone1" },
+    { text: "負責人", value: "telephone2" },
+    { text: "聯絡人", value: "telephone3" }
+    ];
+    $("#telList").kendoDropDownList({
+        dataTextField: "text",
+        dataValueField: "value",
+        dataSource: teldata,
+        change: onChange
+    });
+
+    var addrdata = [
+    { text: "公司", value: "address" },
+    { text: "運送", value: "shipaddr" },
+    { text: "發票", value: "invoiceaddr" }
+    ];
+    $("#addrList").kendoDropDownList({
+        dataTextField: "text",
+        dataValueField: "value",
+        dataSource: addrdata,
+        change: onChange
+    });
+    function onChange() {
+        var addrField = $("#addrList").val();
+        var telField = $("#telList").val();
+       //debugger;
+        var dataItem = { name: printCustomer["name"], telephone: printCustomer[telField], addr: printCustomer[addrField] };
+        kendo.bind(kendoWindow.element, dataItem);
+    };
 </script>
 <script id="label-print" type="text/x-kendo-template">
     <div>
         <table class="k-grid table" style="font-size:large">
             <tr>
-                <td class="tdTitle01" style="width:70px">
-                    公司：
-                </td>
-                <td class="tdContent01">
+                <td class="tdContent01" colspan="2">
                     <span id="labelName" data-bind="text: name"></span>
                 </td>
             </tr>
             <tr>
                 <td class="tdTitle01" style="width:70px">
-                    電話：
+                    <input id="telList" value="telephone1" style="width:100px" />
                 </td>
                 <td class="tdContent02">
-                    <span data-bind="text: telephone1" id="labeTelephone"></span>
+                    <span data-bind="text: telephone" id="labeTelephone"></span>
                 </td>
             </tr>
             <tr>
                 <td class="tdTitle01" style="width:70px">
-                    住址：
+                    <input id="addrList" value="address" style="width:100px" />
                 </td>
                 <td class="tdContent01">
-                    <span data-bind="text: address" id="labeAddress"></span>
+                    <span data-bind="text: addr" id="labeAddress"></span>
                 </td>
             </tr>
             <tr>
