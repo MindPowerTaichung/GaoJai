@@ -463,12 +463,15 @@
 
     function exportPDF() {
         //debugger;
-        var dataItem = { name: $("#labelName").text(), telephone: $("#labeTelephone").text(), address: $("#labeAddress").text(), num: $("#labeNum").val() },
-            pdfExportUrl = "Reports/CustomerLabelReportHandler.ashx",
+        var dataItem = { name: $("#labelName").text(), telephone: $("#labeTelephone").text(), addr: $("#labeAddress").text(), num: $("#labeNum").val() },
+            items = [];
+        items.push(dataItem);
+
+        var pdfExportUrl = "Reports/CustomerLabelReportHandler.ashx",
             formToSubmit = $("<form  method='post' />").attr('action', pdfExportUrl),
             input = $("<input />")
                .attr("type", "hidden")
-               .attr("name", "record").val(JSON.stringify(dataItem));
+               .attr("name", "record").val(JSON.stringify(items));
         formToSubmit.append($(input));
         formToSubmit.submit();
 

@@ -54,20 +54,25 @@ namespace MPERP2015.Reports
             return new CustomerLabelReport();
         }
 
-
+        class JSONCustomer
+        {
+            public string Name { get; set; }
+            public string Addr { get; set; }
+            public string Telephone { get; set; }
+            public int Num { get; set; }
+        }
         List<CustomerViewModel> generateReportData()
         {
             string jsonString = HttpContext.Current.Request.Form["record"];
-            JObject jsonObj = JsonConvert.DeserializeObject<JObject>(jsonString);
-            int num = Convert.ToInt32(jsonObj.Property("num").Value);
-            string name = jsonObj.Property("name").Value.ToString();
-            string addr = jsonObj.Property("address").Value.ToString();
-            string tel = jsonObj.Property("telephone").Value.ToString();
+            var jsonCustomers = JsonConvert.DeserializeObject<List<JSONCustomer>>(jsonString);
 
             List<CustomerViewModel> customers = new List<CustomerViewModel>();
-            for (int i = 0; i < num; i++)
+            foreach (JSONCustomer item in jsonCustomers)
             {
-                customers.Add(new CustomerViewModel { Name = name, Shipaddr = addr, Telephone1 = tel });
+                for (int i = 0; i < item.Num; i++)
+                {
+                    customers.Add(new CustomerViewModel { Name = item.Name, Shipaddr = item.Addr, Telephone1 = item.Telephone });
+                }
             }
             return customers;
         }
