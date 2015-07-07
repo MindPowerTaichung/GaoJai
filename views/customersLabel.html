@@ -96,7 +96,7 @@
 </style>
 <script type="text/x-kendo-template" id="printtemplate">
     <div>
-        <input type="button" value="列印貼紙" style="width: 100px" />
+        <input type="button" value="列印貼紙" style="width: 100px" onclick="showPrintAll()"/>
     </div>
 </script>
 <script type="text/x-kendo-template" id="detailtemplate">
@@ -343,11 +343,12 @@
         detailTemplate: kendo.template($("#detailtemplate").html()),
         pageable: true,
         sortable: true,
+        selectable: "multiple",
         filterable:
             {
                 extra: false,
             },
-        //toolbar: kendo.template($("#printtemplate").html()),
+        toolbar: kendo.template($("#printtemplate").html()),
         columns: [
             { field: "id", hidden: true },
             { field: "catName", title: "類別", width: "80px" },
@@ -374,7 +375,7 @@
         ],
     });
 
-    //            var template = $("#record-jsp").html();
+    //單筆列印
     var kendoWindow = $("<div id='window'/>").kendoWindow({
         title: "列印客戶標籤",
         resizable: false,
@@ -385,7 +386,17 @@
             template: $("#label-print").html()
         }
     }).data("kendoWindow");
-
+    //多筆列印
+    var kendoWindowAll = $("<div id='window'/>").kendoWindow({
+        title: "列印客戶標籤-多筆",
+        resizable: false,
+        modal: true,
+        viewable: false,
+        width: "500px",
+        content: {
+            template: $("#label-printAll").html()
+        }
+    }).data("kendoWindow");
     var printCustomer;
     function showPrints(e) {
         e.preventDefault();
@@ -397,18 +408,35 @@
         kendoWindow.open().center();
     }
 
+    function showPrintAll(e) {
+        var customerGrid = $("#gridCustomersLabel").data("kendoGrid");
+        var rows = customerGrid.select();
+        if (rows.length == 0)
+        {
+            alert("未選取任何客戶!!");
+        } else {
+            kendoWindowAll.open().center();
+        }
+        
+    }
+
     var teldata = [
     { text: "公司", value: "telephone1" },
     { text: "負責人", value: "telephone2" },
     { text: "聯絡人", value: "telephone3" }
     ];
+
     $("#telList").kendoDropDownList({
         dataTextField: "text",
         dataValueField: "value",
         dataSource: teldata,
         change: onChange
     });
-
+    $("#telListAll").kendoDropDownList({
+        dataTextField: "text",
+        dataValueField: "value",
+        dataSource: teldata
+    });
     var addrdata = [
     { text: "公司", value: "address" },
     { text: "運送", value: "shipaddr" },
@@ -420,6 +448,11 @@
         dataSource: addrdata,
         change: onChange
     });
+    $("#addrListAll").kendoDropDownList({
+        dataTextField: "text",
+        dataValueField: "value",
+        dataSource: addrdata
+    });
     function onChange() {
         var addrField = $("#addrList").val();
         var telField = $("#telList").val();
@@ -429,12 +462,36 @@
     };
 
     function exportPDF() {
+        //debugger;
         var dataItem = { name: $("#labelName").text(), telephone: $("#labeTelephone").text(), address: $("#labeAddress").text(), num: $("#labeNum").val() },
-            pdfExportUrl = "../Reports/CustomerLabelReportHandler.ashx",
+            pdfExportUrl = "Reports/CustomerLabelReportHandler.ashx",
             formToSubmit = $("<form  method='post' />").attr('action', pdfExportUrl),
             input = $("<input />")
                .attr("type", "hidden")
                .attr("name", "record").val(JSON.stringify(dataItem));
+        formToSubmit.append($(input));
+        formToSubmit.submit();
+
+        kendoWindow.close();
+    }
+
+    function exportPDFAll() {
+        var customerGrid = $("#gridCustomersLabel").data("kendoGrid");
+        var rows = customerGrid.select();
+        var items = [];
+        var teltype = $("#telListAll").data("kendoDropDownList").value();
+        var addrtype = $("#telListAll").data("kendoDropDownList").value();
+        rows.each(function (index, row) {
+            var selectedItem = customerGrid.dataItem(row);
+            var dataItem = { name: selectedItem.name, telephone: selectedItem[teltype], addr: selectedItem[addrtype], num: $("#labeNumAll").val() };
+            items.push(dataItem);
+        });
+        debugger;
+        var pdfExportUrl = "Reports/CustomerLabelReportHandler.ashx",
+            formToSubmit = $("<form  method='post' />").attr('action', pdfExportUrl),
+            input = $("<input />")
+               .attr("type", "hidden")
+               .attr("name", "record").val(JSON.stringify(items));
         formToSubmit.append($(input));
         formToSubmit.submit();
 
@@ -476,6 +533,46 @@
             <tr>
                 <td class="tdContent01" colspan="2">
                     <input type="button" value="列印" onclick="exportPDF();">
+                </td>
+            </tr>
+        </table>
+    </div>
+</script>
+<script id="label-printAll" type="text/x-kendo-template">
+    <div>
+        <table class="k-grid table" style="font-size:large">
+            <tr>
+                <td class="tdContent01" colspan="2">
+                    <span id="labelName" data-bind="text: name"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdTitle01" style="width:70px">
+                    <label>電話</label>
+                </td>
+                <td class="tdContent02">
+                    <input id="telListAll" style="width:100px" />
+                </td>
+            </tr>
+            <tr>
+                <td class="tdTitle01" style="width:70px">
+                    <label>住址</label>
+                </td>
+                <td class="tdContent01">
+                    <input id="addrListAll" style="width:100px" />
+                </td>
+            </tr>
+            <tr>
+                <td class="tdTitle01" style="width:70px">
+                    張數：
+                </td>
+                <td class="tdContent02">
+                    <input type="number" value="0" style="width:50px" min="0" id="labeNumAll">
+                </td>
+            </tr>
+            <tr>
+                <td class="tdContent01" colspan="2">
+                    <input type="button" value="列印" onclick="exportPDFAll();">
                 </td>
             </tr>
         </table>

@@ -9,7 +9,7 @@
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
     <WebStackScaffolding_DbContextTypeFullName>MPERP2015.Models.ERPModelContainer</WebStackScaffolding_DbContextTypeFullName>
     <ProjectView>ProjectFiles</ProjectView>
-    <NameOfLastUsedPublishProfile>mpserverIIS</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>MPServerIIS</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
