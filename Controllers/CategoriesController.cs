@@ -13,7 +13,7 @@ using System.Security.Claims;
 
 namespace MPERP2015.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class CategoriesController : ApiController
     {
         private ERPModelContainer db = new ERPModelContainer();

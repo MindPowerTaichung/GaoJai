@@ -57,32 +57,26 @@
 
     <script>
         $(document).ready(function () {
+
             $("#btnLogin").click(function () {
 
                 //游標顯示progress
                 //$("body").css("cursor", "progress");                
-
-                $.ajax({
-                    type: "POST",
-                    url: "token",
-                    dataType: 'json',
-                    data: 'grant_type=password&username=' + $("#txtUserName").val() + '&password=' + $("#txtPassword").val()
-                }).done(function (data) {
-                    Cookies.set('token', data.access_token);
-                    window.location.href = "workspace.html";
-                }).fail(function (xhr) {
-
-                    //游標顯示default
-                    //$("body").css("cursor", "default");                    
-
-                    $("#msgTitle").addClass("alert alert-danger");
-
-                    if (xhr.status == 400) {
-                        $("#msgTitle").html("登入失敗。");
+                $.post('api/Authentication', { username: $("#txtUserName").val(), password: $("#txtPassword").val() })
+                .success(function (response) {
+                    if (response.success) {
+                        //AuthenticationService.SetCredentials($scope.username, $scope.password);
+                        Cookies.set('token', response.token);
+                        Cookies.set('userName', response.token);
+                        debugger;
+                        window.location.href = "workspace.html";
                     } else {
-                        $("#msgTitle").html("主機錯誤：" + xhr.statusText);
+                        //游標顯示default
+                        //$("body").css("cursor", "default"); 
+                        $("#msgTitle").addClass("alert alert-danger").html(response.message);
                     }
-                });;
+                    
+                });
 
             });
         });

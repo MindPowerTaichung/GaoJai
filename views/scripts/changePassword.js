@@ -1,8 +1,8 @@
-﻿    function showChangePasswordWindow(userName, timestampString) {
+﻿    function showChangePasswordWindow(userName) {
 
         var wnd = $("#workspace_changePassword").data("kendoWindow"),
             detailsTemplate;
-
+        debugger;
         if (wnd == undefined)
             wnd = $("#workspace_changePassword")
                             .kendoWindow({
@@ -15,7 +15,7 @@
 
         detailsTemplate = kendo.template($("#changePassword-template").html());
 
-        wnd.content(detailsTemplate({ "userName": userName, "timestampString": timestampString }));
+        wnd.content(detailsTemplate({ "userName": userName}));
         wnd.center().open();
     }
 
@@ -26,12 +26,10 @@
     function changePassword() {
         var password = $("#txtPassword").val();
         var userName = $("#txtUserName").val();
-        var timestampString = $("#txtTimestampString").val();        
 
         var data = {
             "userName": userName,
-            "password": password,
-            "timestampString": timestampString
+            "password": password
         };
 
         var menus_apiUrl = "Membership/Users/";

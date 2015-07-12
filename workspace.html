@@ -110,8 +110,7 @@
             <div class="k-edit-label">
                 <label for="password">密碼</label> :
             </div>
-            <input type="text" class="k-input k-textbox" id="txtPassword" value="">
-            <input type="hidden" id="txtTimestampString" value="#= timestampString #">
+            <input type="text" class="k-input k-textbox" id="txtPassword" value="">            
             <p>
                 <input type="button" onclick="changePassword();" class="k-input k-button" value="確定">
                 <input type="button" onclick="closeChangePasswordWindow();" class="k-input k-button" value="取消">
@@ -150,7 +149,7 @@
                         url: menusJSON_apiUrl,
                         dataType: "json",
                         beforeSend: function (xhr) {
-                            xhr.setRequestHeader('Authorization', 'Bearer ' + Cookies.get('token'));
+                            xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
                         }
                     }
                 },
@@ -163,30 +162,31 @@
         });
 
         function displayUserName() {
-
-            var whoAmI_apiUrl = "Membership/WhoAmI";
-            $.ajax({
-                type: "GET",
-                url: whoAmI_apiUrl,
-                dataType: "json",
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'Bearer ' + Cookies.get('token'));
-                },
-                success: function (data, status, jqXHR) {
-                    //console.log(data.userName);
-                    $("#userNameLabel").html(data.userName);
-                    Cookies.set('userName', data.userName);
-                    Cookies.set('timestampString', data.timestampString);
-                },
-                error: function (xhr) {
-                    if (xhr.status == "401") {
-                        window.location.href = "login.html";
-                    }
-                    else {
-                        alert(xhr.responseText);
-                    }
-                }
-            });
+            var username = Cookies.get('token');
+            $("#userNameLabel").html(username);
+            //var whoAmI_apiUrl = "Membership/WhoAmI";
+            //$.ajax({
+            //    type: "GET",
+            //    url: whoAmI_apiUrl,
+            //    dataType: "json",
+            //    beforeSend: function (xhr) {
+            //        xhr.setRequestHeader('Authorization', 'Bearer ' + Cookies.get('token'));
+            //    },
+            //    success: function (data, status, jqXHR) {
+            //        //console.log(data.userName);
+            //        $("#userNameLabel").html(data.userName);
+            //        Cookies.set('userName', data.userName);
+            //        Cookies.set('timestampString', data.timestampString);
+            //    },
+            //    error: function (xhr) {
+            //        if (xhr.status == "401") {
+            //            window.location.href = "login.html";
+            //        }
+            //        else {
+            //            alert(xhr.responseText);
+            //        }
+            //    }
+            //});
 
         }
 
@@ -243,13 +243,11 @@
         function clearToken() {
             Cookies.remove("token");
             Cookies.remove("userName");
-            Cookies.remove("timestampString");
         }
 
         function prepareChangePassword() {
-            var userName = Cookies.get('userName'),
-                timestampString = Cookies.get('timestampString');
-            showChangePasswordWindow(userName,timestampString);
+            var userName = Cookies.get('userName');
+            showChangePasswordWindow(userName);
         }
     </script>
 

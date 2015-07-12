@@ -17,28 +17,28 @@ namespace MPERP2015.Controllers
     {
         MembershipModelContainer db = new MembershipModelContainer();
 
-        #region Membership/Menu
-        [Route("Membership/Menu")]
-        public IEnumerable<MenuItem> Get()
-        {
-            List<MenuItem> menus = new List<MenuItem>();
+        //#region Membership/Menu
+        //[Route("Membership/Menu")]
+        //public IEnumerable<MenuItem> Get()
+        //{
+        //    List<MenuItem> menus = new List<MenuItem>();
 
-            MenuItem menu = new MenuItem { Text = "產品", SpriteCssClass = "fa fa-cubes fa-fw" };
-            menu.Items.Add(new MenuItem { Text = "產品", SpriteCssClass = "fa fa-cubes fa-fw", ContentUrl = "views/products.html" });
-            menu.Items.Add(new MenuItem { Text = "分類", SpriteCssClass = "fa fa-cubes fa-fw", ContentUrl = "views/categories.html" });
-            menus.Add(menu);
+        //    MenuItem menu = new MenuItem { Text = "產品", SpriteCssClass = "fa fa-cubes fa-fw" };
+        //    menu.Items.Add(new MenuItem { Text = "產品", SpriteCssClass = "fa fa-cubes fa-fw", ContentUrl = "views/products.html" });
+        //    menu.Items.Add(new MenuItem { Text = "分類", SpriteCssClass = "fa fa-cubes fa-fw", ContentUrl = "views/categories.html" });
+        //    menus.Add(menu);
 
-            menus.Add(new MenuItem { Text = "客戶", ContentUrl = "views/customers.html", SpriteCssClass = "fa fa-user-md fa-fw" });
+        //    menus.Add(new MenuItem { Text = "客戶", ContentUrl = "views/customers.html", SpriteCssClass = "fa fa-user-md fa-fw" });
 
-            MenuItem menuOrder = new MenuItem { Text = "訂單", SpriteCssClass = "fa fa-table" };
-            menuOrder.Items.Add(new MenuItem { Text = "查詢", ContentUrl = "views/ordersSearch.html", SpriteCssClass = "fa fa-table fa-fw" });
-            menuOrder.Items.Add(new MenuItem { Text = "新增", ContentUrl = "views/ordersInsert.html", SpriteCssClass = "fa fa-table fa-fw" });
-            menus.Add(menuOrder);
+        //    MenuItem menuOrder = new MenuItem { Text = "訂單", SpriteCssClass = "fa fa-table" };
+        //    menuOrder.Items.Add(new MenuItem { Text = "查詢", ContentUrl = "views/ordersSearch.html", SpriteCssClass = "fa fa-table fa-fw" });
+        //    menuOrder.Items.Add(new MenuItem { Text = "新增", ContentUrl = "views/ordersInsert.html", SpriteCssClass = "fa fa-table fa-fw" });
+        //    menus.Add(menuOrder);
 
-            menus.Add(new MenuItem { Text = "系統管理", ContentUrl = "views/settings.html", SpriteCssClass = "fa fa-wrench fa-fw" });
-            return menus;
-        }
-        #endregion
+        //    menus.Add(new MenuItem { Text = "系統管理", ContentUrl = "views/settings.html", SpriteCssClass = "fa fa-wrench fa-fw" });
+        //    return menus;
+        //}
+        //#endregion
 
         #region Membership/Roles
         // GET: api/Roles
@@ -270,7 +270,7 @@ namespace MPERP2015.Controllers
         }
 
         [Route("Membership/Users/UserInfo/{userName}", Name = "GetUserByUserName")]
-        public UserViewModel GetUsers(string userName)
+        public UserViewModel GetUser(string userName)
         {
             var user = db.Users.Find(userName);
             if (user==null)
@@ -280,19 +280,19 @@ namespace MPERP2015.Controllers
             return ToUserViewModel(user);
         }
 
-        [Route("Membership/WhoAmI")]
-        [HttpGet]
-        public UserViewModel WhoAmI()
-        {
-            var identity = User.Identity as ClaimsIdentity;
-            var userName = identity.Claims.Where(item => item.Type == "sub").Select(item=>item.Value).SingleOrDefault();
-            var user = db.Users.Find(userName);
-            if (user == null)
-            {
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.Unauthorized, "拒絕存取"));
-            }
-            return ToUserViewModel(user);
-        }
+        //[Route("Membership/WhoAmI")]
+        //[HttpGet]
+        //public UserViewModel WhoAmI()
+        //{
+        //    var identity = User.Identity as ClaimsIdentity;
+        //    var userName = identity.Claims.Where(item => item.Type == "sub").Select(item=>item.Value).SingleOrDefault();
+        //    var user = db.Users.Find(userName);
+        //    if (user == null)
+        //    {
+        //        throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.Unauthorized, "拒絕存取"));
+        //    }
+        //    return ToUserViewModel(user);
+        //}
 
         // POST: Membership/Users
         [ResponseType(typeof(UserViewModel))]
@@ -352,7 +352,7 @@ namespace MPERP2015.Controllers
                 try
                 {
                     user_db.Password = user_view_model.Password;
-                    db.Entry(user_db).OriginalValues["Timestamp"] = Convert.FromBase64String(user_view_model.TimestampString);
+                    //db.Entry(user_db).OriginalValues["Timestamp"] = Convert.FromBase64String(user_view_model.TimestampString);
                     db.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)

@@ -91,7 +91,7 @@
                                         text: "變更密碼", click: function (e) {
                                             e.preventDefault();
                                             var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-                                            showChangePasswordWindow(dataItem.userName, dataItem.timestampString);
+                                            showChangePasswordWindow(dataItem.userName);
                                         }
                                     }
                                 ],

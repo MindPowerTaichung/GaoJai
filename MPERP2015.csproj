@@ -50,9 +50,6 @@
     <Reference Include="Microsoft.Owin">
       <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb">
-      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Owin.Security">
       <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
@@ -101,7 +98,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="Telerik.Reporting, Version=9.0.15.324, Culture=neutral, PublicKeyToken=a9d7983dfcc261be" />
+    <Reference Include="Telerik.Reporting, Version=9.1.15.624, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <SpecificVersion>True</SpecificVersion>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -1229,13 +1228,14 @@
     <Content Include="views\lib\Kendo\styles\images\kendoui.woff" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\MP\AuthenticationController.cs" />
     <Compile Include="Controllers\catCurrenciesController.cs" />
     <Compile Include="Controllers\catCustomersController.cs" />
     <Compile Include="Controllers\catFactoriesController.cs" />
     <Compile Include="Controllers\catPaysController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\FactoriesController.cs" />
-    <Compile Include="Controllers\MenusController.cs" />
+    <Compile Include="Controllers\MP\MenusController.cs" />
     <Compile Include="Controllers\typeFactoriesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1243,7 +1243,7 @@
     </Compile>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
-    <Compile Include="Controllers\MembershipController.cs" />
+    <Compile Include="Controllers\MP\MembershipController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Models\catCurrency.cs">
@@ -1284,7 +1284,6 @@
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginViewModel.cs" />
-    <Compile Include="Models\MenuItem.cs" />
     <Compile Include="Models\Order.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
@@ -1300,6 +1299,7 @@
     <Compile Include="Models\typeFactory.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="MP\MPAuthHttpModule.cs" />
     <Compile Include="MP\MembershipModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1319,7 +1319,6 @@
     <Compile Include="MP\Menu.cs">
       <DependentUpon>MembershipModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="MP\MPTokenAuthorizationProvider.cs" />
     <Compile Include="MP\Role.cs">
       <DependentUpon>MembershipModel.tt</DependentUpon>
     </Compile>
@@ -1335,9 +1334,6 @@
     </Compile>
     <Compile Include="Reports\CustomerLabelReport.Designer.cs">
       <DependentUpon>CustomerLabelReport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Startup.cs">
-      <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -1374,6 +1370,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Reports\CustomerLabelReport.resx">
       <DependentUpon>CustomerLabelReport.cs</DependentUpon>
     </EmbeddedResource>

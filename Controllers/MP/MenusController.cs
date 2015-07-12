@@ -33,12 +33,6 @@ namespace MPERP2015.Controllers
         [Route("api/Menus/Json/User/{userName}")]
         public IEnumerable<MenuTreeViewModel> GetUserMenuJson(string userName)
         {
-            //int[] menusOfUser;
-            //var user = db.Users.Find(userName);
-            //if (user == null)
-            //    menusOfUser = new int[0];
-            //else
-            //    menusOfUser =user.Menus.Select(item => item.Id).ToArray();
             var user = db.Users.Find(userName);
             var role = db.Roles.Find(user.Role_Id);
             var menusOfUser = user.Menus.Union(role.Menus).Select(item => item.Id).ToArray();
@@ -68,16 +62,18 @@ namespace MPERP2015.Controllers
         }
 
         // GET: api/Menus/Json/Workspace
+        [Authorize]
         [Route("api/Menus/Json/Authorized")]
         public IEnumerable<MenuAuthorizedViewModel> GetAuthorizedMenuJson()
         {
-            var identity = User.Identity as ClaimsIdentity;
-            var userName = identity.Claims.Where(item => item.Type == "sub").Select(item=>item.Value).SingleOrDefault();
-            int roleId;
-            int.TryParse(identity.Claims.Where(item => item.Type == "roleId").Select(item => item.Value).SingleOrDefault(), out roleId);
-
+            //var identity = User.Identity as ClaimsIdentity;
+            //var userName = identity.Claims.Where(item => item.Type == "sub").Select(item=>item.Value).SingleOrDefault();
+            //int roleId;
+            //int.TryParse(identity.Claims.Where(item => item.Type == "roleId").Select(item => item.Value).SingleOrDefault(), out roleId);
+            var userName = User.Identity.Name;
+            
             var user = db.Users.Find(userName);
-            var role = db.Roles.Find(roleId);
+            var role = user.Role;
             var menusOfUser=user.Menus.Union(role.Menus).Select(item => item.Id).ToArray();
 
             var items = GetAuthorizedMenus(db.Menus.ToList(), 1, menusOfUser);
