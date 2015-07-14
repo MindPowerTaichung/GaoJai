@@ -38,6 +38,8 @@ namespace MPERP2015.Controllers
                                            CatName = catCustomer == null ? "" : catCustomer.Name,
                                            PayName = catPay == null ? "" : catPay.Name,
                                            CurrencyName = catCurrency == null ? "" : catCurrency.Name,
+                                           Currency=c.Currency,
+                                           Pay=c.Pay,
                                            NO = c.NO,
                                            Name = c.Name,
                                            Sname = c.Sname,
@@ -105,7 +107,7 @@ namespace MPERP2015.Controllers
             {
                 try
                 {
-                    customer_db.catCustomer.Name = customer_View_Model.CatName;
+                    //customer_db.catCustomer.Name = customer_View_Model.CatName;
                     customer_db.Cat = customer_View_Model.Cat;
                     customer_db.NO = customer_View_Model.NO;
                     customer_db.Name = customer_View_Model.Name;
@@ -125,9 +127,9 @@ namespace MPERP2015.Controllers
                     customer_db.Shipaddr = customer_View_Model.Shipaddr;
                     customer_db.Invoiceaddr = customer_View_Model.Invoiceaddr;
                     customer_db.Pay = customer_View_Model.Pay;
-                    customer_db.catPay.Name = customer_View_Model.PayName;
+                    //customer_db.catPay.Name = customer_View_Model.PayName;
                     customer_db.Currency = customer_View_Model.Currency;
-                    customer_db.catCurrency.Name = customer_View_Model.CurrencyName;
+                    //customer_db.catCurrency.Name = customer_View_Model.CurrencyName;
                     customer_db.Lasttrade = customer_View_Model.Lasttrade;
                     customer_db.Note = customer_View_Model.Note;
                     db.Entry(customer_db).OriginalValues["Timestamp"] = Convert.FromBase64String(customer_View_Model.TimestampString);

@@ -483,13 +483,13 @@
         var rows = customerGrid.select();
         var items = [];
         var teltype = $("#telListAll").data("kendoDropDownList").value();
-        var addrtype = $("#telListAll").data("kendoDropDownList").value();
+        var addrtype = $("#addrListAll").data("kendoDropDownList").value();
         rows.each(function (index, row) {
             var selectedItem = customerGrid.dataItem(row);
             var dataItem = { name: selectedItem.name, telephone: selectedItem[teltype], addr: selectedItem[addrtype], num: $("#labeNumAll").val() };
             items.push(dataItem);
         });
-        debugger;
+        //debugger;
         var pdfExportUrl = "Reports/CustomerLabelReportHandler.ashx",
             formToSubmit = $("<form  method='post' />").attr('action', pdfExportUrl),
             input = $("<input />")
