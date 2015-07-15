@@ -62,6 +62,9 @@
                         <li>
                             <a href="#" onclick="prepareChangePassword();"><i class="fa fa-gear fa-fw"></i> 變更密碼</a>
                         </li>
+                        <li class="adminMenu">
+                            <a href="#" onclick="menuClick('功能選單設定', 'views/menus.html');"><i class="fa fa-gear fa-fw"></i>功能選單設定</a>
+                        </li>
                         <li class="divider"></li>
                         <li>
                             <a href="login.html" onclick="clearToken();"><i class="fa fa-sign-out fa-fw"></i> 登出</a>
@@ -164,29 +167,11 @@
         function displayUserName() {
             var username = Cookies.get('token');
             $("#userNameLabel").html(username);
-            //var whoAmI_apiUrl = "Membership/WhoAmI";
-            //$.ajax({
-            //    type: "GET",
-            //    url: whoAmI_apiUrl,
-            //    dataType: "json",
-            //    beforeSend: function (xhr) {
-            //        xhr.setRequestHeader('Authorization', 'Bearer ' + Cookies.get('token'));
-            //    },
-            //    success: function (data, status, jqXHR) {
-            //        //console.log(data.userName);
-            //        $("#userNameLabel").html(data.userName);
-            //        Cookies.set('userName', data.userName);
-            //        Cookies.set('timestampString', data.timestampString);
-            //    },
-            //    error: function (xhr) {
-            //        if (xhr.status == "401") {
-            //            window.location.href = "login.html";
-            //        }
-            //        else {
-            //            alert(xhr.responseText);
-            //        }
-            //    }
-            //});
+            
+            if (username.toLowerCase() === "admin") 
+                $(".adminMenu").show();
+            else 
+                $(".adminMenu").hide();
 
         }
 

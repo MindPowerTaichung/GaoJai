@@ -98,7 +98,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="Telerik.Reporting, Version=9.1.15.624, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+    <Reference Include="Telerik.Reporting, Version=9.0.15.324, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
       <SpecificVersion>True</SpecificVersion>
     </Reference>
   </ItemGroup>
@@ -1300,6 +1300,9 @@
     <Compile Include="Models\typeFactory.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="MP\Menu.cs">
+      <DependentUpon>MembershipModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="MP\MPAuthHttpModule.cs" />
     <Compile Include="MP\MembershipModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -1317,9 +1320,6 @@
       <DependentUpon>MembershipModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="MP\MembershipViewModel.cs" />
-    <Compile Include="MP\Menu.cs">
-      <DependentUpon>MembershipModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="MP\Role.cs">
       <DependentUpon>MembershipModel.tt</DependentUpon>
     </Compile>

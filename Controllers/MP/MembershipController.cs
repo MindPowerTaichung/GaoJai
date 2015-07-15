@@ -314,12 +314,18 @@ namespace MPERP2015.Controllers
             User user = db.Users.Find(user_view_model.UserName);
             if (user == null)
             {
-
-                user = new User { UserName = user_view_model.UserName, Role = role };
-                db.Users.Add(user);
                 try
                 {
-                    db.SaveChanges();                    
+                    user = new User { UserName = user_view_model.UserName, Role = role };
+                    db.Users.Add(user);
+                    //db.SaveChanges();
+
+                    //新增使用者角色的功能選單
+                    foreach (var menu in role.Menus)
+                    {
+                        user.Menus.Add(menu);
+                    }
+                    db.SaveChanges();
                 }
                 catch (Exception ex)
                 {
@@ -337,6 +343,9 @@ namespace MPERP2015.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            if (string.IsNullOrWhiteSpace(user_view_model.Password))
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.NotModified,"取消變更"));
 
             if (userName != user_view_model.UserName)
                 return BadRequest();
@@ -390,8 +399,23 @@ namespace MPERP2015.Controllers
             {
                 try
                 {
+                    //移除舊角色功能選單
+                    foreach (var item in user_db.Role.Menus)
+                    {
+                        user_db.Menus.Remove(item);
+                    }
+
+                    //更新新角色
                     user_db.Role_Id = user_view_model.RoleId;
                     db.Entry(user_db).OriginalValues["Timestamp"] = Convert.FromBase64String(user_view_model.TimestampString);
+                    db.SaveChanges();
+
+                    //加入新角色功能選單
+                    var roleMenus = user_db.Role.Menus;
+                    foreach (var item in roleMenus)
+                    {
+                        user_db.Menus.Add(item);
+                    }
                     db.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -400,6 +424,10 @@ namespace MPERP2015.Controllers
                         throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound, "這筆資料已被刪除!"));
                     else
                         throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Conflict, "這筆資料已被其他人修改!"));// ""
+                }
+                catch (Exception ex)
+                {
+                    throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message));
                 }
             }
 

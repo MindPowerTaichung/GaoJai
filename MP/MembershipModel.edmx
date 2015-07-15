@@ -85,6 +85,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserFeatures_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserFeatures" Type="Self.UserFeatures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserName" />
+            </Principal>
+            <Dependent Role="UserFeatures">
+              <PropertyRef Name="Users_UserName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="MembershipModelStoreContainer">
           <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoleFeatures" EntityType="Self.RoleFeatures" Schema="dbo" store:Type="Tables" />
@@ -102,6 +116,10 @@
           <AssociationSet Name="FK_RoleUser" Association="Self.FK_RoleUser">
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFeatures_Users" Association="Self.FK_UserFeatures_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserFeatures" EntitySet="UserFeatures" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -177,7 +195,8 @@
         </Association>
         <Association Name="UserMenu">
           <End Type="MembershipModel.User" Role="User" Multiplicity="*" />
-          <End Type="MembershipModel.Menu" Role="Menu" Multiplicity="*" />
+          <End Type="MembershipModel.Menu" Role="Menu" Multiplicity="*" >
+          </End>
         </Association>
         </Schema>
     </edmx:ConceptualModels>

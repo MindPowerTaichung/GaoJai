@@ -7,10 +7,7 @@
         transport: {
             read: {
                 url: usersView_apiUrl + "/UserInfo",
-                dataType: "json",
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'Bearer ' + Cookies.get('token'));
-                }
+                dataType: "json"
             },
             update: {
                 url: function (data) {
@@ -18,29 +15,20 @@
                 },
                 type: "put",
                 contentType: "application/json",
-                dataType: "json",
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'Bearer ' + Cookies.get('token'));
-                }
+                dataType: "json"
             },
             destroy: {
                 url: function (data) {
                     return usersView_apiUrl + "/" + data.userName;
                 },
                 type: "delete",
-                dataType: "json",
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'Bearer ' + Cookies.get('token'));
-                }
+                dataType: "json"
             },
             create: {
                 url: usersView_apiUrl,
                 type: "post",
                 contentType: "application/json",
-                dataType: "json",
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', 'Bearer ' + Cookies.get('token'));
-                }
+                dataType: "json"
             },
             parameterMap: function (data, operation) {
                 //if (operation == "create") {

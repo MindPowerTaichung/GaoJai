@@ -2,7 +2,7 @@
 
         var wnd = $("#workspace_changePassword").data("kendoWindow"),
             detailsTemplate;
-        debugger;
+        
         if (wnd == undefined)
             wnd = $("#workspace_changePassword")
                             .kendoWindow({
@@ -32,7 +32,7 @@
             "password": password
         };
 
-        var menus_apiUrl = "Membership/Users/";
+        var menus_apiUrl = "Membership/Users";
         $.ajax({
             type: "PUT",
             url: menus_apiUrl + "/" + userName,
@@ -40,7 +40,11 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data, status, jqXHR) {
-                //alert("PUT success..." + data);
+                debugger;
+                if (jqXHR.status==304) {
+                    //alert(jqXHR.responseText);
+                    alert("取消變更密碼!");
+                }
                 closeChangePasswordWindow();
             },
             error: function (xhr) {

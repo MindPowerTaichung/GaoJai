@@ -34,8 +34,13 @@ namespace MPERP2015.Controllers
         public IEnumerable<MenuTreeViewModel> GetUserMenuJson(string userName)
         {
             var user = db.Users.Find(userName);
-            var role = db.Roles.Find(user.Role_Id);
-            var menusOfUser = user.Menus.Union(role.Menus).Select(item => item.Id).ToArray();
+
+            //使用者+角色的選單
+            //var role = db.Roles.Find(user.Role_Id);
+            //var menusOfUser = user.Menus.Union(role.Menus).Select(item => item.Id).ToArray();
+
+            //使用者選單
+            var menusOfUser = user.Menus.Select(item => item.Id).ToArray();
 
             var items = GetMenus(db.Menus.ToList(), 0, menusOfUser);
             return items;
@@ -73,9 +78,9 @@ namespace MPERP2015.Controllers
             var userName = User.Identity.Name;
             
             var user = db.Users.Find(userName);
-            var role = user.Role;
-            var menusOfUser=user.Menus.Union(role.Menus).Select(item => item.Id).ToArray();
-
+            //var role = user.Role;
+            //var menusOfUser=user.Menus.Union(role.Menus).Select(item => item.Id).ToArray();
+            var menusOfUser = user.Menus.Select(item => item.Id).ToArray();
             var items = GetAuthorizedMenus(db.Menus.ToList(), 1, menusOfUser);
 
             return items;
