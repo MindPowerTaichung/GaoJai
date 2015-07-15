@@ -1054,8 +1054,6 @@
     <Content Include="views\settings.html" />
     <Content Include="views\typeFactory.html" />
     <Content Include="workspace.html" />
-    <Content Include="workspace_metisMenu.html" />
-    <Content Include="workspace_treeview.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
