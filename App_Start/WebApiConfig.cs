@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json.Serialization;
+﻿using MPERP2015.MP.Log;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Formatting;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 
 namespace MPERP2015
 {
@@ -13,6 +15,9 @@ namespace MPERP2015
         {
             // Web API configuration and services
 
+            //MPExceptionLog
+            config.Services.Add(typeof(IExceptionLogger), new MPExceptionLog());
+
             //移除XmlFormatter
             config.Formatters.Remove(GlobalConfiguration.Configuration.Formatters.XmlFormatter);
 
@@ -20,7 +25,6 @@ namespace MPERP2015
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             //JsonFormatter: 移除ReferenceLoopHandling
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-
 
             // Web API routes
             config.Routes.IgnoreRoute("Handler", "{whatever}.ashx/{*pathInfo}");

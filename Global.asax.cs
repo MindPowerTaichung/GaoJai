@@ -12,11 +12,7 @@ namespace MPERP2015
     {
         protected void Application_Start()
         {
-            GlobalConfiguration.Configure(WebApiConfig.Register);
-
-            //GlobalConfiguration.Configuration.MessageHandlers.Add(new ApiLogHandler("POST", "PUT", "DELETE"));
-
-            //RegisterRoutes(RouteTable.Routes);
+            GlobalConfiguration.Configure(WebApiConfig.Register);            
         }
 
     }
