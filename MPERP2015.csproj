@@ -103,7 +103,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="Telerik.Reporting, Version=9.0.15.324, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+    <Reference Include="Telerik.Reporting, Version=9.1.15.624, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
       <SpecificVersion>True</SpecificVersion>
     </Reference>
   </ItemGroup>
