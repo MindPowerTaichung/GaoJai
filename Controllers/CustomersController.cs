@@ -17,6 +17,10 @@ namespace MPERP2015.Controllers
     {
         private ERPModelContainer db = new ERPModelContainer();
 
+        private IQueryable<CustomerViewModel> ToViewModels(Customer[] customers)
+        {
+            return customers.Select(c => ToViewModel(c)).AsQueryable();
+        }
         private CustomerViewModel ToViewModel(Customer c)
         {
             catCustomer catCustomer = c.catCustomer;
@@ -81,6 +85,18 @@ namespace MPERP2015.Controllers
             }
 
             return Ok(ToViewModel(customer));
+        }
+
+        // GET: api/Customers/5
+        [Route("api/Customers/phone/{no}")]
+        [ResponseType(typeof(CustomerViewModel))]
+        public IQueryable<CustomerViewModel> GetCustomerByPhone(string no)
+        {
+            var query = from c in db.Customers
+                        where c.Telephone1.Contains(no) || c.Telephone2.Contains(no) || c.Telephone3.Contains(no)
+                        select c ;
+
+            return ToViewModels(query.ToArray<Customer>());
         }
 
         // PUT: api/Customers/5
