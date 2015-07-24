@@ -74,7 +74,43 @@
             }
         }
     });
+    function telQuery()
+    {
+        debugger;
+        //$('#gridCustomers').data('kendoGrid').dataSource.transport.options.read.url = customersViewPhone_apiUrl + "/" + $("#strTEL").val();
+        customersView_dataSource.transport.options.read.url = customersViewPhone_apiUrl + "/" + $("#strTEL").val();
+        $('#gridCustomers').data('kendoGrid').dataSource.read();
+        $('#gridCustomers').data('kendoGrid').refresh();
+    }
 </script>
+    <div id="telSearch" class="section-box">
+    <table>
+        <tr>
+            <td>
+                電話查詢：
+            </td>
+            <td>
+            <td>
+                <input id="strTEL" name="strTEL" style="width:150px" />
+            </td>
+            <td>
+                <input id="TELquery" type="button" value="搜尋" style="width:50px" onclick="telQuery()" />
+            </td>
+        </tr>
+    </table>
+</div>
+<style>
+    .section-box {
+        margin-top: 20px;
+        padding: 10px;
+        -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.45), inset 0 0 30px rgba(0,0,0,0.07);
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.45), inset 0 0 30px rgba(0,0,0,0.07);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.45), inset 0 0 30px rgba(0,0,0,0.07);
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        border-radius: 8px;
+    }
+</style>
 
     <div id="gridCustomers"></div>
 
@@ -105,7 +141,7 @@
             <td><input data-role="dropdownlist" data-source="cat_dataSource" data-text-field="name" data-value-field="id" name="cat" style="width: 90px;" data-bind="value:cat" /></td>
             <td>
                 <div class="k-edit-label">
-                    
+
                 </div>
             </td>
             <td></td>
@@ -258,10 +294,10 @@
                 #= (catName == null) ? '' : catName #
             </td>
             <td class="tdTitle01" style="width:70px" align="center">
-                
+
             </td>
             <td class="tdContent01">
-                
+
             </td>
             <td class="tdTitle01" style="width:70px" align="center">
                 廠商編號
@@ -408,10 +444,11 @@
 </script>
 <script>
     var customersView_apiUrl = "api/customers";
+    var customersViewPhone_apiUrl = "api/customers/phone";
     var customersView_dataSource = new kendo.data.DataSource({
         transport: {
             read: {
-                url: customersView_apiUrl,
+                url: customersViewPhone_apiUrl + "/",
                 dataType: "json"
             },
             update: {
@@ -491,6 +528,7 @@
             }
         }
     });
+
     $("#gridCustomers").kendoGrid({
         dataSource: customersView_dataSource,
         detailTemplate: kendo.template($("#detailtemplate").html()),

@@ -88,15 +88,26 @@ namespace MPERP2015.Controllers
         }
 
         // GET: api/Customers/5
-        [Route("api/Customers/phone/{no}")]
+        [Route("api/Customers/phone/{no?}")]
         [ResponseType(typeof(CustomerViewModel))]
-        public IQueryable<CustomerViewModel> GetCustomerByPhone(string no)
+        public IQueryable<CustomerViewModel> GetCustomerByPhone(string no=null)
         {
-            var query = from c in db.Customers
-                        where c.Telephone1.Contains(no) || c.Telephone2.Contains(no) || c.Telephone3.Contains(no)
-                        select c ;
+            Customer[] customers;
+            if (string.IsNullOrWhiteSpace(no))
+            {
+                var query = from c in db.Customers
+                            select c;
+                customers = query.ToArray<Customer>();
+            }
+            else
+            {
+                var query = from c in db.Customers
+                            where c.Telephone1.Contains(no) || c.Telephone2.Contains(no) || c.Telephone3.Contains(no)
+                            select c;
+                customers = query.ToArray<Customer>();
+            }
 
-            return ToViewModels(query.ToArray<Customer>());
+            return ToViewModels(customers);
         }
 
         // PUT: api/Customers/5

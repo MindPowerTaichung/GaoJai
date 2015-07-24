@@ -110,7 +110,6 @@ D:\GitHub\GaoJai\bin\System.Net.Http.Formatting.xml
 D:\GitHub\GaoJai\bin\System.Web.Http.xml
 D:\GitHub\GaoJai\bin\System.Web.Http.Owin.xml
 D:\GitHub\GaoJai\bin\System.Web.Http.WebHost.xml
-D:\GitHub\GaoJai\obj\Debug\MPERP2015.csprojResolveAssemblyReference.cache
 D:\GitHub\GaoJai\obj\Debug\MPERP2015.Reports.CustomerLabelReport.resources
 D:\GitHub\GaoJai\obj\Debug\MPERP2015.csproj.GenerateResource.Cache
 D:\GitHub\GaoJai\obj\Debug\MPERP2015.dll.licenses
