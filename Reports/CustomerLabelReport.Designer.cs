@@ -24,7 +24,7 @@ namespace MPERP2015.Reports
             // 
             // detail
             // 
-            this.detail.Height = Telerik.Reporting.Drawing.Unit.Mm(35.900001525878906D);
+            this.detail.Height = Telerik.Reporting.Drawing.Unit.Mm(36D);
             this.detail.Items.AddRange(new Telerik.Reporting.ReportItemBase[] {
             this.nameDataTextBox,
             this.shipaddrDataTextBox,
@@ -35,9 +35,9 @@ namespace MPERP2015.Reports
             // 
             this.nameDataTextBox.CanGrow = false;
             this.nameDataTextBox.CanShrink = false;
-            this.nameDataTextBox.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0.39989966154098511D), Telerik.Reporting.Drawing.Unit.Cm(0.79960012435913086D));
+            this.nameDataTextBox.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0.39989966154098511D), Telerik.Reporting.Drawing.Unit.Cm(0.60000008344650269D));
             this.nameDataTextBox.Name = "nameDataTextBox";
-            this.nameDataTextBox.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(10.199999809265137D), Telerik.Reporting.Drawing.Unit.Cm(0.800000011920929D));
+            this.nameDataTextBox.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(10.199999809265137D), Telerik.Reporting.Drawing.Unit.Cm(1.3000001907348633D));
             this.nameDataTextBox.Style.Font.Name = "MingLiU";
             this.nameDataTextBox.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(14D);
             this.nameDataTextBox.Value = "= Fields.Shipaddr";
@@ -46,9 +46,9 @@ namespace MPERP2015.Reports
             // 
             this.shipaddrDataTextBox.CanGrow = false;
             this.shipaddrDataTextBox.CanShrink = false;
-            this.shipaddrDataTextBox.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0.39989966154098511D), Telerik.Reporting.Drawing.Unit.Cm(1.5997999906539917D));
+            this.shipaddrDataTextBox.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0.39989966154098511D), Telerik.Reporting.Drawing.Unit.Cm(1.9002002477645874D));
             this.shipaddrDataTextBox.Name = "shipaddrDataTextBox";
-            this.shipaddrDataTextBox.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(10.199999809265137D), Telerik.Reporting.Drawing.Unit.Cm(0.800000011920929D));
+            this.shipaddrDataTextBox.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(10.199999809265137D), Telerik.Reporting.Drawing.Unit.Cm(0.69980019330978394D));
             this.shipaddrDataTextBox.Style.Font.Name = "MingLiU";
             this.shipaddrDataTextBox.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(14D);
             this.shipaddrDataTextBox.Value = "= Fields.Name";
@@ -57,9 +57,9 @@ namespace MPERP2015.Reports
             // 
             this.telephone1DataTextBox.CanGrow = false;
             this.telephone1DataTextBox.CanShrink = false;
-            this.telephone1DataTextBox.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0.39989966154098511D), Telerik.Reporting.Drawing.Unit.Cm(2.4000000953674316D));
+            this.telephone1DataTextBox.Location = new Telerik.Reporting.Drawing.PointU(Telerik.Reporting.Drawing.Unit.Cm(0.39989966154098511D), Telerik.Reporting.Drawing.Unit.Cm(2.6002006530761719D));
             this.telephone1DataTextBox.Name = "telephone1DataTextBox";
-            this.telephone1DataTextBox.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(10.199999809265137D), Telerik.Reporting.Drawing.Unit.Cm(0.800000011920929D));
+            this.telephone1DataTextBox.Size = new Telerik.Reporting.Drawing.SizeU(Telerik.Reporting.Drawing.Unit.Cm(10.199999809265137D), Telerik.Reporting.Drawing.Unit.Cm(0.69979941844940186D));
             this.telephone1DataTextBox.Style.Font.Name = "MingLiU";
             this.telephone1DataTextBox.Style.Font.Size = Telerik.Reporting.Drawing.Unit.Point(14D);
             this.telephone1DataTextBox.Value = "= Fields.Telephone1";
@@ -81,7 +81,7 @@ namespace MPERP2015.Reports
             styleRule1.Style.Padding.Right = Telerik.Reporting.Drawing.Unit.Point(2D);
             this.StyleSheet.AddRange(new Telerik.Reporting.Drawing.StyleRule[] {
             styleRule1});
-            this.Width = Telerik.Reporting.Drawing.Unit.Mm(108D);
+            this.Width = Telerik.Reporting.Drawing.Unit.Mm(110D);
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
