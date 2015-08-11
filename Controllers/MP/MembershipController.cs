@@ -316,7 +316,7 @@ namespace MPERP2015.Controllers
             {
                 try
                 {
-                    user = new User { UserName = user_view_model.UserName, Role = role };
+                    user = new User { UserName = user_view_model.UserName, Password = user_view_model.UserName, Role = role };
                     db.Users.Add(user);
                     //db.SaveChanges();
 

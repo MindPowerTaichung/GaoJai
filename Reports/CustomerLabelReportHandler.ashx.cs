@@ -59,6 +59,7 @@ namespace MPERP2015.Reports
             public string Name { get; set; }
             public string Addr { get; set; }
             public string Telephone { get; set; }
+            public string Telephone3 { get; set; }
             public int Num { get; set; }
         }
         List<CustomerViewModel> generateReportData()
@@ -71,7 +72,7 @@ namespace MPERP2015.Reports
             {
                 for (int i = 0; i < item.Num; i++)
                 {
-                    customers.Add(new CustomerViewModel { Name = item.Name, Shipaddr = item.Addr, Telephone1 = item.Telephone });
+                    customers.Add(new CustomerViewModel { Name = item.Name, Shipaddr = item.Addr, Telephone1 = item.Telephone, Telephone3=item.Telephone3 });
                 }
             }
             return customers;

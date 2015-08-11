@@ -443,6 +443,7 @@
     </table>
 </script>
 <script>
+    var initialLoad = true;
     var customersView_apiUrl = "api/customers";
     var customersViewPhone_apiUrl = "api/customers/phone";
     var customersView_dataSource = new kendo.data.DataSource({
@@ -478,6 +479,16 @@
                 }
                 return JSON.stringify(data);
             }
+        },
+        requestStart: function () {
+            if (initialLoad) 
+                kendo.ui.progress($("#gridCustomers"), true);
+        },
+        requestEnd: function () {
+            if(initialLoad)
+                kendo.ui.progress($("#gridCustomers"), false);
+            initialLoad = false;
+
         },
         batch: false,
         pageSize: 10,
@@ -534,6 +545,7 @@
         detailTemplate: kendo.template($("#detailtemplate").html()),
         pageable: true,
         sortable: true,
+        height: "600px",
         filterable:
             {
                 extra: false,

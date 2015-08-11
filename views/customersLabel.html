@@ -254,16 +254,17 @@
     </table>
 </script>
 <script>
-    var customersView_apiUrl = "api/customers";
-    var customersView_dataSource = new kendo.data.DataSource({
+    var initialLoadLabel = true;
+    var customersLabelView_apiUrl = "api/customers";
+    var customersLabelView_dataSource = new kendo.data.DataSource({
         transport: {
             read: {
-                url: customersView_apiUrl,
+                url: customersLabelView_apiUrl,
                 dataType: "json"
             },
             update: {
                 url: function (data) {
-                    return customersView_apiUrl + "/" + data.id;
+                    return customersLabelView_apiUrl + "/" + data.id;
                 },
                 type: "put",
                 contentType: "application/json",
@@ -271,13 +272,13 @@
             },
             destroy: {
                 url: function (data) {
-                    return customersView_apiUrl + "/" + data.id;
+                    return customersLabelView_apiUrl + "/" + data.id;
                 },
                 type: "delete",
                 dataType: "json"
             },
             create: {
-                url: customersView_apiUrl,
+                url: customersLabelView_apiUrl,
                 type: "post",
                 contentType: "application/json",
                 dataType: "json"
@@ -289,14 +290,24 @@
                 return JSON.stringify(data);
             }
         },
+        requestStart: function () {
+            if (initialLoadLabel)
+                kendo.ui.progress($("#gridCustomersLabel"), true);
+        },
+        requestEnd: function () {
+            if (initialLoadLabel)
+                kendo.ui.progress($("#gridCustomersLabel"), false);
+            initialLoadLabel = false;
+
+        },
         batch: false,
         pageSize: 10,
         error: function (err) {
             var message = (err.xhr.responseText == "") ? "" : JSON.parse(err.xhr.responseText).message + "\n";
             alert(err.status + "\n" + message + "將重新載入資料!");
             console.log(err.status + "\n" + message + "將重新載入資料!");
-            $('#gridCustomers').data('kendoGrid').dataSource.read();
-            $('#gridCustomers').data('kendoGrid').refresh();
+            $('#gridCustomersLabel').data('kendoGrid').dataSource.read();
+            $('#gridCustomersLabel').data('kendoGrid').refresh();
         },
         schema: {
             model: {
@@ -339,14 +350,20 @@
         }
     });
     $("#gridCustomersLabel").kendoGrid({
-        dataSource: customersView_dataSource,
+        dataSource: customersLabelView_dataSource,
         detailTemplate: kendo.template($("#detailtemplate").html()),
         pageable: true,
         sortable: true,
+        height: "600px",
         selectable: "multiple",
         filterable:
             {
                 extra: false,
+                operators: {
+                    string: {
+                        Contains: "包含"
+                    }
+                }
             },
         toolbar: kendo.template($("#printtemplate").html()),
         columns: [
@@ -395,7 +412,7 @@
         width: "500px",
         content: {
             template: $("#label-printAll").html()
-        }
+        },
     }).data("kendoWindow");
     var printCustomer;
     function showPrints(e) {
@@ -403,8 +420,6 @@
         printCustomer = this.dataItem($(e.currentTarget).closest("tr"));
         var dataItem = { name: printCustomer["name"], telephone: printCustomer.telephone1, addr: printCustomer.address };
         kendo.bind(kendoWindow.element, dataItem);
-        $("#addrList").data('kendoDropDownList').select(0);
-        $("#telList").data('kendoDropDownList').select(0);
         kendoWindow.open().center();
     }
 
@@ -486,7 +501,7 @@
         var addrtype = $("#addrListAll").data("kendoDropDownList").value();
         rows.each(function (index, row) {
             var selectedItem = customerGrid.dataItem(row);
-            var dataItem = { name: selectedItem.name, telephone: selectedItem[teltype], addr: selectedItem[addrtype], num: $("#labeNumAll").val() };
+            var dataItem = { name: selectedItem.name, telephone: selectedItem[teltype], telephone3: selectedItem["telephone3"], addr: selectedItem[addrtype], num: $("#labeNumAll").val() };
             items.push(dataItem);
         });
         //debugger;
@@ -530,7 +545,7 @@
                     張數：
                 </td>
                 <td class="tdContent02">
-                    <input type="number" value="0" style="width:50px" min="0" id="labeNum">
+                    <input type="number" value="1" style="width:50px" min="0" id="labeNum">
                 </td>
             </tr>
             <tr>
@@ -542,7 +557,7 @@
     </div>
 </script>
 <script id="label-printAll" type="text/x-kendo-template">
-    <div>
+    <div id="labelAll-window">
         <table class="k-grid table" style="font-size:large">
             <tr>
                 <td class="tdContent01" colspan="2">
@@ -570,7 +585,7 @@
                     張數：
                 </td>
                 <td class="tdContent02">
-                    <input type="number" value="0" style="width:50px" min="0" id="labeNumAll">
+                    <input type="number" value="1" style="width:50px" min="0" id="labeNumAll">
                 </td>
             </tr>
             <tr>

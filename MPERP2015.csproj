@@ -127,8 +127,10 @@
     </Content>
     <Content Include="Reports\CustomerLabelReportHandler.ashx" />
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\FileSystem.pubxml" />
     <None Include="Properties\PublishProfiles\GJserverIIS.pubxml" />
     <None Include="Properties\PublishProfiles\mpserverIIS.pubxml" />
+    <None Include="Properties\PublishProfiles\test.pubxml" />
     <None Include="讀我\JavaScript_uid是Kendo Model內建關鍵字勿用.txt" />
     <None Include="讀我\JavaScript_全域變數.txt" />
     <None Include="讀我\WebAPI Authentictaion.txt" />
@@ -1391,11 +1393,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50356</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:58588/</IISUrl>
+          <IISUrl>http://localhost:50366/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

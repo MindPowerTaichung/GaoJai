@@ -37,12 +37,17 @@
                 return JSON.stringify(data);
             }
         },
+        requestEnd: function(e) {
+            //check the "response" argument to skip the local operations
+            if (e.type === "create" && e.response.userName) {
+                alert(e.response.userName + " 的預設密碼為: " + e.response.userName);
+            }
+        },
         error: function (err) {
             if (err.xhr.status == "401") {
                 window.location.href = "../Login.html";
             } else if (err.xhr.status == "409") {
                 var message = (err.xhr.responseText == "") ? "" : JSON.parse(err.xhr.responseText).message + "\n";
-
                 $('#usersView_gridUsers').data('kendoGrid').dataSource.read();
                 $('#usersView_gridUsers').data('kendoGrid').refresh();
             } else {
