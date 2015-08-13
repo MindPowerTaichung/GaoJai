@@ -20,6 +20,9 @@
                 read: {
                     dataType: "json",
                     url: userinfo_apiUrl,
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+                    }
                 }
             }
         },
@@ -35,60 +38,18 @@
             //顯示user對應的menu在treeview 
             menusOfUser_refreshTreeView(user.userName);
 
-            //顯示user對應的role在menusOfUserlstRoles
-            //var menusOfUserlstRoles = $("#menusOfUserlstRoles").data("kendoDropDownList");
-            //menusOfUserlstRoles.value(user.roleId);
         }        
     });
-
-    //$("#menusOfUserlstRoles").kendoDropDownList({
-    //    dataTextField: "name",
-    //    dataValueField: "id",
-    //    dataSource: {
-    //        transport: {
-    //            read: {
-    //                dataType: "json",
-    //                url: roles_apiUrl,
-    //            }
-    //        }
-    //    },
-    //    change: function (e) {
-    //        var menusOfUserlstUsers = $("#menusOfUserlstUsers").data("kendoDropDownList");            
-    //        var user = menusOfUserlstUsers.dataItem(menusOfUserlstUsers.select());
-
-    //        var menusOfUserlstRoles = $("#menusOfUserlstRoles").data("kendoDropDownList");
-    //        var role = menusOfUserlstRoles.dataItem(e.item);
-
-    //        var userInfo = {
-    //            "userName": user.userName,
-    //            "roleId": role.id,
-    //            "timestampString": user.timestampString
-    //        };
-
-    //        $.ajax({
-    //            type: "PUT",
-    //            url: userinfo_apiUrl + "/" + user.userName,
-    //            data: JSON.stringify(userInfo),
-    //            contentType: "application/json; charset=utf-8",
-    //            dataType: "json",
-    //            success: function (data, status, jqXHR) {
-    //                //顯示user對應的menu在treeview 
-    //                menusOfUser_refreshTreeView(data.userName);
-    //            },
-    //            error: function (xhr) {
-    //                alert(xhr.responseText);
-    //            }
-    //        });
-
-    //    }
-    //});
 
     $("#menusOfUserTreeview").kendoTreeView({
         dataSource: {
             transport: {
                 read: {
                     url: "",
-                    dataType: "json"
+                    dataType: "json",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+                    }
                 }
             },
             schema: {
@@ -123,6 +84,9 @@
                 type: api_type,
                 url: userMenu_apiUrl,
                 data: JSON.stringify(userMenu),
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+                },
                 contentType: "application/json; charset=utf-8",
                 success: function (data, status, jqXHR) {
                     menusOfUser_refreshTreeView(user.userName);

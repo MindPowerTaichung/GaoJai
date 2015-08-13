@@ -39,6 +39,9 @@
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+            },
             success: function (data, status, jqXHR) {
                 debugger;
                 if (jqXHR.status==304) {

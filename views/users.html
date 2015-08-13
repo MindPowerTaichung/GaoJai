@@ -2,8 +2,9 @@
 <div id="usersView_gridUsers"></div>
 
 <script>
+    debugger;
     var usersView_apiUrl = "Membership/Users";
-    var usersView_dataSource = new kendo.data.DataSource({
+    var usersView_dataSource = new kendo.MPAuthorization.DataSource({
         transport: {
             read: {
                 url: usersView_apiUrl + "/UserInfo",
@@ -28,7 +29,10 @@
                 url: usersView_apiUrl,
                 type: "post",
                 contentType: "application/json",
-                dataType: "json"
+                dataType: "json",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+                }
             },
             parameterMap: function (data, operation) {
                 //if (operation == "create") {
@@ -103,7 +107,13 @@
                 dataSource: {
                     type: "json",
                     transport: {
-                        read: rolesView_apiUrl
+                        read: {
+                            url: rolesView_apiUrl,
+                            type: 'GET',
+                            beforeSend: function (xhr) {
+                                xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+                            }
+                        }
                     }
                 }
             });

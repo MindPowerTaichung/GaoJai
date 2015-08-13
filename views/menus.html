@@ -19,7 +19,10 @@ var menus_HdataSource = new kendo.data.HierarchicalDataSource({
     transport: {
         read: {
             url: menusJSON_apiUrl,
-            dataType: "json"
+            dataType: "json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+            }
         }
     },
     schema: {
@@ -57,6 +60,9 @@ $("#menusTreeview").kendoTreeView({
             type: "PUT",
             url: menus_apiUrl + "/" + source.id,
             data: JSON.stringify(source),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+            },
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data, status, jqXHR) {
@@ -81,6 +87,9 @@ function getMenuToEdit(id) {
         type: "GET",
         url: menus_apiUrl + "/" + id,
         dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+        },
         success: function (data, status, jqXHR) {
             $("#NodeId").val(data.id);
             $("#NodeText").val(data.text);
@@ -113,10 +122,15 @@ function addNode() {
         type: "POST",
         url: menus_apiUrl,
         data: JSON.stringify(newNode),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+        },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data, status, jqXHR) {
             //alert("success..." + data);
+            debugger;
+            newNode.id = data.id;
             menusTreeview.append(newNode, selectedNode); //selectedNode = null則加到root group
         },
         error: function (xhr) {
@@ -137,6 +151,9 @@ function removeNode() {
         type: "DELETE",
         url: menus_apiUrl + "/" + selectedDataItem.id,
         dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+        },
         success: function (data) {
             //alert("successs.... " + data);
             menusTreeview.remove(selectedNode);
@@ -164,6 +181,9 @@ function updateNode() {
         data: JSON.stringify(data),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+        },
         success: function (data, status, jqXHR) {
             var menusTreeview = $("#menusTreeview").data("kendoTreeView");
             menusTreeview.dataSource.read();

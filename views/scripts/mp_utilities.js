@@ -15,3 +15,34 @@ function getObjectIndexOfArray(key, value, items) {
     }
     return return_value;
 }
+
+//http://www.telerik.com/forums/cannot-add-a-custom-http-header
+(function ($, kendo) {
+    "use strict";
+    kendo.MPAuthorization = kendo.MP || {};
+    kendo.MPAuthorization.DataSource = kendo.data.DataSource.extend({
+        init: function (options) {
+            if (options.transport && options.transport.read) {
+                options.transport.read.beforeSend = function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+                };
+            }
+            if (options.transport && options.transport.update) {
+                options.transport.update.beforeSend = function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+                };
+            }
+            if (options.transport && options.transport.destroy) {
+                options.transport.destroy.beforeSend = function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+                };
+            }
+            if (options.transport && options.transport.create) {
+                options.transport.create.beforeSend = function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+                };
+            }
+            kendo.data.DataSource.fn.init.call(this, options);
+        }
+    });
+})($, kendo);

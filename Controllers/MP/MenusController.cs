@@ -1,4 +1,6 @@
 ﻿using MPERP2015.MP;
+using MPERP2015.MP.Log;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
@@ -11,6 +13,7 @@ using System.Web.Http;
 
 namespace MPERP2015.Controllers
 {
+    [Authorize]
     public class MenusController : ApiController
     {
         MembershipModelContainer db = new MembershipModelContainer();
@@ -66,7 +69,6 @@ namespace MPERP2015.Controllers
             return items;
         }
 
-        // GET: api/Menus/Json/Workspace
         [Authorize]
         [Route("api/Menus/Json/Authorized")]
         public IEnumerable<MenuAuthorizedViewModel> GetAuthorizedMenuJson()
@@ -146,6 +148,9 @@ namespace MPERP2015.Controllers
             try
             {
                 db.SaveChanges();
+
+                //寫入AccessLog
+                MPAccessLog.WriteEntry(User.Identity.Name, AccessAction.Create, "Menu", JsonConvert.SerializeObject(new { item.Id, item.Text,item.ContentUrl,item.ParentId }));
             }
             catch (DbEntityValidationException ex)
             {
@@ -188,6 +193,10 @@ namespace MPERP2015.Controllers
                     item_db.ParentId = item_viewModel.ParentId;
                     db.Entry(item_db).OriginalValues["Timestamp"] = Convert.FromBase64String(item_viewModel.TimestampString);
                     db.SaveChanges();
+
+                    //寫入AccessLog
+                    MPAccessLog.WriteEntry(User.Identity.Name, AccessAction.Update, "Menu",
+                        JsonConvert.SerializeObject(new { item_db.Id, item_db.Text, item_db.ContentUrl, item_db.ParentId }));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -215,6 +224,10 @@ namespace MPERP2015.Controllers
             //db.Menus.Remove(item_db);            
             db.Menus.RemoveRange(db.Menus.Where(item=> item.ParentId==id || item.Id==id));
             db.SaveChanges();
+
+            //寫入AccessLog
+            MPAccessLog.WriteEntry(User.Identity.Name, AccessAction.Delete, "Menu",
+                JsonConvert.SerializeObject(new { item_db.Id, item_db.Text, item_db.ContentUrl, item_db.ParentId }));
 
             return Ok(new MenuViewModel { Id = id });
         }

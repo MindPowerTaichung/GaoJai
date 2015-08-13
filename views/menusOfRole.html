@@ -18,6 +18,9 @@
                 read: {
                     dataType: "json",
                     url: roles_apiUrl,
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+                    }
                 }
             }
         },
@@ -36,7 +39,10 @@
             transport: {
                 read: {
                     url: menusOfRoleJSON_apiUrl + "/0" ,
-                    dataType: "json"
+                    dataType: "json",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+                    }
                 }
             },
             schema: {
@@ -77,6 +83,9 @@
                 type: api_type,
                 url: roleMenu_apiUrl,
                 data: JSON.stringify(roleMenu),
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Basic ' + Cookies.get('token'));
+                },
                 contentType: "application/json; charset=utf-8",
                 success: function (data, status, jqXHR) {
                     menusOfRole_refreshTreeView(role.id);

@@ -103,7 +103,8 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="Telerik.Reporting, Version=9.1.15.624, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+    <Reference Include="Telerik.Reporting, Version=9.1.15.731, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <HintPath>C:\Program Files\Telerik\Reporting Q2 2015\bin\Telerik.Reporting.dll</HintPath>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
   </ItemGroup>
@@ -1307,6 +1308,7 @@
     <Compile Include="Models\typeFactory.cs">
       <DependentUpon>ERPModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="MP\Log\MPAccessLog.cs" />
     <Compile Include="MP\Log\MPExceptionLog.cs" />
     <Compile Include="MP\Menu.cs">
       <DependentUpon>MembershipModel.tt</DependentUpon>

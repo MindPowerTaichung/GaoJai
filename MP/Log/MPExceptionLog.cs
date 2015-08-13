@@ -16,7 +16,14 @@ namespace MPERP2015.MP.Log
                 context.Request.Method,
                 context.Request.RequestUri,
                 context.Exception);
-            string logPath = HttpContext.Current.Server.MapPath(string.Format("~/App_Data/Log{0:yyyyMMdd}.txt", DateTime.Now));
+            
+            string logPath = HttpContext.Current.Server.MapPath(string.Format("~/App_Data/ErrorLog{0:yyyyMM}.txt", DateTime.Now));
+
+            //確認或建立App_Data目錄
+            if (!Directory.Exists(Path.GetDirectoryName(logPath)))
+                Directory.CreateDirectory(Path.GetDirectoryName(logPath));
+
+            //寫入Log
             File.AppendAllText(logPath, msg);
         }
     }

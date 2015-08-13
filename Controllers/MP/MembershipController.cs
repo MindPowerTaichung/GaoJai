@@ -1,5 +1,7 @@
 ﻿using MPERP2015.Membership.Models;
 using MPERP2015.MP;
+using MPERP2015.MP.Log;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
@@ -13,32 +15,10 @@ using System.Web.Http.Description;
 
 namespace MPERP2015.Controllers
 {
+    [Authorize]
     public class MembershipController : ApiController
     {
         MembershipModelContainer db = new MembershipModelContainer();
-
-        //#region Membership/Menu
-        //[Route("Membership/Menu")]
-        //public IEnumerable<MenuItem> Get()
-        //{
-        //    List<MenuItem> menus = new List<MenuItem>();
-
-        //    MenuItem menu = new MenuItem { Text = "產品", SpriteCssClass = "fa fa-cubes fa-fw" };
-        //    menu.Items.Add(new MenuItem { Text = "產品", SpriteCssClass = "fa fa-cubes fa-fw", ContentUrl = "views/products.html" });
-        //    menu.Items.Add(new MenuItem { Text = "分類", SpriteCssClass = "fa fa-cubes fa-fw", ContentUrl = "views/categories.html" });
-        //    menus.Add(menu);
-
-        //    menus.Add(new MenuItem { Text = "客戶", ContentUrl = "views/customers.html", SpriteCssClass = "fa fa-user-md fa-fw" });
-
-        //    MenuItem menuOrder = new MenuItem { Text = "訂單", SpriteCssClass = "fa fa-table" };
-        //    menuOrder.Items.Add(new MenuItem { Text = "查詢", ContentUrl = "views/ordersSearch.html", SpriteCssClass = "fa fa-table fa-fw" });
-        //    menuOrder.Items.Add(new MenuItem { Text = "新增", ContentUrl = "views/ordersInsert.html", SpriteCssClass = "fa fa-table fa-fw" });
-        //    menus.Add(menuOrder);
-
-        //    menus.Add(new MenuItem { Text = "系統管理", ContentUrl = "views/settings.html", SpriteCssClass = "fa fa-wrench fa-fw" });
-        //    return menus;
-        //}
-        //#endregion
 
         #region Membership/Roles
         // GET: api/Roles
@@ -76,6 +56,9 @@ namespace MPERP2015.Controllers
             try
             {
                 db.SaveChanges();
+
+                //寫入AccessLog
+                MPAccessLog.WriteEntry(User.Identity.Name, AccessAction.Create, "Role", JsonConvert.SerializeObject(new {role.Id,role.Name }));
             }
             catch (DbEntityValidationException ex)
             {
@@ -112,6 +95,9 @@ namespace MPERP2015.Controllers
                     role_db.Name = role_viewModel.Name;
                     db.Entry(role_db).OriginalValues["Timestamp"] = Convert.FromBase64String(role_viewModel.TimestampString);
                     db.SaveChanges();
+
+                    //寫入AccessLog
+                    MPAccessLog.WriteEntry(User.Identity.Name, AccessAction.Update, "Role", JsonConvert.SerializeObject(new { role_db.Id, role_db.Name }));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -137,8 +123,22 @@ namespace MPERP2015.Controllers
                 return NotFound();
             }
 
-            db.Roles.Remove(role_db);
-            db.SaveChanges();
+            try
+            {
+                db.Roles.Remove(role_db);
+                db.SaveChanges();
+
+                //寫入AccessLog
+                MPAccessLog.WriteEntry(User.Identity.Name, AccessAction.Delete, "Role", role_db.Name);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var entityError = ex.EntityValidationErrors.SelectMany(x => x.ValidationErrors).Select(x => x.ErrorMessage);
+                var getFullMessage = string.Join("; ", entityError);
+                var exceptionMessage = string.Concat(ex.Message, "errors are: ", getFullMessage);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.BadRequest, exceptionMessage));
+            }
+
 
             return Ok(new RoleViewModel { Id = id });
         }
@@ -175,6 +175,10 @@ namespace MPERP2015.Controllers
             try
             {
                 db.SaveChanges();
+
+                //寫入AccessLog
+                MPAccessLog.WriteEntry(User.Identity.Name, AccessAction.Create, "RoleMenu", JsonConvert.SerializeObject(new { role.Id, role.Name, Menus = menus.Select(m => m.Id+m.Text).ToArray() }));
+
             }
             catch (Exception ex)
             {
@@ -201,6 +205,9 @@ namespace MPERP2015.Controllers
             }
             
             db.SaveChanges();
+            
+            //寫入AccessLog
+            MPAccessLog.WriteEntry(User.Identity.Name, AccessAction.Delete, "RoleMenu", JsonConvert.SerializeObject(new { role.Id, role.Name, Menus = menus.Select(m => m.Id + m.Text).ToArray() }));
 
             return Ok();
         }
@@ -231,6 +238,10 @@ namespace MPERP2015.Controllers
             try
             {
                 db.SaveChanges();
+
+                //寫入AccessLog
+                MPAccessLog.WriteEntry(User.Identity.Name, AccessAction.Create, "UserMenu", JsonConvert.SerializeObject(new { user.UserName, Menus = menus.Select(m => m.Id + m.Text).ToArray() }));
+
             }
             catch (Exception ex)
             {
@@ -257,6 +268,10 @@ namespace MPERP2015.Controllers
 
             db.SaveChanges();
 
+            //寫入AccessLog
+            MPAccessLog.WriteEntry(User.Identity.Name, AccessAction.Delete, "UserMenu", JsonConvert.SerializeObject(new { user.UserName, Menus = menus.Select(m => m.Id + m.Text).ToArray() }));
+
+
             return Ok();
         }
         #endregion
@@ -280,20 +295,6 @@ namespace MPERP2015.Controllers
             return ToUserViewModel(user);
         }
 
-        //[Route("Membership/WhoAmI")]
-        //[HttpGet]
-        //public UserViewModel WhoAmI()
-        //{
-        //    var identity = User.Identity as ClaimsIdentity;
-        //    var userName = identity.Claims.Where(item => item.Type == "sub").Select(item=>item.Value).SingleOrDefault();
-        //    var user = db.Users.Find(userName);
-        //    if (user == null)
-        //    {
-        //        throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.Unauthorized, "拒絕存取"));
-        //    }
-        //    return ToUserViewModel(user);
-        //}
-
         // POST: Membership/Users
         [ResponseType(typeof(UserViewModel))]
         [Route("Membership/Users")]
@@ -316,16 +317,22 @@ namespace MPERP2015.Controllers
             {
                 try
                 {
+                    //新增使用者
                     user = new User { UserName = user_view_model.UserName, Password = user_view_model.UserName, Role = role };
                     db.Users.Add(user);
-                    //db.SaveChanges();
 
                     //新增使用者角色的功能選單
                     foreach (var menu in role.Menus)
                     {
                         user.Menus.Add(menu);
                     }
+
+                    //寫入資料庫
                     db.SaveChanges();
+
+                    //寫入AccessLog
+                    MPAccessLog.WriteEntry(User.Identity.Name, AccessAction.Create, "User",
+                                                        JsonConvert.SerializeObject(new { user.UserName, roleName=user.Role.Name }));
                 }
                 catch (Exception ex)
                 {
@@ -363,6 +370,9 @@ namespace MPERP2015.Controllers
                     user_db.Password = user_view_model.Password;
                     //db.Entry(user_db).OriginalValues["Timestamp"] = Convert.FromBase64String(user_view_model.TimestampString);
                     db.SaveChanges();
+
+                    //寫入AccessLog
+                    MPAccessLog.WriteEntry(User.Identity.Name, AccessAction.PasswordChanged, "User",user_db.UserName);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -417,6 +427,10 @@ namespace MPERP2015.Controllers
                         user_db.Menus.Add(item);
                     }
                     db.SaveChanges();
+
+                    //寫入AccessLog
+                    MPAccessLog.WriteEntry(User.Identity.Name, AccessAction.Update, "User", 
+                        JsonConvert.SerializeObject(new { user_db.UserName, roleName=user_db.Role.Name }));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -451,6 +465,9 @@ namespace MPERP2015.Controllers
             try
             {
                 db.SaveChanges();
+
+                //寫入AccessLog
+                MPAccessLog.WriteEntry(User.Identity.Name, AccessAction.Delete, "User", userName);
             }
             catch (Exception ex)
             {
@@ -467,12 +484,13 @@ namespace MPERP2015.Controllers
                                                         RoleName = user.Role==null ? "" : user.Role.Name,
                                                         TimestampString = Convert.ToBase64String(user.Timestamp) };
         }
-        #endregion
 
         private bool UserExists(string userName)
         {
             return db.Users.Count(e => e.UserName == userName) > 0;
         }
+
+        #endregion
 
         protected override void Dispose(bool disposing)
         {
